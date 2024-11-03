@@ -2,7 +2,7 @@
 
 
 
-import Container from "./components/container.vue";
+import Container from "./container/Index.vue";
 
 </script>
 

@@ -11,6 +11,8 @@ import { useCalendar } from "../composables/useCelendar";
 import { isValidDate } from "../utils/isValidDate";
 import { useEntryPoint } from "../composables/useEntryPoint";
 
+import WeekDaysPanel from "./calender/WeekDays/WeekDaysPanel.vue";
+
 const datepickerReference = ref(null);
 const datepickerFloating = ref(null);
 const {
@@ -27,9 +29,17 @@ const {
   format = "YYYY-MM-DD HH:mm:ss",
   type = "",
   multiple = false,
-  range=false,
-  dateSeparator = ","
-} = defineProps(["calendar", "locale", "currentDate", "timepickerComponent","multiple","range","dateSeparator"]);
+  range = false,
+  dateSeparator = ",",
+} = defineProps([
+  "calendar",
+  "locale",
+  "currentDate",
+  "timepickerComponent",
+  "multiple",
+  "range",
+  "dateSeparator",
+]);
 
 const calendar = ucalendar ?? persian;
 const locale = ulocale ?? persian_fa;
@@ -37,15 +47,15 @@ const calendarOption = { calendar: calendar, locale: locale, format };
 const weekDays = locale.weekDays;
 const months = locale.months;
 console.log(months);
-  const {
-    selectedDate,
-    currentDate,
-    daysOfPeriod,
-    prevMonth,
-    nextMonth,
-    onSeparatedInput: onCalenderSeparatedInput,
-    updateSelectedDate: onCalenderByClick,
-  } = useCalendar(calendarOption, ucurrentDate, locale.weekDays);
+const {
+  selectedDate,
+  currentDate,
+  daysOfPeriod,
+  prevMonth,
+  nextMonth,
+  onSeparatedInput: onCalenderSeparatedInput,
+  updateSelectedDate: onCalenderByClick,
+} = useCalendar(calendarOption, ucurrentDate, locale.weekDays);
 
 const {
   hour,
@@ -70,8 +80,6 @@ const modes = {
 function changeMode() {
   mode.value++;
 }
-
-
 
 const showDatepicker = () => {
   if (datepickerFloating.value) {
@@ -209,49 +217,22 @@ function onRawEntryPointUpdate(event) {
           </div>
         </slot>
         <!--- BODY OF DATEPICKER -->
-        <slot
-          name="body"
-          :weekDays="weekDays"
-          :daysOfPeriod="daysOfPeriod"
-          :updateSelectedDate="onCalenderByClick"
-          
-        ></slot>
-        <div class="datepicker-body">
-          <div class="datepicker-weekdays">
-            <span v-for="(day, index) in weekDays" :key="index">
-              {{ day[0] }}
-            </span>
-          </div>
-          <div class="datepicker-days">
-            <div
-              class="datepicker-day"
-              v-for="(day, index) in daysOfPeriod"
-              :key="index"
-              @click="() => day.isActive && onCalenderByClick(day.dateObject)"
-            >
-              <slot name="dayItem">
-                <span
-                  :class="{
-                    semiActive:
-                      !day.isActive &&
-                      day.date.toDateString() ===
-                        selectedDate?.toDate().toDateString(),
-                    active:
-                      day.isActive &&
-                      day.date.toDateString() ===
-                        selectedDate?.toDate().toDateString(),
-                    disabled:
-                      !day.isActive &&
-                      day.date.toDateString() !==
-                        selectedDate?.toDate().toDateString(),
-                  }"
-                >
-                  {{ day.dateObject.convert(calendar, locale).format("D") }}
-                </span>
-              </slot>
-            </div>
-          </div>
 
+        <div class="datepicker-body">
+          <WeekDaysPanel
+            :daysOfPeriod="daysOfPeriod"
+            :weekDays="weekDays"
+            :onCalenderByClick="onCalenderByClick"
+            :selectedDate="selectedDate"
+            :type="type"
+            :range="range"
+            :multiple="multiple"
+            :calenderOption="calendarOption"
+            -----
+            :prevMonth="prevMonth"
+            :nextMonth="nextMonth"
+            :currentDate="currentDate"
+          />
           <slot
             name="timePicker"
             :onRawUpdate="onTimePickerInput"
@@ -316,8 +297,8 @@ function onRawEntryPointUpdate(event) {
 }
 
 .datepicker-weekdays {
-  @apply grid grid-cols-7 gap-2;
-  width: fit-content;
+  @apply grid grid-cols-7 gap-2 w-full;
+
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ccc;
