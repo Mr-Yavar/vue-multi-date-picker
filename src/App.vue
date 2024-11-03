@@ -1,13 +1,15 @@
-<script setup lang="ts">
-import PickerContainer from './components/PickerContainer.vue';
+<script setup >
 
 
 
+import Container from "./components/container.vue";
 
 </script>
 
 <template>
-<PickerContainer/>
+<container
+
+/>
 </template>
 
 <style scoped>

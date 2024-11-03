@@ -5,7 +5,6 @@
   ],
   "main": "./dist/vue-component-npm-example.umd.cjs",
   "module": "./dist/vue-component-npm-example.js",
-  "types": "./dist/main.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue-component-npm-example.js",
@@ -18,7 +17,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
