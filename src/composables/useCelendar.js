@@ -3,6 +3,7 @@ import { computed, markRaw, ref } from "vue";
 import { weekDayTemplate } from "../utils/weekDayTemplate";
 
 export function useCalendar(calendarOption, ucurrentDate, weekDays) {
+  
   const currentDate = ref(
     markRaw(ucurrentDate ?? new DateObject({ ...calendarOption }))
   ); // نقطه شروع تقویم کجا باشد
@@ -69,11 +70,11 @@ export function useCalendar(calendarOption, ucurrentDate, weekDays) {
   });
 
   function ChangeCurrentDate(change, type) {
-    console.log(currentDate.value)
+
     if (change > 0) currentDate.value = currentDate.value.add(change, type);
     else currentDate.value =currentDate.value.subtract(change, type);
 
-    console.log(currentDate.value)
+   
   }
 
   const prevMonth = () => {

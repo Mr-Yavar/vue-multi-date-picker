@@ -24,24 +24,29 @@ const {
   calendar: ucalendar,
   locale: ulocale,
   currentDate: ucurrentDate, // تاریخ شروع نمایش
-  updateViewByChange = true,
   format = "YYYY-MM-DD HH:mm:ss",
   type = "",
-} = defineProps(["calendar", "locale", "currentDate", "timepickerComponent"]);
+  multiple = false,
+  range=false,
+  dateSeparator = ","
+} = defineProps(["calendar", "locale", "currentDate", "timepickerComponent","multiple","range","dateSeparator"]);
 
 const calendar = ucalendar ?? persian;
 const locale = ulocale ?? persian_fa;
 const calendarOption = { calendar: calendar, locale: locale, format };
+const weekDays = locale.weekDays;
+const months = locale.months;
+console.log(months);
+  const {
+    selectedDate,
+    currentDate,
+    daysOfPeriod,
+    prevMonth,
+    nextMonth,
+    onSeparatedInput: onCalenderSeparatedInput,
+    updateSelectedDate: onCalenderByClick,
+  } = useCalendar(calendarOption, ucurrentDate, locale.weekDays);
 
-const {
-  selectedDate,
-  currentDate,
-  daysOfPeriod,
-  prevMonth,
-  nextMonth,
-  onSeparatedInput: onCalenderSeparatedInput,
-  updateSelectedDate: onCalenderByClick,
-} = useCalendar(calendarOption, ucurrentDate, locale.weekDays);
 const {
   hour,
   minute,
@@ -66,7 +71,7 @@ function changeMode() {
   mode.value++;
 }
 
-const weekDays = locale.weekDays;
+
 
 const showDatepicker = () => {
   if (datepickerFloating.value) {
@@ -209,6 +214,7 @@ function onRawEntryPointUpdate(event) {
           :weekDays="weekDays"
           :daysOfPeriod="daysOfPeriod"
           :updateSelectedDate="onCalenderByClick"
+          
         ></slot>
         <div class="datepicker-body">
           <div class="datepicker-weekdays">
