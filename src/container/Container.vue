@@ -39,7 +39,7 @@ const {
   locale: ulocale,
   currentDate: ucurrentDate, // تاریخ شروع نمایش
   format = "YYYY-MM-DD HH:mm:ss",
-  type = "DATE",
+  type ,
   multiple = false,
   range = false,
   dateSeparator = ",",
@@ -56,8 +56,8 @@ const weekDays = locale.weekDays;
 const months = locale.months;
 
 const {
-  selectedDate,
   currentDate,
+  selectedDate,
   daysOfPeriod,
   prevMonth,
   nextMonth,
@@ -118,15 +118,15 @@ watch([selectedDate, selectedTime], () => {
 
   onOutput(
     new DateObject({
-      year,
-      month: month.index,
-      day,
-      hour,
-      minute,
-      second,
+      year: year,
+      month: month.number,
+      day: day,
+      hour: hour,
+      minute: minute,
+      second: second,
       calendar: calendarOption.calender,
       locale: calendarOption.locale,
-      format: calendarOption.format as string,
+      format: calendarOption.format,
     })
   );
 });
@@ -149,7 +149,11 @@ function onRawEntryPointUpdate(event: any) {
       dateObject.minute,
       dateObject.second
     );
-    onCalenderSeparatedInput(dateObject.year, dateObject.month, dateObject.day);
+    onCalenderSeparatedInput(
+      dateObject.year,
+      dateObject.month.number,
+      dateObject.day
+    );
   }
 }
 
@@ -228,9 +232,13 @@ function onRawEntryPointUpdate(event: any) {
             </div>
           </div>
         </slot>
+        {{ selectedDate.toDate() }}
+     
         <!--- BODY OF DATEPICKER -->
-
         <div class="datepicker-body">
+          {{  currentDate }}
+          {{ selectedDate }}
+
           <WeekDaysPanel
             :daysOfPeriod="daysOfPeriod"
             :weekDays="weekDays"
@@ -239,7 +247,7 @@ function onRawEntryPointUpdate(event: any) {
             :type="type"
             :range="range"
             :multiple="multiple"
-            :calenderOption="ICalendarOption"
+            :calenderOption="calendarOption"
             :prevMonth="prevMonth"
             :nextMonth="nextMonth"
             :currentDate="currentDate"

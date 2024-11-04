@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ICalenderOption } from "@/types/ICalenderOption";
+import { ICalenderOption } from "../../../types/ICalenderOption";
 import DateObject from "react-date-object";
 import { ComponentType } from "../../../types";
 import { WeekDayObject } from "../../../types/WeekDayObject";
 import WeekDaysHeader from "./components/WeekDaysHeader.vue";
 
+import { computed, Raw,watch } from "vue";
+
 interface Props {
   daysOfPeriod: WeekDayObject[];
   weekDays: string[][];
   onCalenderByClick: Function;
-  selectedDate: DateObject;
+  selectedDate: DateObject | any;
   type: ComponentType;
-  range: Boolean;
-  multiple: Boolean;
+  range: boolean;
+  multiple: boolean;
   calenderOption: ICalenderOption;
   prevMonth: Function;
   nextMonth: Function;
@@ -20,13 +22,13 @@ interface Props {
 }
 
 const {
-  type = "",
+  type ,
   multiple = false,
   range = false,
   daysOfPeriod,
   weekDays,
   onCalenderByClick,
-  selectedDate,
+   selectedDate,
   calenderOption,
   //----------------
   currentDate,
@@ -35,9 +37,12 @@ const {
   //---------------
 } = defineProps<Props>();
 
-function IsSelected(day: WeekDayObject): boolean {
+function isSelected(day: WeekDayObject,selectedDate : DateObject): boolean {
+
   return day.date.toDateString() === selectedDate?.toDate().toDateString();
 }
+
+
 </script>
 
 <template>
@@ -74,9 +79,9 @@ function IsSelected(day: WeekDayObject): boolean {
       >
         <span
           :class="{
-            semiActive: !day.isActive && IsSelected(day),
-            active: day.isActive && IsSelected(day),
-            disabled: !day.isActive && IsSelected(day),
+            semiActive: !day.isActive && IsSelected(day,selectedDate),
+            active: day.isActive && IsSelected(day,selectedDate),
+            disabled: !day.isActive && IsSelected(day,selectedDate),
           }"
         >
           {{

@@ -3,7 +3,7 @@ import Container from "./container/Container.vue";
 </script>
 
 <template>
-  <Container />
+  <Container :type="'DATE'" />
 </template>
 
 <style scoped>

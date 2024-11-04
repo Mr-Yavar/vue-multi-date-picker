@@ -1,13 +1,15 @@
 import { ref } from "vue";
 import { convertToEnglishNumbers } from "../utils/convertToEnglishNumbers";
+import { ICalenderOption } from "../types/ICalenderOption";
+import DateObject from "react-date-object";
 
-export function useEntryPoint(calendarOption) {
-  const rawDateTime = ref(""); // برای اینپوت نمایش دهنده و ویرایش
-  const isTyping = ref(false); // در حال تایپ  کردن
-  let isTypingTimeout = null;
+export function useEntryPoint(calendarOption: ICalenderOption) {
+  const rawDateTime = ref<string>(""); // برای اینپوت نمایش دهنده و ویرایش
+  const isTyping = ref<boolean>(false); // در حال تایپ  کردن
+  let isTypingTimeout : NodeJS.Timeout | null = null;
 
   // بروز کردن محتوای اینپوت اصلی
-  const onOutput = (selectedValue) => {
+  const onOutput = (selectedValue : DateObject) => {
     if(isTyping.value)
         return;
     
@@ -16,7 +18,7 @@ export function useEntryPoint(calendarOption) {
     );
   };
 
-  function onInput(rawValue) {
+  function onInput(rawValue : string) {
     isTyping.value = true;
     rawDateTime.value = rawValue;
 
