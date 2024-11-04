@@ -1,17 +1,29 @@
-<script setup>
-import { ref, watch } from "vue";
-import { useFloating } from "@floating-ui/vue";
-import { hide, arrow, autoPlacement } from "@floating-ui/vue";
-import DateObject from "react-date-object";
+<script setup lang="ts">
+import { autoPlacement, hide, useFloating } from "@floating-ui/vue";
+import DateObject, { Calendar, Locale, Month } from "react-date-object";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { ref, watch } from "vue";
 
-import { useTimePicker } from "../composables/useTimePicker";
 import { useCalendar } from "../composables/useCelendar";
-import { isValidDate } from "../utils/isValidDate";
 import { useEntryPoint } from "../composables/useEntryPoint";
+import { useTimePicker } from "../composables/useTimePicker";
+import { ComponentType, dateSeparatorType } from "../types";
+import { ICalenderOption } from "../types/ICalenderOption";
+import { isValidDate } from "../utils/isValidDate";
 
 import WeekDaysPanel from "./calender/WeekDays/WeekDaysPanel.vue";
+
+interface Props {
+  calendar: Calendar;
+  locale: Locale;
+  currentDate?: DateObject; // تاریخ شروع نمایش
+  format: string | "YYYY-MM-DD HH:mm:ss";
+  type: ComponentType;
+  multiple: boolean;
+  range: boolean;
+  dateSeparator: dateSeparatorType;
+}
 
 const datepickerReference = ref(null);
 const datepickerFloating = ref(null);
@@ -19,7 +31,7 @@ const {
   floatingStyles: datepickerFloatingStyles,
   middlewareData: datepickerMiddlewareData,
 } = useFloating(datepickerReference, datepickerFloating, {
-  middleware: [hide(), arrow(), autoPlacement()],
+  middleware: [hide(), autoPlacement()],
 });
 
 const {
@@ -27,26 +39,22 @@ const {
   locale: ulocale,
   currentDate: ucurrentDate, // تاریخ شروع نمایش
   format = "YYYY-MM-DD HH:mm:ss",
-  type = "",
+  type = "DATE",
   multiple = false,
   range = false,
   dateSeparator = ",",
-} = defineProps([
-  "calendar",
-  "locale",
-  "currentDate",
-  "timepickerComponent",
-  "multiple",
-  "range",
-  "dateSeparator",
-]);
+} = defineProps<Props>();
 
 const calendar = ucalendar ?? persian;
 const locale = ulocale ?? persian_fa;
-const calendarOption = { calendar: calendar, locale: locale, format };
+const calendarOption = {
+  calender: calendar,
+  format: format,
+  locale: locale,
+} as ICalenderOption;
 const weekDays = locale.weekDays;
 const months = locale.months;
-console.log(months);
+
 const {
   selectedDate,
   currentDate,
@@ -55,7 +63,7 @@ const {
   nextMonth,
   onSeparatedInput: onCalenderSeparatedInput,
   updateSelectedDate: onCalenderByClick,
-} = useCalendar(calendarOption, ucurrentDate, locale.weekDays);
+} = useCalendar(calendarOption, ucurrentDate);
 
 const {
   hour,
@@ -81,28 +89,28 @@ function changeMode() {
   mode.value++;
 }
 
-const showDatepicker = () => {
-  if (datepickerFloating.value) {
-    datepickerFloating.value.style.visibility = "visible";
-  }
-};
+// const showDatepicker = () => {
+//   if (datepickerFloating.value) {
+//     datepickerFloating.value.style.visibility = "visible";
+//   }
+// };
 
-const hideDatepicker = () => {
-  if (datepickerFloating.value) {
-    datepickerFloating.value.style.visibility = "hidden";
-    datepickerFloating.value.style.visibility = "hidden";
-  }
-};
+// const hideDatepicker = () => {
+//   if (datepickerFloating.value) {
+//     datepickerFloating.value.style.visibility = "hidden";
+//     datepickerFloating.value.style.visibility = "hidden";
+//   }
+// };
 
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
 watch([selectedDate, selectedTime], () => {
-  const [year, month, day] = [
+  const [year, month, day]: [number, Month, number] = [
     selectedDate.value.year,
     selectedDate.value.month,
     selectedDate.value.day,
   ];
-  const [hour, minute, second] = [
+  const [hour, minute, second]: [number, number, number] = [
     selectedTime.value.hour,
     selectedTime.value.minute,
     selectedTime.value.second,
@@ -110,24 +118,28 @@ watch([selectedDate, selectedTime], () => {
 
   onOutput(
     new DateObject({
-      ...calendarOption,
       year,
-      month,
+      month: month.index,
       day,
       hour,
       minute,
       second,
+      calendar: calendarOption.calender,
+      locale: calendarOption.locale,
+      format: calendarOption.format as string,
     })
   );
 });
 
-function onRawEntryPointUpdate(event) {
-  const updatedRawValue = event.target.value;
+function onRawEntryPointUpdate(event: any) {
+  const updatedRawValue: string = event.target.value;
   onInput(updatedRawValue);
 
-  const dateObject = new DateObject({
-    ...calendarOption,
+  const dateObject: DateObject = new DateObject({
     date: updatedRawValue,
+    calendar: calendarOption.calender,
+    locale: calendarOption.locale,
+    format: calendarOption.format as string,
   });
 
   // Update selected date and time only if the input is valid
@@ -227,8 +239,7 @@ function onRawEntryPointUpdate(event) {
             :type="type"
             :range="range"
             :multiple="multiple"
-            :calenderOption="calendarOption"
-            -----
+            :calenderOption="ICalendarOption"
             :prevMonth="prevMonth"
             :nextMonth="nextMonth"
             :currentDate="currentDate"

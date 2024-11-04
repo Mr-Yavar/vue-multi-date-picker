@@ -1,15 +1,9 @@
-<script setup >
-
-
-
-import Container from "./container/Index.vue";
-
+<script setup lang="ts">
+import Container from "./container/Container.vue";
 </script>
 
 <template>
-<container
-
-/>
+  <Container />
 </template>
 
 <style scoped>

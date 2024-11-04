@@ -1,5 +1,3 @@
-
-
 import DateObject from "react-date-object";
 import { markRaw, ref } from "vue";
 
@@ -32,7 +30,7 @@ export function useTimePicker(calendarOption) {
   }
 
   function onRawInput(rawTime, format) {
-    txtTime = new Date().toISOString().split("T")[0] + " " + rawTime;
+    const txtTime = new Date().toISOString().split("T")[0] + " " + rawTime;
     const dateObject = new DateObject({
       ...calendarOption,
       format: "YYYY-MM-DD " + format,

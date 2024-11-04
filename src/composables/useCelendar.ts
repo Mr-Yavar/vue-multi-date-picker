@@ -1,9 +1,9 @@
 import DateObject from "react-date-object";
 import { computed, markRaw, ref } from "vue";
+import { WeekDayObject } from "../types/WeekDayObject";
 import { weekDayTemplate } from "../utils/weekDayTemplate";
 
-export function useCalendar(calendarOption, ucurrentDate, weekDays) {
-  
+export function useCalendar(calendarOption, ucurrentDate) {
   const currentDate = ref(
     markRaw(ucurrentDate ?? new DateObject({ ...calendarOption }))
   ); // نقطه شروع تقویم کجا باشد
@@ -29,7 +29,7 @@ export function useCalendar(calendarOption, ucurrentDate, weekDays) {
     const firstDay = firstDayOfPeriodObject.value.toDate();
     const lastDay = lastDayOfPeriodObject.value.toDate();
 
-    const days = [];
+    const days: WeekDayObject[] = [];
 
     const firstDay_Of_firstWeekOfPeriod = new DateObject({
       ...calendarOption,
@@ -70,25 +70,26 @@ export function useCalendar(calendarOption, ucurrentDate, weekDays) {
   });
 
   function ChangeCurrentDate(change, type) {
-
     if (change > 0) currentDate.value = currentDate.value.add(change, type);
-    else currentDate.value =currentDate.value.subtract(change, type);
-
-   
+    else currentDate.value = currentDate.value.subtract(change, type);
   }
 
   const prevMonth = () => {
     const date = currentDate.value.toDate();
-  
+
     date.setMonth(date.getMonth() - 1);
-    updateCurrentDate(markRaw(new DateObject({ ...calendarOption, date: date })));
+    updateCurrentDate(
+      markRaw(new DateObject({ ...calendarOption, date: date }))
+    );
   };
-  
+
   const nextMonth = () => {
     const date = currentDate.value.toDate();
-  
+
     date.setMonth(date.getMonth() + 1); // Go back one month
-    updateCurrentDate(markRaw(new DateObject({ ...calendarOption, date: date })));
+    updateCurrentDate(
+      markRaw(new DateObject({ ...calendarOption, date: date }))
+    );
   };
 
   function updateSelectedDate(dateObject) {
@@ -120,6 +121,6 @@ export function useCalendar(calendarOption, ucurrentDate, weekDays) {
     nextMonth,
     ChangeCurrentDate,
     onSeparatedInput,
-    updateSelectedDate
+    updateSelectedDate,
   };
 }
