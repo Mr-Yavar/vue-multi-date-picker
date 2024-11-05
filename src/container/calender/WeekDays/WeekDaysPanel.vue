@@ -5,7 +5,7 @@ import { ComponentType } from "../../../types";
 import { WeekDayObject } from "../../../types/WeekDayObject";
 import WeekDaysHeader from "./components/WeekDaysHeader.vue";
 
-import { computed, Raw,watch } from "vue";
+import { computed, Raw, watch } from "vue";
 
 interface Props {
   daysOfPeriod: WeekDayObject[];
@@ -20,15 +20,17 @@ interface Props {
   nextMonth: Function;
   currentDate: DateObject;
 }
-
+function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
+  return day.date.toDateString() === selectedDate?.toDate().toDateString();
+}
 const {
-  type ,
+  type,
   multiple = false,
   range = false,
   daysOfPeriod,
   weekDays,
   onCalenderByClick,
-   selectedDate,
+  selectedDate,
   calenderOption,
   //----------------
   currentDate,
@@ -36,13 +38,6 @@ const {
   nextMonth,
   //---------------
 } = defineProps<Props>();
-
-function isSelected(day: WeekDayObject,selectedDate : DateObject): boolean {
-
-  return day.date.toDateString() === selectedDate?.toDate().toDateString();
-}
-
-
 </script>
 
 <template>
@@ -79,9 +74,9 @@ function isSelected(day: WeekDayObject,selectedDate : DateObject): boolean {
       >
         <span
           :class="{
-            semiActive: !day.isActive && IsSelected(day,selectedDate),
-            active: day.isActive && IsSelected(day,selectedDate),
-            disabled: !day.isActive && IsSelected(day,selectedDate),
+            semiActive: !day.isActive && isSelected(day, selectedDate),
+            active: day.isActive && isSelected(day, selectedDate),
+            disabled: !day.isActive && !isSelected(day, selectedDate),
           }"
         >
           {{

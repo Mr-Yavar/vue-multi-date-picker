@@ -17,9 +17,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, "src/main.ts"),
-      name: "VueComponentNpmExample",
+      name: "vue-multi-date-picker",
       // the proper extensions will be added
-      fileName: "vue-component-npm-example",
+      fileName: "vue-multi-date-picker",
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
