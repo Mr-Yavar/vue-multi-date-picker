@@ -232,12 +232,11 @@ function onRawEntryPointUpdate(event: any) {
             </div>
           </div>
         </slot>
-        {{ selectedDate.toDate() }}
+      
      
         <!--- BODY OF DATEPICKER -->
         <div class="datepicker-body">
-          {{  currentDate }}
-          {{ selectedDate }}
+  
 
           <WeekDaysPanel
             :daysOfPeriod="daysOfPeriod"
