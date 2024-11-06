@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MAP_ITEMS from "@/constants/MapItem";
 import DateObject from "react-date-object";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
   yearsOfPeriod: any;
   nextYears: Function;
   prevYears: Function;
-  AvailableMap: any;
+  AvailableMap: (string | number)[];
 }
 
 const {
@@ -24,11 +25,15 @@ const {
   mode,
   AvailableMap,
 } = defineProps<Props>();
+
+
+
+
 </script>
 
 <template>
  
-  <template v-if="AvailableMap[0] == mode">
+  <template v-if="AvailableMap[0] == mode && MAP_ITEMS.DAY == mode">
     <div class="datepicker-header">
       <div class="datepicker-header-prev">
         <button
@@ -41,10 +46,10 @@ const {
       </div>
       <div class="datepicker-header-control">
         <div class="mx-auto w-fit">
-          <button @click="() => changeMode('MONTH')">
+          <button @click="() => changeMode(MAP_ITEMS.MONTH)">
             {{ currentDate.month }}
           </button>
-          <button @click="() => changeMode('YEAR')">
+          <button @click="() => changeMode(MAP_ITEMS.YEAR)">
             {{ currentDate.year }}
           </button>
         </div>
@@ -60,7 +65,7 @@ const {
       </div>
     </div>
   </template>
-  <template v-else-if="AvailableMap[1] == mode">
+  <template v-else-if="AvailableMap[1] == mode && MAP_ITEMS.MONTH == mode">
     <div class="datepicker-header">
       <div class="datepicker-header-prev">
         <button
@@ -91,7 +96,7 @@ const {
       </div>
     </div></template
   >
-  <template v-else-if="AvailableMap[2] == mode">
+  <template v-else-if="AvailableMap[2] == mode && MAP_ITEMS.YEAR == mode">
     <div class="datepicker-header">
       <div class="datepicker-header-prev">
         <button

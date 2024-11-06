@@ -73,6 +73,15 @@ const {
   prevYears,
   nextYears,
   yearsOfPeriod,
+
+
+  //================
+  currentYear,
+  ChangeCurrentDate,
+  setMonthCurrentDate,
+  setMonthCurrentYear,
+  setYearCurrentDate,
+  setYearCurrentYear
 } = useCalendar(calendarOption, ucurrentDate, type);
 
 const {
@@ -162,7 +171,7 @@ function onRawEntryPointUpdate(event: any) {
     );
   }
 }
-const AvailableMap = ComponentMap["DATE"]["DAY"];
+const AvailableMap : (string | number)[]= ComponentMap["DATE"]["DAY"];
 ///////================== EntryPoint Mid End
 </script>
 
@@ -224,6 +233,14 @@ const AvailableMap = ComponentMap["DATE"]["DAY"];
             :nextYears="nextYears"
             :prevYears="prevYears"
             :AvailableMap="AvailableMap"
+
+
+            :currentYear="currentYear"
+  :ChangeCurrentDate="ChangeCurrentDate"
+  :setMonthCurrentDate="setMonthCurrentDate"
+  :setMonthCurrentYear="setMonthCurrentYear"
+  :setYearCurrentDate="setYearCurrentDate"
+  :setYearCurrentYear="setYearCurrentYear"
           />
         </div>
       </div>

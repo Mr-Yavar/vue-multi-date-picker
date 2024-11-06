@@ -13,6 +13,16 @@ export function useCalendar(
   ucurrentDate: DateObject | undefined,
   type: ComponentType
 ) {
+  const selectedDate = ref<DateObject>(
+    markRaw(
+      new DateObject({
+        calendar: calendarOption.calender,
+        locale: calendarOption.locale,
+        format: calendarOption.format,
+      })
+    )
+  ); // تاریخ انتخاب شده
+
   /// ======================================== YEAR PANEL
   const currentYear = ref(
     markRaw(
@@ -32,7 +42,7 @@ export function useCalendar(
     const date = currentYear.value.toDate();
 
     date.setFullYear(date.getFullYear() - YEARS_OFFSET);
-    console.log("dd")
+    console.log("dd");
     updateCurrentYear(
       markRaw(
         new DateObject({
@@ -64,6 +74,13 @@ export function useCalendar(
     );
   };
 
+  function setYearCurrentYear(year: number) {
+    currentYear.value.setYear(year);
+  }
+
+  function setMonthCurrentYear(month: number) {
+    currentYear.value.setMonth(month);
+  }
   /// ======================================== YEAR PANEL
 
   const currentDate = ref<DateObject>(
@@ -76,16 +93,6 @@ export function useCalendar(
         })
     )
   ); // نقطه شروع تقویم کجا باشد
-
-  const selectedDate = ref<DateObject>(
-    markRaw(
-      new DateObject({
-        calendar: calendarOption.calender,
-        locale: calendarOption.locale,
-        format: calendarOption.format,
-      })
-    )
-  ); // تاریخ انتخاب شده
 
   // اول دوره
   const firstDayOfPeriodObject = computed<DateObject>(() =>
@@ -190,17 +197,26 @@ export function useCalendar(
     );
   };
 
+  function setYearCurrentDate(year: number) {
+    currentDate.value.setYear(year);
+  }
+
+  function setMonthCurrentDate(month: number) {
+    currentDate.value.setMonth(month);
+  }
+  function updateCurrentDate(dateObject: DateObject) {
+    if (dateObject instanceof DateObject && dateObject.isValid)
+      currentDate.value = dateObject;
+  }
+
+  //======================================================
+
   function updateSelectedDate(dateObject: DateObject) {
     if (dateObject instanceof DateObject && dateObject.isValid) {
       selectedDate.value = dateObject;
 
       updateCurrentDate(dateObject);
     }
-  }
-
-  function updateCurrentDate(dateObject: DateObject) {
-    if (dateObject instanceof DateObject && dateObject.isValid)
-      currentDate.value = dateObject;
   }
 
   const onSeparatedInput = (year: number, month: number, day: number) => {
@@ -220,17 +236,26 @@ export function useCalendar(
   };
 
   return {
-    selectedDate,
     currentDate,
     daysOfPeriod,
+
+    setYearCurrentDate,
+    setMonthCurrentDate,
     prevMonth,
     nextMonth,
     ChangeCurrentDate,
     updateCurrentDate,
-    onSeparatedInput,
-    updateSelectedDate,
+    //===========================
+    setYearCurrentYear,
+    setMonthCurrentYear,
+    yearsOfPeriod,
+    currentYear,
     prevYears,
     nextYears,
-    yearsOfPeriod,
+    //====================================
+    selectedDate,
+
+    onSeparatedInput,
+    updateSelectedDate,
   };
 }

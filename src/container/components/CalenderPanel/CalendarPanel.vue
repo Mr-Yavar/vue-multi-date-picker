@@ -5,6 +5,7 @@ import DateObject from "react-date-object";
 import CalendarHeader from "./components/CalendarHeader.vue";
 import WeekDaysPanel from "./components/WeekDaysPanel.vue";
 import YearsPanel from "./components/YearsPanel.vue";
+import MAP_ITEMS from "@/constants/MapItem";
 
 interface Props {
   changeMode: Function;
@@ -20,11 +21,16 @@ interface Props {
   yearsOfPeriod: DateObject[];
   nextYears: Function;
   prevYears: Function;
-  AvailableMap: string[];
+  AvailableMap: (string | number)[];
+  //////=====================
+  currentYear: DateObject;
+  ChangeCurrentDate: Function;
+  setMonthCurrentDate: Function;
+  setMonthCurrentYear: Function;
+  setYearCurrentDate: Function;
+  setYearCurrentYear: Function;
 }
-function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
-  return day.date.toDateString() === selectedDate?.toDate().toDateString();
-}
+
 const {
   daysOfPeriod,
   weekDays,
@@ -41,6 +47,14 @@ const {
   prevYears,
 
   AvailableMap,
+
+  //==============
+  currentYear,
+  ChangeCurrentDate,
+  setMonthCurrentDate,
+  setMonthCurrentYear,
+  setYearCurrentDate,
+  setYearCurrentYear,
 } = defineProps<Props>();
 </script>
 
@@ -57,7 +71,7 @@ const {
     :AvailableMap="AvailableMap"
   />
 
-  <template v-if="mode == 'DAY'">
+  <template v-if="mode == MAP_ITEMS.DAY">
     <WeekDaysPanel
       :daysOfPeriod="daysOfPeriod"
       :weekDays="weekDays"
@@ -67,15 +81,21 @@ const {
     />
   </template>
 
-  <template v-if="mode == 'MONTH'"> </template>
+  <template v-if="mode == MAP_ITEMS.MONTH"> </template>
 
-  <template v-if="mode == 'YEAR'">
+  <template v-if="mode == MAP_ITEMS.YEAR">
     <YearsPanel
-        :currentDate="currentDate"
+      :currentDate="currentDate"
       :yearsOfPeriod="yearsOfPeriod"
       :nextYears="nextYears"
       :prevYears="prevYears"
       :calenderOption="calenderOption"
+      :currentYear="currentYear"
+      :ChangeCurrentDate="ChangeCurrentDate"
+      :setMonthCurrentDate="setMonthCurrentDate"
+      :setMonthCurrentYear="setMonthCurrentYear"
+      :setYearCurrentDate="setYearCurrentDate"
+      :setYearCurrentYear="setYearCurrentYear"
     />
   </template>
 </template>
