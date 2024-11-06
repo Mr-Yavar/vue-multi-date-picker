@@ -4,14 +4,14 @@ import { WeekDayObject } from "@/types/WeekDayObject";
 import DateObject from "react-date-object";
 
 interface Props {
-  yearsOfPeriod: any;
+  yearsOfPeriod: DateObject[];
   nextYears: Function;
   prevYears: Function;
-
+  currentDate:DateObject;
   calenderOption: ICalenderOption;
 }
-function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
-  return day.date.toDateString() === selectedDate?.toDate().toDateString();
+function isSelected(year: DateObject, currentDate: DateObject): boolean {
+  return year.year === currentDate.year;
 }
 const { yearsOfPeriod, nextYears, prevYears, calenderOption } =
   defineProps<Props>();
@@ -20,13 +20,15 @@ const { yearsOfPeriod, nextYears, prevYears, calenderOption } =
 <template>
   <div class="datepicker-years">
     <div
-      v-for="(day, index) in yearsOfPeriod"
-      :key="index"
+      v-for="(year, index) in yearsOfPeriod"
+      :key="year.format('YYYY')"
       class="datepicker-year"
-      @click="() => day.isActive"
+      @click="() => year"
     >
-      <div>
-        {{ day }}
+      <div :class="{
+        active : isSelected(year,currentDate)
+      }">
+        {{ year.format("YYYY") }}
       </div>
     </div>
   </div>

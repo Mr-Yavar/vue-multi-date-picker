@@ -17,7 +17,7 @@ interface Props {
   prevMonth: Function;
   nextMonth: Function;
   currentDate: DateObject;
-  yearsOfPeriod: any;
+  yearsOfPeriod: DateObject[];
   nextYears: Function;
   prevYears: Function;
   AvailableMap: string[];
@@ -51,7 +51,7 @@ const {
     :prevMonth="prevMonth"
     :yearsOfPeriod="yearsOfPeriod"
     :nextYears="nextYears"
-    :prevYears="prevMonth"
+    :prevYears="prevYears"
     :changeMode="changeMode"
     :mode="mode"
     :AvailableMap="AvailableMap"
@@ -71,9 +71,11 @@ const {
 
   <template v-if="mode == 'YEAR'">
     <YearsPanel
+        :currentDate="currentDate"
       :yearsOfPeriod="yearsOfPeriod"
       :nextYears="nextYears"
-      :prevYears="prevMonth"
+      :prevYears="prevYears"
+      :calenderOption="calenderOption"
     />
   </template>
 </template>

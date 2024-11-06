@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .datepicker-container {
-  @apply mx-auto bg-slate-100 w-fit p-3 border border-solid border-gray-200 rounded shadow-[0_0_10px_black];
+  @apply mx-auto bg-slate-100 w-[18em] p-0 border border-solid border-gray-200 rounded shadow-[0_0_10px_black];
 }
 
 .datepicker-header {
-  @apply grid items-center grid-cols-5 p-3 border-b border-gray-200;
+  @apply grid items-center grid-cols-5 border-b border-gray-200;
 }
 
 .datepicker-header button {
@@ -36,7 +36,7 @@
 }
 
 .datepicker-weekdays {
-  @apply grid items-center w-full grid-cols-7 gap-2 p-3 border-b border-b-white;
+  @apply grid items-center w-full grid-cols-7 gap-2 p-1 border-b border-b-white;
 }
 
 .datepicker-weekdays span {
@@ -44,7 +44,7 @@
 }
 
 .datepicker-days {
-  @apply grid items-center w-full grid-cols-7 gap-2 border-b border-b-white;
+  @apply grid items-center w-full grid-cols-7 gap-2 py-2 border-b border-b-white;
 }
 
 .datepicker-days div {
@@ -52,6 +52,7 @@
   padding: 5px;
   border-radius: 5px;
   cursor: pointer;
+  @apply font-semibold;
 }
 
 .datepicker-days div:hover {
@@ -59,7 +60,7 @@
 }
 
 .datepicker-days div.active {
-  background-color: #007bff;
+  @apply text-white bg-blue-800;
   color: #fff;
 }
 
@@ -68,9 +69,12 @@
 }
 
 .datepicker-day:has(.active) {
-  @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-400;
+  @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-600 !text-white;
 }
 
+.datepicker-day:has(.active):hover {
+  @apply  bg-blue-400 ;
+}
 .datepicker-day:has(.semiActive) {
   @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-200 text-gray-200;
 }
@@ -94,12 +98,29 @@
 /****/
 
 .datepicker-years {
-  @apply grid items-center w-full grid-cols-3 gap-2 border-b border-b-white;
+  @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white ;
+  direction: rtl;
 }
+
+
 
 .datepicker-years div {
   text-align: center;
   padding: 5px;
   border-radius: 5px;
   cursor: pointer;
+  @apply font-semibold;
+}
+
+.datepicker-year:hover {
+  @apply  !rounded-full  bg-blue-200 !text-white;
+}
+
+
+.datepicker-year:has(.active) {
+  @apply  !rounded-full  bg-blue-600 !text-white;
+}
+
+.datepicker-year:has(.active):hover {
+  @apply  bg-blue-400 ;
 }

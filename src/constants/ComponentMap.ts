@@ -1,9 +1,13 @@
-type DATE_DAY_MODE = "DAY" | "MONTH" | "YEAR";
+import MAP_ITEMS from "./MapItem";
+
 
 export const ComponentMap = {
   DATE: {
-    DAY: ["DAY", "MONTH", "YEAR"],
+    DAY : [MAP_ITEMS.DAY , MAP_ITEMS.MONTH, MAP_ITEMS.YEAR],
     MONTH: ["MONTH", "YEAR"],
     YEAR: ["YEAR"],
   },
 };
+
+
+

@@ -25,15 +25,14 @@ export function useCalendar(
   );
 
   const yearsOfPeriod = computed(() =>
-    generateYears(
-      Number(convertToEnglishNumbers(currentYear.value.format("YYYY")))
-    )
+    generateYears(currentYear.value, calendarOption)
   );
 
   const prevYears = () => {
     const date = currentYear.value.toDate();
 
     date.setFullYear(date.getFullYear() - YEARS_OFFSET);
+    console.log("dd")
     updateCurrentYear(
       markRaw(
         new DateObject({
@@ -52,7 +51,7 @@ export function useCalendar(
   const nextYears = () => {
     const date = currentYear.value.toDate();
 
-    date.setFullYear(date.getFullYear() - YEARS_OFFSET);
+    date.setFullYear(date.getFullYear() + YEARS_OFFSET);
     updateCurrentYear(
       markRaw(
         new DateObject({

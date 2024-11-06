@@ -222,7 +222,7 @@ const AvailableMap = ComponentMap["DATE"]["DAY"];
             :currentDate="currentDate"
             :yearsOfPeriod="yearsOfPeriod"
             :nextYears="nextYears"
-            :prevYears="prevMonth"
+            :prevYears="prevYears"
             :AvailableMap="AvailableMap"
           />
         </div>
