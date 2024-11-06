@@ -1,13 +1,72 @@
+import { YEARS_OFFSET } from "@/constants/Offsets";
+import { ComponentType } from "@/types";
+import { convertToEnglishNumbers } from "@/utils/convertToEnglishNumbers";
+import { generateYears } from "@/utils/generateYears";
 import DateObject from "react-date-object";
-import { computed, markRaw, Raw, ref } from "vue";
-import { WeekDayObject } from "../types/WeekDayObject";
+import { computed, markRaw, ref } from "vue";
 import { ICalenderOption } from "../types/ICalenderOption";
+import { WeekDayObject } from "../types/WeekDayObject";
 import { weekDayTemplate } from "../utils/weekDayTemplate";
 
 export function useCalendar(
   calendarOption: ICalenderOption,
-  ucurrentDate: DateObject | undefined
+  ucurrentDate: DateObject | undefined,
+  type: ComponentType
 ) {
+  /// ======================================== YEAR PANEL
+  const currentYear = ref(
+    markRaw(
+      new DateObject({
+        calendar: calendarOption.calender,
+        locale: calendarOption.locale,
+        date: new Date(),
+      })
+    )
+  );
+
+  const yearsOfPeriod = computed(() =>
+    generateYears(
+      Number(convertToEnglishNumbers(currentYear.value.format("YYYY")))
+    )
+  );
+
+  const prevYears = () => {
+    const date = currentYear.value.toDate();
+
+    date.setFullYear(date.getFullYear() - YEARS_OFFSET);
+    updateCurrentYear(
+      markRaw(
+        new DateObject({
+          calendar: calendarOption.calender,
+          locale: calendarOption.locale,
+          format: calendarOption.format,
+          date: date,
+        })
+      )
+    );
+  };
+  function updateCurrentYear(dateObject: DateObject) {
+    currentYear.value = dateObject;
+  }
+
+  const nextYears = () => {
+    const date = currentYear.value.toDate();
+
+    date.setFullYear(date.getFullYear() - YEARS_OFFSET);
+    updateCurrentYear(
+      markRaw(
+        new DateObject({
+          calendar: calendarOption.calender,
+          locale: calendarOption.locale,
+          format: calendarOption.format,
+          date: date,
+        })
+      )
+    );
+  };
+
+  /// ======================================== YEAR PANEL
+
   const currentDate = ref<DateObject>(
     markRaw(
       ucurrentDate ??
@@ -100,11 +159,10 @@ export function useCalendar(
     if (change > 0) currentDate.value = currentDate.value.add(change, type);
     else currentDate.value = currentDate.value.subtract(change, type);
   }
-
-  const prevMonth = () => {
+  const nextMonth = () => {
     const date = currentDate.value.toDate();
 
-    date.setMonth(date.getMonth() - 1);
+    date.setMonth(date.getMonth() + 1); // Go back one month
     updateCurrentDate(
       markRaw(
         new DateObject({
@@ -117,10 +175,10 @@ export function useCalendar(
     );
   };
 
-  const nextMonth = () => {
+  const prevMonth = () => {
     const date = currentDate.value.toDate();
 
-    date.setMonth(date.getMonth() + 1); // Go back one month
+    date.setMonth(date.getMonth() - 1);
     updateCurrentDate(
       markRaw(
         new DateObject({
@@ -169,7 +227,11 @@ export function useCalendar(
     prevMonth,
     nextMonth,
     ChangeCurrentDate,
+    updateCurrentDate,
     onSeparatedInput,
     updateSelectedDate,
+    prevYears,
+    nextYears,
+    yearsOfPeriod,
   };
 }

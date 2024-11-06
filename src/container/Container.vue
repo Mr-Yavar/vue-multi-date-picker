@@ -5,6 +5,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { ref, watch } from "vue";
 
+import { configure } from "@/utils/configure";
 import { useCalendar } from "../composables/useCelendar";
 import { useEntryPoint } from "../composables/useEntryPoint";
 import { useTimePicker } from "../composables/useTimePicker";
@@ -12,7 +13,8 @@ import { ComponentType, dateSeparatorType } from "../types";
 import { ICalenderOption } from "../types/ICalenderOption";
 import { isValidDate } from "../utils/isValidDate";
 
-import WeekDaysPanel from "./calender/WeekDays/WeekDaysPanel.vue";
+import { ComponentMap } from "@/constants/ComponentMap";
+import CalendarPanel from "./components/CalenderPanel/CalendarPanel.vue";
 
 interface Props {
   calendar: Calendar;
@@ -23,6 +25,8 @@ interface Props {
   multiple: boolean;
   range: boolean;
   dateSeparator: dateSeparatorType;
+  onlyMonth: boolean;
+  onlyYear: boolean;
 }
 
 const datepickerReference = ref(null);
@@ -39,10 +43,12 @@ const {
   locale: ulocale,
   currentDate: ucurrentDate, // تاریخ شروع نمایش
   format = "YYYY-MM-DD HH:mm:ss",
-  type ,
+  type,
   multiple = false,
   range = false,
   dateSeparator = ",",
+  onlyMonth = false,
+  onlyYear = false,
 } = defineProps<Props>();
 
 const calendar = ucalendar ?? persian;
@@ -61,9 +67,13 @@ const {
   daysOfPeriod,
   prevMonth,
   nextMonth,
+  updateCurrentDate,
   onSeparatedInput: onCalenderSeparatedInput,
-  updateSelectedDate: onCalenderByClick,
-} = useCalendar(calendarOption, ucurrentDate);
+  updateSelectedDate: handleSelect,
+  prevYears,
+  nextYears,
+  yearsOfPeriod,
+} = useCalendar(calendarOption, ucurrentDate, type);
 
 const {
   hour,
@@ -77,16 +87,12 @@ const {
 const { rawDateTime, onInput, onOutput, isTyping } =
   useEntryPoint(calendarOption);
 
-const mode = ref(0);
+const mapOfCalendar = configure(type);
 
-const modes = {
-  0: "جدول روز",
-  1: "جدول ماه ها",
-  3: "جدول سال ها",
-};
+const mode = ref(mapOfCalendar[0]);
 
-function changeMode() {
-  mode.value++;
+function changeMode(value: string) {
+  mode.value = value;
 }
 
 // const showDatepicker = () => {
@@ -156,7 +162,7 @@ function onRawEntryPointUpdate(event: any) {
     );
   }
 }
-
+const AvailableMap = ComponentMap["DATE"]["DAY"];
 ///////================== EntryPoint Mid End
 </script>
 
@@ -200,66 +206,25 @@ function onRawEntryPointUpdate(event: any) {
     <div>
       <div class="datepicker-container">
         <!--- HEADER OF DATEPICKER -->
-
-        <slot
-          name="header"
-          :prevMonth="prevMonth"
-          :nextMonth="nextMonth"
-          :currentDate="currentDate"
-        >
-          <div class="datepicker-header">
-            <div class="datepicker-header-prev">
-              <button
-                @click="prevMonth"
-                class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
-              >
-                {{ "<" }}
-              </button>
-            </div>
-            <div class="datepicker-header-control">
-              <div class="mx-auto w-fit">
-                <button>{{ currentDate.month }}</button>
-                <button>{{ currentDate.year }}</button>
-              </div>
-            </div>
-            <div class="col-span-1 col-start-5 datepicker-header-next">
-              <button
-                @click="nextMonth"
-                class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
-              >
-                {{ ">" }}
-              </button>
-            </div>
-          </div>
-        </slot>
-      
-     
-        <!--- BODY OF DATEPICKER -->
         <div class="datepicker-body">
-  
+          <!--- BODY OF DATEPICKER -->
 
-          <WeekDaysPanel
+          <CalendarPanel
+            :changeMode="changeMode"
+            :mode="mode"
             :daysOfPeriod="daysOfPeriod"
             :weekDays="weekDays"
-            :onCalenderByClick="onCalenderByClick"
+            :handleSelect="handleSelect"
             :selectedDate="selectedDate"
-            :type="type"
-            :range="range"
-            :multiple="multiple"
             :calenderOption="calendarOption"
             :prevMonth="prevMonth"
             :nextMonth="nextMonth"
             :currentDate="currentDate"
+            :yearsOfPeriod="yearsOfPeriod"
+            :nextYears="nextYears"
+            :prevYears="prevMonth"
+            :AvailableMap="AvailableMap"
           />
-          <slot
-            name="timePicker"
-            :onRawUpdate="onTimePickerInput"
-            :onSeparatedInputUpdate="onTimePickerSeparatedInput"
-            :hour="hour"
-            :minute="minute"
-            :second="second"
-          >
-          </slot>
         </div>
       </div>
     </div>
@@ -268,6 +233,4 @@ function onRawEntryPointUpdate(event: any) {
   <div>{{ selectedTime.hour + ":" + selectedTime.minute }}</div>
 </template>
 
-<style>
-
-</style>
+<style></style>

@@ -1,0 +1,79 @@
+<script setup lang="ts">
+import { ICalenderOption } from "@/types/ICalenderOption";
+import { WeekDayObject } from "@/types/WeekDayObject";
+import DateObject from "react-date-object";
+import CalendarHeader from "./components/CalendarHeader.vue";
+import WeekDaysPanel from "./components/WeekDaysPanel.vue";
+import YearsPanel from "./components/YearsPanel.vue";
+
+interface Props {
+  changeMode: Function;
+  mode: string;
+  daysOfPeriod: WeekDayObject[];
+  weekDays: string[][];
+  handleSelect: Function;
+  selectedDate: DateObject | any;
+  calenderOption: ICalenderOption;
+  prevMonth: Function;
+  nextMonth: Function;
+  currentDate: DateObject;
+  yearsOfPeriod: any;
+  nextYears: Function;
+  prevYears: Function;
+  AvailableMap: string[];
+}
+function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
+  return day.date.toDateString() === selectedDate?.toDate().toDateString();
+}
+const {
+  daysOfPeriod,
+  weekDays,
+  handleSelect,
+  selectedDate,
+  calenderOption,
+  //----------------
+  currentDate,
+  prevMonth,
+  nextMonth,
+  //---------------
+  yearsOfPeriod,
+  nextYears,
+  prevYears,
+
+  AvailableMap,
+} = defineProps<Props>();
+</script>
+
+<template>
+  <CalendarHeader
+    :currentDate="currentDate"
+    :nextMonth="nextMonth"
+    :prevMonth="prevMonth"
+    :yearsOfPeriod="yearsOfPeriod"
+    :nextYears="nextYears"
+    :prevYears="prevMonth"
+    :changeMode="changeMode"
+    :mode="mode"
+    :AvailableMap="AvailableMap"
+  />
+
+  <template v-if="mode == 'DAY'">
+    <WeekDaysPanel
+      :daysOfPeriod="daysOfPeriod"
+      :weekDays="weekDays"
+      :handleSelect="handleSelect"
+      :selectedDate="selectedDate"
+      :calenderOption="calenderOption"
+    />
+  </template>
+
+  <template v-if="mode == 'MONTH'"> </template>
+
+  <template v-if="mode == 'YEAR'">
+    <YearsPanel
+      :yearsOfPeriod="yearsOfPeriod"
+      :nextYears="nextYears"
+      :prevYears="prevMonth"
+    />
+  </template>
+</template>

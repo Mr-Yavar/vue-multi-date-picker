@@ -3,97 +3,103 @@
 @tailwind utilities;
 
 .datepicker-container {
-    @apply mx-auto bg-slate-100 w-fit p-3 border border-solid border-gray-200 rounded shadow-[0_0_10px_black];
-  }
-  
-  .datepicker-header {
-    @apply grid items-center grid-cols-5 p-3 border-b border-gray-200;
-  
-  }
-  
-  .datepicker-header button {
-    @apply  px-3 py-2 bg-gray-100 border-none rounded-sm cursor-pointer;
-  
-  }
-  
-  .datepicker-header button:hover {
-    @apply bg-gray-300;
-  }
-  
-  .datepicker-header-prev {
-    @apply col-span-1;
-  }
-  
-  .datepicker-header-next {
-    @apply col-span-1 col-start-5;
-  }
-  
-  .datepicker-header-control {
-    @apply col-span-3;
-  }
-  
-  .datepicker-body {
-    padding: 10px;
-    @apply grid grid-cols-1;
-  }
-  
-  .datepicker-weekdays {
-    @apply grid items-center w-full grid-cols-7 gap-2 p-3 border-b border-b-white;
-  
-  
-  }
-  
-  .datepicker-weekdays span {
-    @apply text-center;
-   
-  }
-  
-  .datepicker-days {
-  
-    @apply grid items-center w-full grid-cols-7 gap-2 border-b border-b-white;
-  
-  }
-  
-  .datepicker-days div {
-    text-align: center;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .datepicker-days div:hover {
-    background-color: #ccc;
-  }
-  
-  .datepicker-days div.active {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .datepicker-day {
-    @apply !rounded-full !w-[35px] !h-[35px];
-  }
-  
-  .datepicker-day:has(.active) {
-    @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-400;
-  }
-  
-  .datepicker-day:has(.semiActive) {
-    @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-200 text-gray-200;
-  }
-  .datepicker-day:has(.disabled) {
-    @apply !block !rounded-full !w-[35px] !h-[35px] text-gray-200;
-  }
-  
-  /**** */
-  .timepicker-container {
-    @apply grid grid-cols-3 gap-2 p-3 mx-auto w-fit;
-  }
-  
-  .timepicker-container input {
-    @apply rounded-md w-10 p-2 !appearance-none mx-auto block text-center shadow-sm !outline-none border border-gray-500;
-  }
-  
-  .timepicker-container button {
-    @apply rounded-md w-8 my-2 text-blue-800 bg-gray-50 bg-neutral-400  !appearance-none mx-auto block text-center shadow-md !outline-none;
-  }
+  @apply mx-auto bg-slate-100 w-fit p-3 border border-solid border-gray-200 rounded shadow-[0_0_10px_black];
+}
+
+.datepicker-header {
+  @apply grid items-center grid-cols-5 p-3 border-b border-gray-200;
+}
+
+.datepicker-header button {
+  @apply px-3 py-2 bg-gray-100 border-none rounded-sm cursor-pointer;
+}
+
+.datepicker-header button:hover {
+  @apply bg-gray-300;
+}
+
+.datepicker-header-prev {
+  @apply col-span-1;
+}
+
+.datepicker-header-next {
+  @apply col-span-1 col-start-5;
+}
+
+.datepicker-header-control {
+  @apply col-span-3;
+}
+
+.datepicker-body {
+  padding: 10px;
+  @apply grid grid-cols-1;
+}
+
+.datepicker-weekdays {
+  @apply grid items-center w-full grid-cols-7 gap-2 p-3 border-b border-b-white;
+}
+
+.datepicker-weekdays span {
+  @apply text-center;
+}
+
+.datepicker-days {
+  @apply grid items-center w-full grid-cols-7 gap-2 border-b border-b-white;
+}
+
+.datepicker-days div {
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.datepicker-days div:hover {
+  background-color: #ccc;
+}
+
+.datepicker-days div.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.datepicker-day {
+  @apply !rounded-full !w-[35px] !h-[35px];
+}
+
+.datepicker-day:has(.active) {
+  @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-400;
+}
+
+.datepicker-day:has(.semiActive) {
+  @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-200 text-gray-200;
+}
+.datepicker-day:has(.disabled) {
+  @apply !block !rounded-full !w-[35px] !h-[35px] text-gray-200;
+}
+
+/**** */
+.timepicker-container {
+  @apply grid grid-cols-3 gap-2 p-3 mx-auto w-fit;
+}
+
+.timepicker-container input {
+  @apply rounded-md w-10 p-2 !appearance-none mx-auto block text-center shadow-sm !outline-none border border-gray-500;
+}
+
+.timepicker-container button {
+  @apply rounded-md w-8 my-2 text-blue-800 bg-gray-50 bg-neutral-400  !appearance-none mx-auto block text-center shadow-md !outline-none;
+}
+
+/****/
+
+.datepicker-years {
+  @apply grid items-center w-full grid-cols-3 gap-2 border-b border-b-white;
+}
+
+.datepicker-years div {
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
