@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ICalenderOption } from "@/types/ICalenderOption";
+import { IcalendarOption } from "@/types/ICalendarOption";
 import { WeekDayObject } from "@/types/WeekDayObject";
+import { getWeekOrders } from "@/utils/getWeekOrders";
 import DateObject from "react-date-object";
 
 interface Props {
@@ -9,18 +10,19 @@ interface Props {
   handleSelect: Function;
   selectedDate: DateObject | any;
 
-  calenderOption: ICalenderOption;
+  calendarOption: IcalendarOption;
 }
 function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
   return day.date.toDateString() === selectedDate?.toDate().toDateString();
 }
-const { daysOfPeriod, weekDays, handleSelect, selectedDate, calenderOption } =
+const { daysOfPeriod, weekDays, handleSelect, selectedDate, calendarOption } =
   defineProps<Props>();
 </script>
 
 <template>
+{{ calendarOption.locale.weekDays }}
   <div class="datepicker-weekdays">
-    <span v-for="(day, index) in weekDays" :key="index">
+    <span v-for="(day, index) in getWeekOrders(calendarOption.locale)" :key="index">
       {{ day[1] }}
     </span>
   </div>
@@ -40,7 +42,7 @@ const { daysOfPeriod, weekDays, handleSelect, selectedDate, calenderOption } =
       >
         {{
           day.dateObject
-            .convert(calenderOption.calender, calenderOption.locale)
+            .convert(calendarOption.calender, calendarOption.locale)
             .format("D")
         }}
       </span>

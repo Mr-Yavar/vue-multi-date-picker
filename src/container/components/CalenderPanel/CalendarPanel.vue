@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ICalenderOption } from "@/types/ICalenderOption";
+import { IcalendarOption } from "@/types/ICalendarOption";
 import { WeekDayObject } from "@/types/WeekDayObject";
 import DateObject from "react-date-object";
 import CalendarHeader from "./components/CalendarHeader.vue";
@@ -7,15 +7,16 @@ import WeekDaysPanel from "./components/WeekDaysPanel.vue";
 import YearsPanel from "./components/YearsPanel.vue";
 import MAP_ITEMS from "@/constants/MapItem";
 import { PropType } from "vue";
+import MonthPanel from "./components/MonthPanel.vue";
 
 interface Props {
-  changeMode: PropType<Function>;
+  changeMode: Function;
   mode: string;
   daysOfPeriod: WeekDayObject[];
   weekDays: string[][];
   handleSelect: Function;
   selectedDate: DateObject | any;
-  calenderOption: ICalenderOption;
+  calendarOption: IcalendarOption;
   prevMonth: Function;
   nextMonth: Function;
   currentDate: DateObject;
@@ -31,7 +32,6 @@ interface Props {
   setYearCurrentDate: Function;
   setYearCurrentYear: Function;
   //==============
- 
 }
 
 const {
@@ -39,7 +39,7 @@ const {
   weekDays,
   handleSelect,
   selectedDate,
-  calenderOption,
+  calendarOption,
   //----------------
   currentDate,
   prevMonth,
@@ -82,11 +82,27 @@ const {
       :weekDays="weekDays"
       :handleSelect="handleSelect"
       :selectedDate="selectedDate"
-      :calenderOption="calenderOption"
+      :calendarOption="calendarOption"
     />
   </template>
 
-  <template v-if="mode == MAP_ITEMS.MONTH"> </template>
+  <template v-if="mode == MAP_ITEMS.MONTH">
+    
+  <MonthPanel
+  :currentDate="currentDate"
+      :yearsOfPeriod="yearsOfPeriod"
+      :nextYears="nextYears"
+      :prevYears="prevYears"
+      :calendarOption="calendarOption"
+      :currentYear="currentYear"
+      :ChangeCurrentDate="ChangeCurrentDate"
+      :setMonthCurrentDate="setMonthCurrentDate"
+      :setMonthCurrentYear="setMonthCurrentYear"
+      :setYearCurrentDate="setYearCurrentDate"
+      :setYearCurrentYear="setYearCurrentYear"
+      :changeMode="changeMode"
+  />
+  </template>
 
   <template v-if="mode == MAP_ITEMS.YEAR">
     <YearsPanel
@@ -94,15 +110,14 @@ const {
       :yearsOfPeriod="yearsOfPeriod"
       :nextYears="nextYears"
       :prevYears="prevYears"
-      :calenderOption="calenderOption"
+      :calendarOption="calendarOption"
       :currentYear="currentYear"
       :ChangeCurrentDate="ChangeCurrentDate"
       :setMonthCurrentDate="setMonthCurrentDate"
       :setMonthCurrentYear="setMonthCurrentYear"
       :setYearCurrentDate="setYearCurrentDate"
       :setYearCurrentYear="setYearCurrentYear"
-
-          :changeMode="changeMode"
+      :changeMode="changeMode"
     />
   </template>
 </template>

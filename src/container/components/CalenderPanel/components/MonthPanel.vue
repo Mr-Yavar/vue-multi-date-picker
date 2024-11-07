@@ -20,7 +20,7 @@ interface Props {
   setYearCurrentYear: Function;
 
   //=====================
-  changeMode : Function
+  changeMode: Function;
 }
 function isSelected(year: DateObject, currentDate: DateObject): boolean {
   return year.year === currentDate.year;
@@ -30,20 +30,32 @@ const { yearsOfPeriod, nextYears, prevYears, calendarOption } =
 </script>
 
 <template>
-  <div class="datepicker-years">
+
+  <div class="datepicker-months">
     <div
-      v-for="(year, index) in yearsOfPeriod"
-      :key="year.format('YYYY')"
-      class="datepicker-year"
-    
+      v-for="(month, index) in calendarOption.locale.months"
+      :key="month[1]"
+      class="datepicker-month"
+      @click="
+        () => {
+          setMonthCurrentDate(
+            new DateObject({
+              calendar: calendarOption.calender,
+              locale: calendarOption.locale,
+              year: currentDate.year,
+              month: index + 1,
+              day: 1,
+            })
+          );
+
+          changeMode(MAP_ITEMS.DAY);
+        }
+      "
     >
-      <div
-        :class="{
-          active: isSelected(year, currentDate),
-        }"
-        @click.prevent="(()=>{setYearCurrentDate(year); changeMode(MAP_ITEMS.MONTH);})"
-      >
-        {{ year.format("YYYY") }}
+      <div :class="{
+        active : currentDate.month.index==index
+      }">
+        {{ month[0] }}
       </div>
     </div>
   </div>

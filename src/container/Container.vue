@@ -6,15 +6,19 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { ref, watch } from "vue";
 
 import { configure } from "@/utils/configure";
-import { useCalendar } from "../composables/useCelendar";
+import { useCalendar } from "../composables/useCalendar";
 import { useEntryPoint } from "../composables/useEntryPoint";
 import { useTimePicker } from "../composables/useTimePicker";
 import { ComponentType, dateSeparatorType } from "../types";
-import { ICalenderOption } from "../types/ICalenderOption";
+import { IcalendarOption } from "@/types/ICalendarOption";
 import { isValidDate } from "../utils/isValidDate";
 
 import { ComponentMap } from "@/constants/ComponentMap";
 import CalendarPanel from "./components/CalenderPanel/CalendarPanel.vue";
+import persian_en from "react-date-object/locales/persian_en";
+import gregorian from "react-date-object/calendars/gregorian";
+import gregorian_fa from "react-date-object/locales/gregorian_fa";
+import gregorian_en from "react-date-object/locales/gregorian_en";
 
 interface Props {
   calendar: Calendar;
@@ -51,13 +55,13 @@ const {
   onlyYear = false,
 } = defineProps<Props>();
 
-const calendar = ucalendar ?? persian;
-const locale = ulocale ?? persian_fa;
+const calendar = ucalendar ?? gregorian;
+const locale = ulocale ?? gregorian_en;
 const calendarOption = {
   calender: calendar,
   format: format,
   locale: locale,
-} as ICalenderOption;
+} as IcalendarOption;
 const weekDays = locale.weekDays;
 const months = locale.months;
 
@@ -74,14 +78,13 @@ const {
   nextYears,
   yearsOfPeriod,
 
-
   //================
   currentYear,
   ChangeCurrentDate,
   setMonthCurrentDate,
   setMonthCurrentYear,
   setYearCurrentDate,
-  setYearCurrentYear
+  setYearCurrentYear,
 } = useCalendar(calendarOption, ucurrentDate, type);
 
 const {
@@ -171,7 +174,7 @@ function onRawEntryPointUpdate(event: any) {
     );
   }
 }
-const AvailableMap : (string | number)[]= ComponentMap["DATE"]["DAY"];
+const AvailableMap: (string | number)[] = ComponentMap["DATE"]["DAY"];
 ///////================== EntryPoint Mid End
 </script>
 
@@ -225,7 +228,7 @@ const AvailableMap : (string | number)[]= ComponentMap["DATE"]["DAY"];
             :weekDays="weekDays"
             :handleSelect="handleSelect"
             :selectedDate="selectedDate"
-            :calenderOption="calendarOption"
+            :calendarOption="calendarOption"
             :prevMonth="prevMonth"
             :nextMonth="nextMonth"
             :currentDate="currentDate"
@@ -233,14 +236,12 @@ const AvailableMap : (string | number)[]= ComponentMap["DATE"]["DAY"];
             :nextYears="nextYears"
             :prevYears="prevYears"
             :AvailableMap="AvailableMap"
-
-
             :currentYear="currentYear"
-  :ChangeCurrentDate="ChangeCurrentDate"
-  :setMonthCurrentDate="setMonthCurrentDate"
-  :setMonthCurrentYear="setMonthCurrentYear"
-  :setYearCurrentDate="setYearCurrentDate"
-  :setYearCurrentYear="setYearCurrentYear"
+            :ChangeCurrentDate="ChangeCurrentDate"
+            :setMonthCurrentDate="setMonthCurrentDate"
+            :setMonthCurrentYear="setMonthCurrentYear"
+            :setYearCurrentDate="setYearCurrentDate"
+            :setYearCurrentYear="setYearCurrentYear"
           />
         </div>
       </div>

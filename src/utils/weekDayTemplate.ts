@@ -1,5 +1,5 @@
 import { DayOfMonth, LongMonthName, MonthIndex, Weekday } from "@/types";
-import { CalenderOption } from "@/types/calenderOption";
+import { calendarOption } from "@/types/calendarOption";
 import { WeekDayObject } from "@/types/WeekDayObject";
 
 import DateObject from "react-date-object";
@@ -7,7 +7,7 @@ import { markRaw } from "vue";
 
 export function weekDayTemplate(
   date: Date,
-  calendarOption: CalenderOption,
+  calendarOption: calendarOption,
   isActive: Boolean = false
 ): WeekDayObject {
   return {

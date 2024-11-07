@@ -33,6 +33,7 @@
 .datepicker-body {
   padding: 10px;
   @apply grid grid-cols-1;
+ 
 }
 
 .datepicker-weekdays {
@@ -99,7 +100,7 @@
 
 .datepicker-years {
   @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white ;
-  direction: rtl;
+ 
 }
 
 
@@ -122,5 +123,34 @@
 }
 
 .datepicker-year:has(.active):hover {
+  @apply  bg-blue-400 ;
+}
+
+/****/
+.datepicker-months {
+  @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white ;
+
+}
+
+
+
+.datepicker-months div {
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  @apply font-semibold;
+}
+
+.datepicker-month:hover {
+  @apply  !rounded-full  bg-blue-200 !text-white;
+}
+
+
+.datepicker-month:has(.active) {
+  @apply  !rounded-full  bg-blue-600 !text-white;
+}
+
+.datepicker-month:has(.active):hover {
   @apply  bg-blue-400 ;
 }

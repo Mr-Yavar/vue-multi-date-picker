@@ -1,9 +1,9 @@
 import { ref } from "vue";
 import { convertToEnglishNumbers } from "../utils/convertToEnglishNumbers";
-import { ICalenderOption } from "../types/ICalenderOption";
+import { IcalendarOption } from "../types/IcalendarOption";
 import DateObject from "react-date-object";
 
-export function useEntryPoint(calendarOption: ICalenderOption) {
+export function useEntryPoint(calendarOption: IcalendarOption) {
   const rawDateTime = ref<string>(""); // برای اینپوت نمایش دهنده و ویرایش
   const isTyping = ref<boolean>(false); // در حال تایپ  کردن
   let isTypingTimeout : NodeJS.Timeout | null = null;

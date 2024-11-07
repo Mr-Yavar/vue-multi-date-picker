@@ -1,16 +1,15 @@
 import { YEARS_OFFSET } from "@/constants/Offsets";
 import { ComponentType } from "@/types";
-import { convertToEnglishNumbers } from "@/utils/convertToEnglishNumbers";
 import { generateYears } from "@/utils/generateYears";
 import DateObject from "react-date-object";
 import { computed, markRaw, ref } from "vue";
-import { ICalenderOption } from "../types/ICalenderOption";
+import { IcalendarOption } from "@/types/ICalendarOption";
 import { WeekDayObject } from "../types/WeekDayObject";
 import { weekDayTemplate } from "../utils/weekDayTemplate";
 import { generatePivotDateFromYear } from "@/utils/generatePivotDateFromYear";
 
 export function useCalendar(
-  calendarOption: ICalenderOption,
+  calendarOption: IcalendarOption,
   ucurrentDate: DateObject | undefined,
   type: ComponentType
 ) {
@@ -140,7 +139,7 @@ export function useCalendar(
     })
       .toFirstOfWeek()
       .toDate();
-
+console.log(firstDay_Of_firstWeekOfPeriod)
     for (
       let forWardStep = new Date(firstDay_Of_firstWeekOfPeriod);
       forWardStep < firstDay;
@@ -170,7 +169,7 @@ export function useCalendar(
     ) {
       days.push(weekDayTemplate(backWardStep, false));
     }
-
+    console.log(days)
     return days;
   });
 
@@ -225,8 +224,17 @@ export function useCalendar(
     updateCurrentYear(markRaw(generatePivotDateFromYear(year, calendarOption)));
   }
 
-  function setMonthCurrentDate(month: number) {
-    currentDate.value.setMonth(month);
+  function setMonthCurrentDate(month: DateObject) {
+    currentDate.value = markRaw(
+      new DateObject({
+        calendar: calendarOption.calender,
+        locale: calendarOption.locale,
+        format: calendarOption.format,
+        year: month.year,
+        month: month.month.number,
+        day: month.day,
+      })
+    );
   }
   function updateCurrentDate(dateObject: DateObject) {
     if (dateObject instanceof DateObject && dateObject.isValid)
