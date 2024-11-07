@@ -23,6 +23,8 @@ interface Props {
   yearsOfPeriod: DateObject[];
   nextYears: Function;
   prevYears: Function;
+  nextYear: Function;
+  prevYear: Function;
   AvailableMap: (string | number)[];
   //////=====================
   currentYear: DateObject;
@@ -48,7 +50,8 @@ const {
   yearsOfPeriod,
   nextYears,
   prevYears,
-
+  nextYear,
+  prevYear,
   AvailableMap,
 
   //==============
@@ -71,6 +74,8 @@ const {
     :yearsOfPeriod="yearsOfPeriod"
     :nextYears="nextYears"
     :prevYears="prevYears"
+    :nextYear="nextYear"
+    :prevYear="prevYear"
     :changeMode="changeMode"
     :mode="mode"
     :AvailableMap="AvailableMap"
@@ -87,12 +92,13 @@ const {
   </template>
 
   <template v-if="mode == MAP_ITEMS.MONTH">
-    
-  <MonthPanel
-  :currentDate="currentDate"
+    <MonthPanel
+      :currentDate="currentDate"
       :yearsOfPeriod="yearsOfPeriod"
       :nextYears="nextYears"
       :prevYears="prevYears"
+      :nextYear="nextYear"
+      :prevYear="prevYear"
       :calendarOption="calendarOption"
       :currentYear="currentYear"
       :ChangeCurrentDate="ChangeCurrentDate"
@@ -101,7 +107,7 @@ const {
       :setYearCurrentDate="setYearCurrentDate"
       :setYearCurrentYear="setYearCurrentYear"
       :changeMode="changeMode"
-  />
+    />
   </template>
 
   <template v-if="mode == MAP_ITEMS.YEAR">

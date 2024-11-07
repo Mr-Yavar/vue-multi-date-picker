@@ -11,6 +11,8 @@ interface Props {
   yearsOfPeriod: any;
   nextYears: Function;
   prevYears: Function;
+  nextYear: Function;
+  prevYear: Function;
   AvailableMap: (string | number)[];
 }
 
@@ -24,6 +26,8 @@ const {
   prevYears,
   mode,
   AvailableMap,
+  nextYear,
+  prevYear
 } = defineProps<Props>();
 
 
@@ -69,7 +73,7 @@ const {
     <div class="datepicker-header">
       <div class="datepicker-header-prev">
         <button
-          @click="() => prevYears()"
+          @click="() => prevYear()"
           type="button"
           class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
         >
@@ -88,7 +92,7 @@ const {
       <div class="col-span-1 col-start-5 datepicker-header-next">
         <button
           type="button"
-          @click="() => nextYears()"
+          @click="() => nextYear()"
           class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
         >
           {{ ">" }}

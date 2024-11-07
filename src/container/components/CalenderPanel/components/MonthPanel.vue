@@ -9,6 +9,8 @@ interface Props {
   yearsOfPeriod: DateObject[];
   nextYears: Function;
   prevYears: Function;
+  nextYear: Function;
+  prevYear: Function;
   currentDate: DateObject;
   calendarOption: IcalendarOption;
   //==================

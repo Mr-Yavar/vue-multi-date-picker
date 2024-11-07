@@ -139,7 +139,7 @@ export function useCalendar(
     })
       .toFirstOfWeek()
       .toDate();
-console.log(firstDay_Of_firstWeekOfPeriod)
+
     for (
       let forWardStep = new Date(firstDay_Of_firstWeekOfPeriod);
       forWardStep < firstDay;
@@ -208,7 +208,38 @@ console.log(firstDay_Of_firstWeekOfPeriod)
       )
     );
   };
+  const prevYear = () => {
+    const date = currentDate.value.toDate();
 
+    date.setFullYear(date.getFullYear() - 1);
+
+    updateCurrentDate(
+      markRaw(
+        new DateObject({
+          calendar: calendarOption.calender,
+          locale: calendarOption.locale,
+          format: calendarOption.format,
+          date: date,
+        })
+      )
+    );
+  };
+  const nextYear = () => {
+    const date = currentDate.value.toDate();
+
+    date.setFullYear(date.getFullYear() + 1);
+
+    updateCurrentDate(
+      markRaw(
+        new DateObject({
+          calendar: calendarOption.calender,
+          locale: calendarOption.locale,
+          format: calendarOption.format,
+          date: date,
+        })
+      )
+    );
+  };
   function setYearCurrentDate(year: DateObject) {
     currentDate.value = markRaw(
       new DateObject({
@@ -287,6 +318,8 @@ console.log(firstDay_Of_firstWeekOfPeriod)
     currentYear,
     prevYears,
     nextYears,
+    nextYear,
+    prevYear,
     //====================================
     selectedDate,
 

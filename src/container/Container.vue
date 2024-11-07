@@ -77,7 +77,8 @@ const {
   prevYears,
   nextYears,
   yearsOfPeriod,
-
+  prevYear,
+  nextYear,
   //================
   currentYear,
   ChangeCurrentDate,
@@ -235,6 +236,8 @@ const AvailableMap: (string | number)[] = ComponentMap["DATE"]["DAY"];
             :yearsOfPeriod="yearsOfPeriod"
             :nextYears="nextYears"
             :prevYears="prevYears"
+                        :nextYear="nextYear"
+            :prevYear="prevYear"
             :AvailableMap="AvailableMap"
             :currentYear="currentYear"
             :ChangeCurrentDate="ChangeCurrentDate"

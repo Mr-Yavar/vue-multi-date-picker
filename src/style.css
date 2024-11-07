@@ -139,7 +139,7 @@
   padding: 5px;
   border-radius: 5px;
   cursor: pointer;
-  @apply font-semibold;
+  @apply text-sm font-semibold text-center;
 }
 
 .datepicker-month:hover {

@@ -9,7 +9,6 @@ interface Props {
   weekDays: string[][];
   handleSelect: Function;
   selectedDate: DateObject | any;
-
   calendarOption: IcalendarOption;
 }
 function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
@@ -20,9 +19,11 @@ const { daysOfPeriod, weekDays, handleSelect, selectedDate, calendarOption } =
 </script>
 
 <template>
-{{ calendarOption.locale.weekDays }}
   <div class="datepicker-weekdays">
-    <span v-for="(day, index) in getWeekOrders(calendarOption.locale)" :key="index">
+    <span
+      v-for="(day, index) in getWeekOrders(calendarOption.locale)"
+      :key="index"
+    >
       {{ day[1] }}
     </span>
   </div>
