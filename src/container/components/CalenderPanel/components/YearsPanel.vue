@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MAP_ITEMS from "@/constants/MapItem";
 import { ICalenderOption } from "@/types/ICalenderOption";
 import { WeekDayObject } from "@/types/WeekDayObject";
 
@@ -8,8 +9,18 @@ interface Props {
   yearsOfPeriod: DateObject[];
   nextYears: Function;
   prevYears: Function;
-  currentDate:DateObject;
+  currentDate: DateObject;
   calenderOption: ICalenderOption;
+  //==================
+  currentYear: DateObject;
+  ChangeCurrentDate: Function;
+  setMonthCurrentDate: Function;
+  setMonthCurrentYear: Function;
+  setYearCurrentDate: Function;
+  setYearCurrentYear: Function;
+
+  //=====================
+  changeMode : Function
 }
 function isSelected(year: DateObject, currentDate: DateObject): boolean {
   return year.year === currentDate.year;
@@ -19,7 +30,6 @@ const { yearsOfPeriod, nextYears, prevYears, calenderOption } =
 </script>
 
 <template>
-  
   <div class="datepicker-years">
     <div
       v-for="(year, index) in yearsOfPeriod"
@@ -27,9 +37,12 @@ const { yearsOfPeriod, nextYears, prevYears, calenderOption } =
       class="datepicker-year"
       @click="() => year"
     >
-      <div :class="{
-        active : isSelected(year,currentDate)
-      }">
+      <div
+        :class="{
+          active: isSelected(year, currentDate),
+        }"
+        @click.prevent="(()=>{setYearCurrentDate(year); changeMode(MAP_ITEMS.DAY);})"
+      >
         {{ year.format("YYYY") }}
       </div>
     </div>

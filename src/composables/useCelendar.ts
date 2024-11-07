@@ -7,6 +7,7 @@ import { computed, markRaw, ref } from "vue";
 import { ICalenderOption } from "../types/ICalenderOption";
 import { WeekDayObject } from "../types/WeekDayObject";
 import { weekDayTemplate } from "../utils/weekDayTemplate";
+import { generatePivotDateFromYear } from "@/utils/generatePivotDateFromYear";
 
 export function useCalendar(
   calendarOption: ICalenderOption,
@@ -24,6 +25,14 @@ export function useCalendar(
   ); // تاریخ انتخاب شده
 
   /// ======================================== YEAR PANEL
+  /**
+   * This is for storing point view of year panel
+   * updates:
+   *  Fn=nextYears
+   *  Fn=prevYears
+   *  by currentDate
+   * @summary view of year panel, base on currentDate but not completely.
+   */
   const currentYear = ref(
     markRaw(
       new DateObject({
@@ -34,6 +43,10 @@ export function useCalendar(
     )
   );
 
+  /**
+   * array of dateobject for years which should be shown on current page of year panel
+   * @summary contains item of current page of year panel.
+   */
   const yearsOfPeriod = computed(() =>
     generateYears(currentYear.value, calendarOption)
   );
@@ -197,8 +210,19 @@ export function useCalendar(
     );
   };
 
-  function setYearCurrentDate(year: number) {
-    currentDate.value.setYear(year);
+  function setYearCurrentDate(year: DateObject) {
+    currentDate.value = markRaw(
+      new DateObject({
+        calendar: calendarOption.calender,
+        locale: calendarOption.locale,
+        format: calendarOption.format,
+        year: year.year,
+        month: currentDate.value.month.number,
+        day: currentDate.value.day,
+      })
+    );
+
+    updateCurrentYear(markRaw(generatePivotDateFromYear(year, calendarOption)));
   }
 
   function setMonthCurrentDate(month: number) {
@@ -207,6 +231,9 @@ export function useCalendar(
   function updateCurrentDate(dateObject: DateObject) {
     if (dateObject instanceof DateObject && dateObject.isValid)
       currentDate.value = dateObject;
+    updateCurrentYear(
+      markRaw(generatePivotDateFromYear(dateObject, calendarOption))
+    );
   }
 
   //======================================================

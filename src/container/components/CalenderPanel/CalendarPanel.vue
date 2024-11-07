@@ -6,9 +6,10 @@ import CalendarHeader from "./components/CalendarHeader.vue";
 import WeekDaysPanel from "./components/WeekDaysPanel.vue";
 import YearsPanel from "./components/YearsPanel.vue";
 import MAP_ITEMS from "@/constants/MapItem";
+import { PropType } from "vue";
 
 interface Props {
-  changeMode: Function;
+  changeMode: PropType<Function>;
   mode: string;
   daysOfPeriod: WeekDayObject[];
   weekDays: string[][];
@@ -29,6 +30,8 @@ interface Props {
   setMonthCurrentYear: Function;
   setYearCurrentDate: Function;
   setYearCurrentYear: Function;
+  //==============
+ 
 }
 
 const {
@@ -55,6 +58,8 @@ const {
   setMonthCurrentYear,
   setYearCurrentDate,
   setYearCurrentYear,
+  ///==========
+  changeMode,
 } = defineProps<Props>();
 </script>
 
@@ -96,6 +101,8 @@ const {
       :setMonthCurrentYear="setMonthCurrentYear"
       :setYearCurrentDate="setYearCurrentDate"
       :setYearCurrentYear="setYearCurrentYear"
+
+          :changeMode="changeMode"
     />
   </template>
 </template>
