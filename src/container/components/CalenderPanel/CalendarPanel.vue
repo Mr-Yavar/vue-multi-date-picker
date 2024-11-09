@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IcalendarOption } from '@/types/ICalendarOption'
+import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 import DateObject from 'react-date-object'
 import CalendarHeader from './components/CalendarHeader.vue'
@@ -10,29 +10,29 @@ import MonthPanel from './components/MonthPanel.vue'
 import { isFinalStep } from '@/utils/isFinalStep'
 
 interface Props {
-    changeMode: Function
+    changeMode: (mode :string) =>void
     mode: string
     daysOfPeriod: WeekDayObject[]
     weekDays: string[][]
-    handleSelect: Function
-    selectedDate: DateObject | any
-    calendarOption: IcalendarOption
-    prevMonth: Function
-    nextMonth: Function
+    handleSelect: (date:DateObject)=>void
+    selectedDate: DateObject | DateObject[] | DateObject[][]
+    calendarOption: ICalendarOption
+    prevMonth: ()=>void
+    nextMonth:  ()=>void
     currentDate: DateObject
     yearsOfPeriod: DateObject[]
-    nextYears: Function
-    prevYears: Function
-    nextYear: Function
-    prevYear: Function
+    nextYears:  ()=>void
+    prevYears:  ()=>void
+    nextYear:  ()=>void
+    prevYear:  ()=>void
     AvailableMap: (string | number)[]
     //////=====================
     currentYear: DateObject
-    ChangeCurrentDate: Function
-    setMonthCurrentDate: Function
-    setMonthCurrentYear: Function
-    setYearCurrentDate: Function
-    setYearCurrentYear: Function
+    ChangeCurrentDate:  (date:DateObject)=>void
+    setMonthCurrentDate:  (date:DateObject)=>void
+    setMonthCurrentYear:  (date:DateObject)=>void
+    setYearCurrentDate:  (date:DateObject)=>void
+    setYearCurrentYear:  (date:DateObject)=>void
     //==============
 }
 

@@ -1,5 +1,5 @@
 import { YEARS_OFFSET } from "@/constants/Offsets";
-import { IcalendarOption } from "@/types/ICalendarOption";
+import { ICalendarOption } from "@/types/ICalendarOption";
 import DateObject from "react-date-object";
 
 
@@ -8,7 +8,7 @@ import DateObject from "react-date-object";
 /// so if ypu pass its output to generateYears you will have table of years 
 export function generatePivotDateFromYear(
   point: DateObject,
-  calendarOption: IcalendarOption
+  calendarOption: ICalendarOption
 ): DateObject {
   let now = new DateObject({
     calendar: calendarOption.calender,

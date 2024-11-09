@@ -1,9 +1,9 @@
-import { IcalendarOption } from "@/types/ICalendarOption";
+import { ICalendarOption } from "@/types/ICalendarOption";
 import DateObject from "react-date-object";
 
 export function generateYears(
   point: DateObject,
-  calendarOption: IcalendarOption
+  calendarOption: ICalendarOption
 ): DateObject[] {
   let pointDate = point.toDate();
 

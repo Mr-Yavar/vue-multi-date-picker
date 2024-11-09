@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MAP_ITEMS from '@/constants/MapItem'
-import { IcalendarOption } from '@/types/ICalendarOption'
+import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 
 import DateObject from 'react-date-object'
@@ -8,7 +8,7 @@ import { markRaw } from 'vue';
 
 interface Props {
     currentDate: DateObject
-    calendarOption: IcalendarOption
+    calendarOption: ICalendarOption
     //==================
     setMonthCurrentDate: Function
 

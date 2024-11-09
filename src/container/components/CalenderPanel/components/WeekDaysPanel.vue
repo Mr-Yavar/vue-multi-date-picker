@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IcalendarOption } from "@/types/ICalendarOption";
+import { ICalendarOption } from "@/types/ICalendarOption";
 import { WeekDayObject } from "@/types/WeekDayObject";
 import { getWeekOrders } from "@/utils/getWeekOrders";
 import DateObject from "react-date-object";
@@ -9,7 +9,7 @@ interface Props {
   weekDays: string[][];
   handleSelect: Function;
   selectedDate: DateObject | any;
-  calendarOption: IcalendarOption;
+  calendarOption: ICalendarOption;
   isFinalStep : boolean;
 }
 function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {

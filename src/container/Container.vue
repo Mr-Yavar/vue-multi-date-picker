@@ -10,7 +10,7 @@ import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
 import { useTimePicker } from '../composables/useTimePicker'
 import { ComponentType, dateSeparatorType } from '../types'
-import { IcalendarOption } from '@/types/ICalendarOption'
+import { ICalendarOption } from '@/types/ICalendarOption'
 import { isValidDate } from '../utils/isValidDate'
 
 import { ComponentMap } from '@/constants/ComponentMap'
@@ -62,7 +62,7 @@ const calendarOption = {
     calender: calendar,
     format: format,
     locale: locale,
-} as IcalendarOption
+} as ICalendarOption
 const weekDays = locale.weekDays
 const months = locale.months
 

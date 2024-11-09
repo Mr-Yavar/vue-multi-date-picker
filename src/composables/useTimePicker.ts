@@ -1,8 +1,8 @@
 import DateObject from "react-date-object";
 import { markRaw, Raw, ref } from "vue";
-import { IcalendarOption } from "../types/IcalendarOption";
+import { ICalendarOption } from "../types/ICalendarOption";
 
-export function useTimePicker(calendarOption: IcalendarOption) {
+export function useTimePicker(calendarOption: ICalendarOption) {
   const selectedTime = ref<Raw<DateObject>>(
     markRaw(
       new DateObject({

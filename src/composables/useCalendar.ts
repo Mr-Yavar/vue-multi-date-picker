@@ -3,13 +3,13 @@ import { ComponentType } from "@/types";
 import { generateYears } from "@/utils/generateYears";
 import DateObject from "react-date-object";
 import { computed, markRaw, ref } from "vue";
-import { IcalendarOption } from "@/types/ICalendarOption";
+import { ICalendarOption } from "@/types/ICalendarOption";
 import { WeekDayObject } from "../types/WeekDayObject";
 import { weekDayTemplate } from "../utils/weekDayTemplate";
 import { generatePivotDateFromYear } from "@/utils/generatePivotDateFromYear";
 
 export function useCalendar(
-  calendarOption: IcalendarOption,
+  calendarOption: ICalendarOption,
   ucurrentDate: DateObject | undefined,
   type: ComponentType
 ) {

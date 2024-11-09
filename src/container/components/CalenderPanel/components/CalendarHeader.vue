@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import MAP_ITEMS from '@/constants/MapItem'
 import DateObject from 'react-date-object'
+import { ComputedRef, PropType } from 'vue';
 
 interface Props {
-    prevMonth: Function
+    prevMonth: ()=>void
     nextMonth: Function
     currentDate: DateObject
     mode: string
-    changeMode: Function
-    yearsOfPeriod: any
-    nextYears: Function
-    prevYears: Function
-    nextYear: Function
-    prevYear: Function
+    changeMode: (mode :string) =>void
+    yearsOfPeriod: ComputedRef<DateObject[]>
+    nextYears: ()=>void
+    prevYears: ()=>void
+    nextYear: ()=>void
+    prevYear: ()=>void
     AvailableMap: (string | number)[]
 }
 
