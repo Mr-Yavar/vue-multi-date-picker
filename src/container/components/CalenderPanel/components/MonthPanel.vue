@@ -4,28 +4,22 @@ import { IcalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 
 import DateObject from 'react-date-object'
+import { markRaw } from 'vue';
 
 interface Props {
-    yearsOfPeriod: DateObject[]
-    nextYears: Function
-    prevYears: Function
-    nextYear: Function
-    prevYear: Function
     currentDate: DateObject
     calendarOption: IcalendarOption
     //==================
-    currentYear: DateObject
-    ChangeCurrentDate: Function
     setMonthCurrentDate: Function
-    setMonthCurrentYear: Function
-    setYearCurrentDate: Function
-    setYearCurrentYear: Function
 
     //=====================
-    changeMode: Function
+    changeMode: Function,
+    handleSelect : Function,
+    isFinalStep : boolean;
+
 }
 
-const { yearsOfPeriod, nextYears, prevYears, calendarOption } = defineProps<Props>()
+const {  calendarOption } = defineProps<Props>()
 </script>
 
 <template>
@@ -36,6 +30,10 @@ const { yearsOfPeriod, nextYears, prevYears, calendarOption } = defineProps<Prop
             class="datepicker-month"
             @click="
                 () => {
+
+                
+
+                    
                     setMonthCurrentDate(
                         new DateObject({
                             calendar: calendarOption.calender,
@@ -46,7 +44,16 @@ const { yearsOfPeriod, nextYears, prevYears, calendarOption } = defineProps<Prop
                         }),
                     )
 
-                    changeMode(MAP_ITEMS.DAY)
+                    if(isFinalStep)
+                        handleSelect( markRaw(  new DateObject({
+                            calendar: calendarOption.calender,
+                            locale: calendarOption.locale,
+                            year: currentDate.year,
+                            month: index + 1,
+                            day: 1,
+                        })))  
+                    else
+                        changeMode(MAP_ITEMS.DAY)  
                 }
             "
         >

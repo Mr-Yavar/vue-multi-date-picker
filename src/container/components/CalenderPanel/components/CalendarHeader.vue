@@ -32,7 +32,7 @@ const {
 </script>
 
 <template>
-    <template v-if="AvailableMap[0] == mode && MAP_ITEMS.DAY == mode">
+    <template v-if="MAP_ITEMS.DAY == mode">
         <div class="datepicker-header">
             <div class="datepicker-header-prev">
                 <button
@@ -64,7 +64,7 @@ const {
             </div>
         </div>
     </template>
-    <template v-else-if="AvailableMap[1] == mode && MAP_ITEMS.MONTH == mode">
+    <template v-else-if="MAP_ITEMS.MONTH == mode">
         <div class="datepicker-header">
             <div class="datepicker-header-prev">
                 <button
@@ -95,7 +95,7 @@ const {
             </div>
         </div></template
     >
-    <template v-else-if="AvailableMap[2] == mode && MAP_ITEMS.YEAR == mode">
+    <template v-else-if="MAP_ITEMS.YEAR == mode">
         <div class="datepicker-header">
             <div class="datepicker-header-prev">
                 <button

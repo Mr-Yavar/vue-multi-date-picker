@@ -167,11 +167,12 @@ function onRawEntryPointUpdate(event: any) {
         onCalenderSeparatedInput(dateObject.year, dateObject.month.number, dateObject.day)
     }
 }
-const AvailableMap: (string | number)[] = ComponentMap['DATE']['DAY']
+const AvailableMap: (string | number)[] = mapOfCalendar
 ///////================== EntryPoint Mid End
 </script>
 
 <template>
+    {{ AvailableMap }}
     <div class="bg-gray-400 h-[700px]">
         <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
             <input v-model="rawDateTime" @input="onRawEntryPointUpdate" />

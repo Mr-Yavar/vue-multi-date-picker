@@ -7,6 +7,7 @@ import WeekDaysPanel from './components/WeekDaysPanel.vue'
 import YearsPanel from './components/YearsPanel.vue'
 import MAP_ITEMS from '@/constants/MapItem'
 import MonthPanel from './components/MonthPanel.vue'
+import { isFinalStep } from '@/utils/isFinalStep'
 
 interface Props {
     changeMode: Function
@@ -66,6 +67,7 @@ const {
 </script>
 
 <template>
+    {{ mode }}
     <CalendarHeader
         :currentDate="currentDate"
         :nextMonth="nextMonth"
@@ -87,6 +89,7 @@ const {
             :handleSelect="handleSelect"
             :selectedDate="selectedDate"
             :calendarOption="calendarOption"
+            :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
         />
     </template>
 
@@ -94,18 +97,11 @@ const {
         <MonthPanel
             :currentDate="currentDate"
             :yearsOfPeriod="yearsOfPeriod"
-            :nextYears="nextYears"
-            :prevYears="prevYears"
-            :nextYear="nextYear"
-            :prevYear="prevYear"
             :calendarOption="calendarOption"
-            :currentYear="currentYear"
-            :ChangeCurrentDate="ChangeCurrentDate"
             :setMonthCurrentDate="setMonthCurrentDate"
-            :setMonthCurrentYear="setMonthCurrentYear"
-            :setYearCurrentDate="setYearCurrentDate"
-            :setYearCurrentYear="setYearCurrentYear"
             :changeMode="changeMode"
+            :handleSelect="handleSelect"
+            :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
         />
     </template>
 
@@ -116,13 +112,10 @@ const {
             :nextYears="nextYears"
             :prevYears="prevYears"
             :calendarOption="calendarOption"
-            :currentYear="currentYear"
-            :ChangeCurrentDate="ChangeCurrentDate"
-            :setMonthCurrentDate="setMonthCurrentDate"
-            :setMonthCurrentYear="setMonthCurrentYear"
             :setYearCurrentDate="setYearCurrentDate"
-            :setYearCurrentYear="setYearCurrentYear"
             :changeMode="changeMode"
+            :handleSelect="handleSelect"
+            :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
         />
     </template>
 </template>

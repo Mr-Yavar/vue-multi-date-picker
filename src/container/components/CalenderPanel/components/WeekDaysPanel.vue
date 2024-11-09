@@ -10,6 +10,7 @@ interface Props {
   handleSelect: Function;
   selectedDate: DateObject | any;
   calendarOption: IcalendarOption;
+  isFinalStep : boolean;
 }
 function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
   return day.date.toDateString() === selectedDate?.toDate().toDateString();
