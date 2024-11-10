@@ -213,7 +213,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 
                     <CalendarPanel
                         :changeMode="changeMode"
-                        :mode="mode"
+                        :mode="(mode as string)"
                         :daysOfPeriod="daysOfPeriod"
                         :weekDays="weekDays"
                         :handleSelect="handleSelect"

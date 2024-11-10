@@ -28,11 +28,11 @@ interface Props {
     AvailableMap: (string | number)[]
     //////=====================
     currentYear: DateObject
-    ChangeCurrentDate:  (date:DateObject)=>void
+    ChangeCurrentDate:  (change :number,type:string)=>void
     setMonthCurrentDate:  (date:DateObject)=>void
-    setMonthCurrentYear:  (date:DateObject)=>void
+    setMonthCurrentYear:  (month:number)=>void
     setYearCurrentDate:  (date:DateObject)=>void
-    setYearCurrentYear:  (date:DateObject)=>void
+    setYearCurrentYear:  (year:number)=>void
     //==============
 }
 
@@ -72,7 +72,7 @@ const {
         :currentDate="currentDate"
         :nextMonth="nextMonth"
         :prevMonth="prevMonth"
-        :yearsOfPeriod="yearsOfPeriod"
+      
         :nextYears="nextYears"
         :prevYears="prevYears"
         :nextYear="nextYear"

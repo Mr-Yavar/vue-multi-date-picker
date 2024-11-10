@@ -9,7 +9,6 @@ interface Props {
     currentDate: DateObject
     mode: string
     changeMode: (mode :string) =>void
-    yearsOfPeriod: ComputedRef<DateObject[]>
     nextYears: ()=>void
     prevYears: ()=>void
     nextYear: ()=>void
@@ -22,7 +21,6 @@ const {
     nextMonth,
     currentDate,
     changeMode,
-    yearsOfPeriod,
     nextYears,
     prevYears,
     mode,
@@ -46,10 +44,10 @@ const {
             </div>
             <div class="datepicker-header-control">
                 <div class="mx-auto w-fit">
-                    <button @click="() => changeMode(MAP_ITEMS.MONTH)">
+                    <button @click="() => changeMode(MAP_ITEMS.MONTH as string)">
                         {{ currentDate.month }}
                     </button>
-                    <button @click="() => changeMode(MAP_ITEMS.YEAR)">
+                    <button @click="() => changeMode(MAP_ITEMS.YEAR as string)">
                         {{ currentDate.year }}
                     </button>
                 </div>
