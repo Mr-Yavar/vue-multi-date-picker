@@ -40,7 +40,7 @@ const { floatingStyles: datepickerFloatingStyles, middlewareData: datepickerMidd
     datepickerFloating,
     {
         middleware: [hide(), autoPlacement()],
-    }
+    },
 )
 
 const {
@@ -146,7 +146,7 @@ watch([selectedDate, selectedTime], () => {
             calendar: calendarOption.calender,
             locale: calendarOption.locale,
             format: calendarOption.format,
-        })
+        }),
     )
 })
 
@@ -213,7 +213,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 
                     <CalendarPanel
                         :changeMode="changeMode"
-                        :mode="(mode as string)"
+                        :mode="mode as string"
                         :daysOfPeriod="daysOfPeriod"
                         :weekDays="weekDays"
                         :handleSelect="handleSelect"
@@ -234,6 +234,11 @@ const AvailableMap: (string | number)[] = mapOfCalendar
                         :setMonthCurrentYear="setMonthCurrentYear"
                         :setYearCurrentDate="setYearCurrentDate"
                         :setYearCurrentYear="setYearCurrentYear"
+                        :hour="hour"
+                        :minute="minute"
+                        :second="second"
+                        :selected-time="selectedTime"
+                        :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
                     />
                 </div>
             </div>

@@ -8,32 +8,38 @@ import YearsPanel from './components/YearsPanel.vue'
 import MAP_ITEMS from '@/constants/MapItem'
 import MonthPanel from './components/MonthPanel.vue'
 import { isFinalStep } from '@/utils/isFinalStep'
+import TimePicker from './components/TimePicker.vue'
 
 interface Props {
-    changeMode: (mode :string) =>void
+    changeMode: (mode: string) => void
     mode: string
     daysOfPeriod: WeekDayObject[]
     weekDays: string[][]
-    handleSelect: (date:DateObject)=>void
+    handleSelect: (date: DateObject) => void
     selectedDate: DateObject | DateObject[] | DateObject[][]
     calendarOption: ICalendarOption
-    prevMonth: ()=>void
-    nextMonth:  ()=>void
+    prevMonth: () => void
+    nextMonth: () => void
     currentDate: DateObject
     yearsOfPeriod: DateObject[]
-    nextYears:  ()=>void
-    prevYears:  ()=>void
-    nextYear:  ()=>void
-    prevYear:  ()=>void
+    nextYears: () => void
+    prevYears: () => void
+    nextYear: () => void
+    prevYear: () => void
     AvailableMap: (string | number)[]
     //////=====================
     currentYear: DateObject
-    ChangeCurrentDate:  (change :number,type:string)=>void
-    setMonthCurrentDate:  (date:DateObject)=>void
-    setMonthCurrentYear:  (month:number)=>void
-    setYearCurrentDate:  (date:DateObject)=>void
-    setYearCurrentYear:  (year:number)=>void
+    ChangeCurrentDate: (change: number, type: string) => void
+    setMonthCurrentDate: (date: DateObject) => void
+    setMonthCurrentYear: (month: number) => void
+    setYearCurrentDate: (date: DateObject) => void
+    setYearCurrentYear: (year: number) => void
     //==============
+    selectedTime: DateObject
+    hour: number
+    minute: number
+    second: number
+    onTimePickerSeparatedInput: (hour: number, minute: number, second: number) => void
 }
 
 const {
@@ -72,7 +78,6 @@ const {
         :currentDate="currentDate"
         :nextMonth="nextMonth"
         :prevMonth="prevMonth"
-      
         :nextYears="nextYears"
         :prevYears="prevYears"
         :nextYear="nextYear"
@@ -90,6 +95,13 @@ const {
             :selectedDate="selectedDate"
             :calendarOption="calendarOption"
             :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
+        />
+        <TimePicker
+            :hour="hour"
+            :minute="minute"
+            :second="second"
+            :selected-time="selectedTime"
+            :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
         />
     </template>
 
