@@ -73,7 +73,7 @@ const {
 </script>
 
 <template>
-    {{ mode }}
+
     <CalendarHeader
         :currentDate="currentDate"
         :nextMonth="nextMonth"
