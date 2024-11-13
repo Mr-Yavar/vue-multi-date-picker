@@ -102,6 +102,8 @@ const {
             :second="second"
             :selected-time="selectedTime"
             :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
+            :handleSelect="handleSelect"
+            :selectedDate="selectedDate"
         />
     </template>
 
