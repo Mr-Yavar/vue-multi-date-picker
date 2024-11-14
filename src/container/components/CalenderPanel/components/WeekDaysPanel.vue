@@ -3,6 +3,7 @@ import { ICalendarOption } from "@/types/ICalendarOption";
 import { WeekDayObject } from "@/types/WeekDayObject";
 import { getWeekOrders } from "@/utils/getWeekOrders";
 import DateObject from "react-date-object";
+import { toRefs } from "vue";
 
 interface Props {
   daysOfPeriod: WeekDayObject[];
@@ -12,11 +13,16 @@ interface Props {
   calendarOption: ICalendarOption;
   isFinalStep : boolean;
 }
-function isSelected(day: WeekDayObject, selectedDate: DateObject): boolean {
-  return day.date.toDateString() === selectedDate?.toDate().toDateString();
-}
-const { daysOfPeriod, weekDays, handleSelect, selectedDate, calendarOption } =
+
+const props =
   defineProps<Props>();
+
+  const { daysOfPeriod, handleSelect, calendarOption } = props;
+  const { selectedDate } = toRefs(props);
+function isSelected(day: WeekDayObject): boolean {
+  return day.date.toDateString() === selectedDate.value?.toDate().toDateString();
+}
+
 </script>
 
 <template>
@@ -37,9 +43,9 @@ const { daysOfPeriod, weekDays, handleSelect, selectedDate, calendarOption } =
     >
       <span
         :class="{
-          semiActive: !day.isActive && isSelected(day, selectedDate),
-          active: day.isActive && isSelected(day, selectedDate),
-          disabled: !day.isActive && !isSelected(day, selectedDate),
+          semiActive: !day.isActive && isSelected(day),
+          active: day.isActive && isSelected(day),
+          disabled: !day.isActive && !isSelected(day),
         }"
       >
         {{

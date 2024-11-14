@@ -19,126 +19,137 @@ const { onTimePickerSeparatedInput, handleSelect: handleSelectDate } = props
 const { selectedTime, selectedDate, hour, minute, second } = toRefs(props)
 
 function updateTimePicker(hour: number, minute: number, second: number) {
-    onTimePickerSeparatedInput(hour, minute, second);
+    onTimePickerSeparatedInput(hour, minute, second)
 }
 
 function hourUp(step: number = 1) {
-    const totalHours = hour.value + step;
-    const newHour = totalHours % 24;
-    const daysToAdd = Math.floor(totalHours / 24);
+    const totalHours = hour.value + step
+    const newHour = totalHours % 24
+    const daysToAdd = Math.floor(totalHours / 24)
 
     if (daysToAdd > 0) {
-        const tempDate = new Date(selectedDate.value.toDate());
-        tempDate.setDate(tempDate.getDate() + daysToAdd);
+        const tempDate = new Date(selectedDate.value.toDate())
+        tempDate.setDate(tempDate.getDate() + daysToAdd)
         const temp = new DateObject({
             calendar: selectedDate.value.calendar,
             locale: selectedDate.value.locale,
             date: tempDate,
-        });
-        handleSelectDate(markRaw(temp));
+        })
+        handleSelectDate(markRaw(temp))
     }
 
-    return newHour;
+    return newHour
 }
 
 function hourDown(step: number = 1) {
-    const totalHours = hour.value - step;
-    const newHour = (totalHours + 24) % 24; // Wrap around to get the correct hour
-    const daysToGoBack = Math.floor(Math.abs(totalHours) / 24);
+    const totalHours = hour.value - step
+    const newHour = (totalHours + 24) % 24 // Wrap around to get the correct hour
+    const daysToGoBack = Math.floor(Math.abs(totalHours) / 24)
 
     if (daysToGoBack > 0) {
-        const tempDate = new Date(selectedDate.value.toDate());
-        tempDate.setDate(tempDate.getDate() - daysToGoBack);
+        const tempDate = new Date(selectedDate.value.toDate())
+        tempDate.setDate(tempDate.getDate() - daysToGoBack)
         const temp = new DateObject({
             calendar: selectedDate.value.calendar,
             locale: selectedDate.value.locale,
             date: tempDate,
-        });
-        handleSelectDate(markRaw(temp));
+        })
+        handleSelectDate(markRaw(temp))
     }
 
-    return newHour;
+    return newHour
 }
 
 function minuteUp(step: number = 1) {
-    const totalMinutes = minute.value + step;
-    const newMinute = totalMinutes % 60;
-    const hoursToAdd = Math.floor(totalMinutes / 60);
+    const totalMinutes = minute.value + step
+    const newMinute = totalMinutes % 60
+    const hoursToAdd = Math.floor(totalMinutes / 60)
 
-    const newHour = hourUp(hoursToAdd);
-    return { newHour, newMinute };
+    const newHour = hourUp(hoursToAdd)
+    return { newHour, newMinute }
 }
 
 function minuteDown(step: number = 1) {
-    const totalMinutes = minute.value - step;
-    const newMinute = (totalMinutes + 60) % 60; // Wrap around to get the correct minute
-    const hoursToGoBack = Math.floor(Math.abs(totalMinutes) / 60);
+    const totalMinutes = minute.value - step
+    const newMinute = (totalMinutes + 60) % 60 // Wrap around to get the correct minute
+    const hoursToGoBack = Math.floor(Math.abs(totalMinutes) / 60)
 
-    const newHour = hourDown(hoursToGoBack);
-    return { newHour, newMinute };
+    const newHour = hourDown(hoursToGoBack)
+    return { newHour, newMinute }
 }
 
 function secondUp(step: number = 1) {
-    const totalSeconds = second.value + step;
-    const newSecond = totalSeconds % 60;
-    const minutesToAdd = Math.floor(totalSeconds / 60);
+    const totalSeconds = second.value + step
+    const newSecond = totalSeconds % 60
+    const minutesToAdd = Math.floor(totalSeconds / 60)
 
-    const { newHour, newMinute } = minuteUp(minutesToAdd);
-    return { newHour, newMinute, newSecond };
+    const { newHour, newMinute } = minuteUp(minutesToAdd)
+    return { newHour, newMinute, newSecond }
 }
 
 function secondDown(step: number = 1) {
-    const totalSeconds = second.value - step;
-    const newSecond = (totalSeconds + 60) % 60; // Wrap around to get the correct second
-    const minutesToGoBack = Math.floor(Math.abs(totalSeconds) / 60);
+    const totalSeconds = second.value - step
+    const newSecond = (totalSeconds + 60) % 60 // Wrap around to get the correct second
+    const minutesToGoBack = Math.floor(Math.abs(totalSeconds) / 60)
 
-    const { newHour, newMinute } = minuteDown(minutesToGoBack);
-    return { newHour, newMinute, newSecond };
+    const { newHour, newMinute } = minuteDown(minutesToGoBack)
+    return { newHour, newMinute, newSecond }
 }
 
 // Example usage of the functions:
 function updateTime(step: number, type: 'hour' | 'minute' | 'second', direction: 'up' | 'down') {
-    let newHour = hour.value;
-    let newMinute = minute.value;
-    let newSecond = second.value;
+    let newHour = hour.value
+    let newMinute = minute.value
+    let newSecond = second.value
 
     if (type === 'hour') {
         if (direction === 'up') {
-            newHour = hourUp(step);
+            newHour = hourUp(step)
         } else {
-            newHour = hourDown(step);
+            newHour = hourDown(step)
         }
     } else if (type === 'minute') {
-        const result = direction === 'up' ? minuteUp(step) : minuteDown(step);
-        newHour = result.newHour;
-        newMinute = result.newMinute;
+        const result = direction === 'up' ? minuteUp(step) : minuteDown(step)
+        newHour = result.newHour
+        newMinute = result.newMinute
     } else if (type === 'second') {
-        const result = direction === 'up' ? secondUp(step) : secondDown(step);
-        newHour = result.newHour;
-        newMinute = result .newMinute;
-        newSecond = result.newSecond;
+        const result = direction === 'up' ? secondUp(step) : secondDown(step)
+        newHour = result.newHour
+        newMinute = result.newMinute
+        newSecond = result.newSecond
     }
 
-    updateTimePicker(newHour, newMinute, newSecond);
+    updateTimePicker(newHour, newMinute, newSecond)
 }
 
-function toHourUp(step:number=1){
-    updateTime(step,'hour','up')
+function toHourUp(step: number = 1) {
+    updateTime(step, 'hour', 'up')
 }
-function toHourDown(step:number=1){
-    updateTime(step,'hour','down')
+function toHourDown(step: number = 1) {
+    updateTime(step, 'hour', 'down')
 }
-function toMinuteUp(step:number=1){
-    updateTime(step,'minute','up')
+function toMinuteUp(step: number = 1) {
+    updateTime(step, 'minute', 'up')
 }
-function toMinuteDown(step:number=1){
-    updateTime(step,'minute','down')
+function toMinuteDown(step: number = 1) {
+    updateTime(step, 'minute', 'down')
 }
-function toSecondUp(step:number=1){
-    updateTime(step,'second','up')
+function toSecondUp(step: number = 1) {
+    updateTime(step, 'second', 'up')
 }
-function toSecondDown(step:number=1){
-    updateTime(step,'second','down')
+function toSecondDown(step: number = 1) {
+    updateTime(step, 'second', 'down')
+}
+
+function hourChange(value: number) {
+    onTimePickerSeparatedInput(value, minute.value, second.value)
+}
+
+function minuteChange(value: number) {
+    onTimePickerSeparatedInput(hour.value, value, second.value)
+}
+function secondChange(value: number) {
+    onTimePickerSeparatedInput(hour.value, minute.value, value)
 }
 </script>
 
@@ -158,7 +169,7 @@ function toSecondDown(step:number=1){
                 :value="hour"
                 min="0"
                 max="23"
-                @input="($event) => onTimePickerSeparatedInput(Number($event?.target?.value) as number, minute, second)"
+                @input="($event) => hourChange($event?.target?.value as number)"
             />
             <button
                 class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
@@ -180,7 +191,7 @@ function toSecondDown(step:number=1){
                 type="number"
                 :value="minute"
                 class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none"
-                @input="($event) => onTimePickerSeparatedInput(hour, Number($event?.target?.value) as number, second)"
+                @input="($event) => minuteChange($event?.target?.value as number)"
             />
             <button
                 class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
@@ -200,7 +211,7 @@ function toSecondDown(step:number=1){
                 type="number"
                 :value="second"
                 class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none"
-                @input="($event) => onTimePickerSeparatedInput(hour, minute, Number($event?.target?.value) as number)"
+                @input="($event) => secondChange($event?.target?.value as number)"
             />
             <button
                 class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"

@@ -4,7 +4,7 @@ import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 
 import DateObject from 'react-date-object'
-import { markRaw } from 'vue';
+import { markRaw } from 'vue'
 
 interface Props {
     currentDate: DateObject
@@ -13,13 +13,12 @@ interface Props {
     setMonthCurrentDate: Function
 
     //=====================
-    changeMode: Function,
-    handleSelect : Function,
-    isFinalStep : boolean;
-
+    changeMode: Function
+    handleSelect: Function
+    isFinalStep: boolean
 }
 
-const {  calendarOption } = defineProps<Props>()
+const { calendarOption } = defineProps<Props>()
 </script>
 
 <template>
@@ -30,10 +29,6 @@ const {  calendarOption } = defineProps<Props>()
             class="datepicker-month"
             @click="
                 () => {
-
-                
-
-                    
                     setMonthCurrentDate(
                         new DateObject({
                             calendar: calendarOption.calender,
@@ -44,16 +39,19 @@ const {  calendarOption } = defineProps<Props>()
                         }),
                     )
 
-                    if(isFinalStep)
-                        handleSelect( markRaw(  new DateObject({
-                            calendar: calendarOption.calender,
-                            locale: calendarOption.locale,
-                            year: currentDate.year,
-                            month: index + 1,
-                            day: 1,
-                        })))  
-                    else
-                        changeMode(MAP_ITEMS.DAY)  
+                    if (isFinalStep)
+                        handleSelect(
+                            markRaw(
+                                new DateObject({
+                                    calendar: calendarOption.calender,
+                                    locale: calendarOption.locale,
+                                    year: currentDate.year,
+                                    month: index + 1,
+                                    day: 1,
+                                }),
+                            ),
+                        )
+                    else changeMode(MAP_ITEMS.DAY)
                 }
             "
         >
