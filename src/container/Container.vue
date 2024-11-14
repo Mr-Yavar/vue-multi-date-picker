@@ -234,9 +234,9 @@ const AvailableMap: (string | number)[] = mapOfCalendar
                         :setMonthCurrentYear="setMonthCurrentYear"
                         :setYearCurrentDate="setYearCurrentDate"
                         :setYearCurrentYear="setYearCurrentYear"
-                        :hour="hour"
-                        :minute="minute"
-                        :second="second"
+                        :hour="hour as number"
+                        :minute="minute as number"
+                        :second="second as number"
                         :selected-time="selectedTime"
                         :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
                     />
