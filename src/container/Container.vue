@@ -1,23 +1,22 @@
 <script setup lang="ts">
 import { autoPlacement, hide, useFloating } from '@floating-ui/vue'
 import DateObject, { Calendar, Locale, Month } from 'react-date-object'
-import persian from 'react-date-object/calendars/persian'
-import persian_fa from 'react-date-object/locales/persian_fa'
+
 import { ref, watch } from 'vue'
 
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
 import { useTimePicker } from '../composables/useTimePicker'
-import { ComponentType, dateSeparatorType } from '../types'
+import { ComponentType, dateSeparatorType } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
 import { isValidDate } from '../utils/isValidDate'
 
-import { ComponentMap } from '@/constants/ComponentMap'
+
 import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
-import persian_en from 'react-date-object/locales/persian_en'
+
 import gregorian from 'react-date-object/calendars/gregorian'
-import gregorian_fa from 'react-date-object/locales/gregorian_fa'
+
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 
 interface Props {
