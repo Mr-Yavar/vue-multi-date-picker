@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import Container from "./container/Container.vue";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 </script>
 
 <template>
-  <Container :type="'DATE'" />
+  <Container :type="'DATE'"  :calendar="persian" :locale="persian_fa" format="YYYY-MM-DD HH:mm:ss"/>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>

@@ -2,7 +2,7 @@ import DateObject from "react-date-object";
 import { markRaw, Raw, ref } from "vue";
 import { ICalendarOption } from "../types/ICalendarOption";
 
-export function useTimePicker(calendarOption: ICalendarOption) {
+export function useTimePicker(calendarOption: ICalendarOption,currentDate: DateObject = new DateObject()) {
   const selectedTime = ref<Raw<DateObject>>(
     markRaw(
       new DateObject({
@@ -12,9 +12,9 @@ export function useTimePicker(calendarOption: ICalendarOption) {
       })
     )
   ); // ساعت انتخاب شده
-  const hour = ref<number | null>(null); // تایپ ساعت پایین تقویم
-  const minute = ref<number | null>(null); // تایپ دقیقه پایین تقویم
-  const second = ref<number | null>(null); // تایپ ثانیه پایین تقویم
+  const hour = ref<number>(currentDate.hour  ); // تایپ ساعت پایین تقویم
+  const minute = ref<number>(currentDate.minute); // تایپ دقیقه پایین تقویم
+  const second = ref<number>(currentDate.second); // تایپ ثانیه پایین تقویم
 
   function setSelectedTime(uhour: number, uminute: number, usecond: number) {
     selectedTime.value = markRaw(

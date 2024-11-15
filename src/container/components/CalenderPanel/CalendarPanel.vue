@@ -73,7 +73,6 @@ const {
 </script>
 
 <template>
-
     <CalendarHeader
         :currentDate="currentDate"
         :nextMonth="nextMonth"
@@ -86,8 +85,17 @@ const {
         :mode="mode"
         :AvailableMap="AvailableMap"
     />
-
     <template v-if="mode == MAP_ITEMS.DAY">
+        <WeekDaysPanel
+            :daysOfPeriod="daysOfPeriod"
+            :weekDays="weekDays"
+            :handleSelect="handleSelect"
+            :selectedDate="selectedDate"
+            :calendarOption="calendarOption"
+            :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
+        />
+    </template>
+    <template v-if="mode == MAP_ITEMS.DAY_AND_TIME">
         <WeekDaysPanel
             :daysOfPeriod="daysOfPeriod"
             :weekDays="weekDays"
