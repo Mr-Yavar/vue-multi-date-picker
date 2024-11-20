@@ -9,11 +9,12 @@ import MAP_ITEMS from '@/constants/MapItem'
 import MonthPanel from './components/MonthPanel.vue'
 import { isFinalStep } from '@/utils/isFinalStep'
 import TimePicker from './components/TimePicker.vue'
+import { computed, toRefs } from 'vue'
 
 interface Props {
     changeMode: (mode: string) => void
     mode: string
-    daysOfPeriod: WeekDayObject[]
+    daysOfPeriod: WeekDayObject[][]
     weekDays: string[][]
     handleSelect: (date: DateObject) => void
     selectedDate: DateObject | DateObject[] | DateObject[][]
@@ -42,6 +43,8 @@ interface Props {
     onTimePickerSeparatedInput: (hour: number, minute: number, second: number) => void
 }
 
+const props = defineProps<Props>()
+
 const {
     daysOfPeriod,
     weekDays,
@@ -69,25 +72,63 @@ const {
     setYearCurrentYear,
     ///==========
     changeMode,
-} = defineProps<Props>()
+} = toRefs(props)
+for (const item of daysOfPeriod.value) {
+    for (const day of item) {
+        console.log(day.dateObject.format())
+    }
+}
+
+const classOfHeader = computed(()=>{
+
+})
+
 </script>
 
 <template>
-    <CalendarHeader
-        :currentDate="currentDate"
-        :nextMonth="nextMonth"
-        :prevMonth="prevMonth"
-        :nextYears="nextYears"
-        :prevYears="prevYears"
-        :nextYear="nextYear"
-        :prevYear="prevYear"
-        :changeMode="changeMode"
-        :mode="mode"
-        :AvailableMap="AvailableMap"
-    />
+    <div :class="'grid grid-cols-'+( mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)">
+    <template v-if="mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME">
+        <CalendarHeader
+            v-for="(days, i) in daysOfPeriod"
+            :isFirst="i == 0"
+            :isLast="i == daysOfPeriod.length - 1"
+            :step="1"
+            :key="'header'+days[9].dateObject.year+days[9].dateObject.monthIndex+days[9].month"
+            :currentDate="days[9].dateObject"
+            :nextMonth="nextMonth"
+            :prevMonth="prevMonth"
+            :nextYears="nextYears"
+            :prevYears="prevYears"
+            :nextYear="nextYear"
+            :prevYear="prevYear"
+            :changeMode="changeMode"
+            :mode="mode"
+            :AvailableMap="AvailableMap"
+        />
+    </template>
+    <template v-else>
+        <CalendarHeader
+            :isFirst="true"
+            :isLast="true"
+            :step="1"
+            :currentDate="currentDate"
+            :nextMonth="nextMonth"
+            :prevMonth="prevMonth"
+            :nextYears="nextYears"
+            :prevYears="prevYears"
+            :nextYear="nextYear"
+            :prevYear="prevYear"
+            :changeMode="changeMode"
+            :mode="mode"
+            :AvailableMap="AvailableMap"
+        />
+    </template>
+
     <template v-if="mode == MAP_ITEMS.DAY">
         <WeekDaysPanel
-            :daysOfPeriod="daysOfPeriod"
+            v-for="days in daysOfPeriod"
+         :key="'header'+days[9].dateObject.year+days[9].dateObject.monthIndex+days[9].month"
+            :daysOfPeriod="days"
             :weekDays="weekDays"
             :handleSelect="handleSelect"
             :selectedDate="selectedDate"
@@ -97,7 +138,9 @@ const {
     </template>
     <template v-if="mode == MAP_ITEMS.DAY_AND_TIME">
         <WeekDaysPanel
-            :daysOfPeriod="daysOfPeriod"
+            v-for="days in daysOfPeriod"
+            :key="days[0].month"
+            :daysOfPeriod="days"
             :weekDays="weekDays"
             :handleSelect="handleSelect"
             :selectedDate="selectedDate"
@@ -140,4 +183,6 @@ const {
             :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
         />
     </template>
+</div>
+
 </template>

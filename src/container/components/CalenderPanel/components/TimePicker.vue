@@ -10,7 +10,7 @@ interface Props {
     minute: number
     second: number
     onTimePickerSeparatedInput: (hour: number, minute: number, second: number) => void
-    selectedDate: DateObject
+    selectedDate: DateObject | DateObject[] | DateObject[][]
     handleSelect: (dateObject: DateObject) => void
 }
 

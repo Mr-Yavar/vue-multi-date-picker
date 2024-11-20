@@ -13,6 +13,9 @@ interface Props {
     prevYears: ()=>void
     nextYear: ()=>void
     prevYear: ()=>void
+    isFirst:boolean,
+    isLast:boolean,
+    step:number
     AvailableMap: (string | number)[]
 }
 
@@ -27,14 +30,18 @@ const {
     AvailableMap,
     nextYear,
     prevYear,
+    isFirst,
+    isLast,
+    step
 } = defineProps<Props>()
 </script>
 
 <template>
     <template v-if="MAP_ITEMS.DAY == mode">
         <div class="datepicker-header">
-            <div class="datepicker-header-prev">
+            <div class="datepicker-header-prev"  >
                 <button
+                v-if="isFirst"
                     @click="() => prevMonth()"
                     type="button"
                     class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
@@ -54,6 +61,7 @@ const {
             </div>
             <div class="col-span-1 col-start-5 datepicker-header-next">
                 <button
+                v-if="isLast"
                     type="button"
                     @click="() => nextMonth()"
                     class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"

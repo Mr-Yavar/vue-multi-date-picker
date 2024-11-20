@@ -2,7 +2,7 @@
 import { autoPlacement, hide, useFloating } from '@floating-ui/vue'
 import DateObject, { Calendar, Locale, Month } from 'react-date-object'
 
-import { ref, watch } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
@@ -244,6 +244,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
         </div>
     </div>
     <div>{{ selectedDate }}</div>
+ 
     <div>{{ selectedTime.hour + ':' + selectedTime.minute }}</div>
 </template>
 
