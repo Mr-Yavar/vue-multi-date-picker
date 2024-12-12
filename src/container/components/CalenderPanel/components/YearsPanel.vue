@@ -35,9 +35,6 @@ const { yearsOfPeriod, nextYears, prevYears, calendarOption } = defineProps<Prop
                 @click.prevent="
                     () => {
                         setYearCurrentDate(year);
-
-
-
                         if (isFinalStep) handleSelect(markRaw(year))
                         else changeMode(MAP_ITEMS.MONTH)
                     }

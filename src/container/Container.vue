@@ -174,7 +174,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
     {{ AvailableMap }}
     <div class="bg-gray-400 h-[700px]">
         <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
-            <input v-model="rawDateTime" @input="onRawEntryPointUpdate" />
+            <input :value="rawDateTime" @input="onRawEntryPointUpdate" />
         </slot>
 
         <!-- <div

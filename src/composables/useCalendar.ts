@@ -12,7 +12,7 @@ export function useCalendar(
     calendarOption: ICalendarOption,
     ucurrentDate: DateObject | undefined,
     type: ComponentType,
-    numberOfMonth: 1 | 2 | 3 =3,
+    numberOfMonth: 1 | 2 | 3 = 3,
 ) {
     const showMultipleMonth = numberOfMonth > 1
     const selectedDate = ref<DateObject>(
@@ -130,7 +130,6 @@ export function useCalendar(
     )
 
     const daysOfPeriod = computed<WeekDayObject[][]>(() => {
-     
         const days: WeekDayObject[][] = [[]]
 
         for (let index = 0; index < numberOfMonth; index++) {
@@ -144,7 +143,7 @@ export function useCalendar(
             })
 
             currentMonth.setMonth(currentMonth.month.number + index)
-         
+
             const firstDay = new Date(currentMonth.toFirstOfMonth().toDate())
             const lastDay = new Date(currentMonth.toLastOfMonth().toDate())
 
