@@ -5,7 +5,7 @@ import { WeekDayObject } from '@/types/WeekDayObject'
 import DateObject from 'react-date-object'
 import { markRaw } from 'vue'
 
-export function weekDayTemplate(date: Date, calendarOption: ICalendarOption, isActive: Boolean = false): WeekDayObject {
+export function weekDayTemplate(date: Date, calendarOption: ICalendarOption, isActive: boolean = false): WeekDayObject {
     return {
         weekday: date.toLocaleDateString('en-us', {
             weekday: 'long',

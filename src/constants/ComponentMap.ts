@@ -1,9 +1,10 @@
+import DateObject from 'react-date-object'
 import MAP_ITEMS from './MapItem'
 
 export const ComponentMap = {
     TIME: {
         TIME: [MAP_ITEMS.TIME],
-        RANGE: [MAP_ITEMS.TIME],
+        // RANGE: [MAP_ITEMS.TIME],
         MULTI: [MAP_ITEMS.TIME],
     },
     ONE_DATE: {
@@ -24,3 +25,4 @@ export const ComponentMap = {
         YEAR: [MAP_ITEMS.YEAR],
     },
 }
+
