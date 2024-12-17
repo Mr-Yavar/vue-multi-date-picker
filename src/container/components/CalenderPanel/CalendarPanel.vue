@@ -136,7 +136,7 @@ const classOfHeader = computed(()=>{
             :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
         />
     </template>
-    <template v-if="mode == MAP_ITEMS.DAY_AND_TIME">
+    <template v-if="mode == MAP_ITEMS.DAY_AND_TIME && (selectedDate instanceof DateObject || Array.isArray(selectedDate) && selectedDate.length == 2)">
         <WeekDaysPanel
             v-for="days in daysOfPeriod"
             :key="days[0].month"
@@ -154,7 +154,7 @@ const classOfHeader = computed(()=>{
             :selected-time="selectedTime"
             :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
             :handleSelect="handleSelect"
-            :selectedDate="selectedDate"
+            
         />
     </template>
 

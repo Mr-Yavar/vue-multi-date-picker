@@ -2,7 +2,7 @@
 import DateObject from 'react-date-object'
 import TopArrow from '@/icons/TopArrow.vue'
 import BottomArrow from '@/icons/BottomArrow.vue'
-import { markRaw, ref, toRefs, VNodeRef } from 'vue'
+import { markRaw, toRefs } from 'vue'
 
 interface Props {
     selectedTime: DateObject
@@ -10,52 +10,81 @@ interface Props {
     minute: number
     second: number
     onTimePickerSeparatedInput: (hour: number, minute: number, second: number) => void
-    selectedDate: DateObject | DateObject[] | DateObject[][]
-    handleSelect: (dateObject: DateObject) => void
+    /* selectedDate: DateObject | DateObject[]
+    handleSelect: (dateObject: DateObject) => void*/
 }
 
 const props = defineProps<Props>()
-const { onTimePickerSeparatedInput, handleSelect: handleSelectDate } = props
-const { selectedTime, selectedDate, hour, minute, second } = toRefs(props)
+const {
+    onTimePickerSeparatedInput,
+    /* handleSelect: handleSelectDate*/
+} = props
+const {
+    selectedTime,
+    /*   selectedDate, */
+    hour,
+    minute,
+    second,
+} = toRefs(props)
 
 function updateTimePicker(hour: number, minute: number, second: number) {
     onTimePickerSeparatedInput(hour, minute, second)
 }
 
 function hourUp(step: number = 1) {
+    // let sDate: DateObject | null = null
+
+    // if (selectedDate.value instanceof DateObject) {
+    //     // If it's a single DateObject
+    //     sDate = selectedDate.value
+    // } else if (Array.isArray(selectedDate.value) && selectedDate.value.length > 0) {
+    //     // If it's an array of DateObject
+    //     sDate = selectedDate.value[selectedDate.value.length - 1]
+    // }
+
     const totalHours = hour.value + step
     const newHour = totalHours % 24
-    const daysToAdd = Math.floor(totalHours / 24)
+    // const daysToAdd = Math.floor(totalHours / 24)
 
-    if (daysToAdd > 0) {
-        const tempDate = new Date(selectedDate.value.toDate())
-        tempDate.setDate(tempDate.getDate() + daysToAdd)
-        const temp = new DateObject({
-            calendar: selectedDate.value.calendar,
-            locale: selectedDate.value.locale,
-            date: tempDate,
-        })
-        handleSelectDate(markRaw(temp))
-    }
+    // if (daysToAdd > 0) {
+    //     const tempDate = new Date(sDate!.toDate())
+    //     tempDate.setDate(tempDate.getDate() + daysToAdd)
+    //     const temp = new DateObject({
+    //         calendar: sDate?.calendar,
+    //         locale: sDate?.locale,
+    //         date: tempDate,
+    //     })
+    //     handleSelectDate(markRaw(temp))
+    // }
 
     return newHour
 }
 
 function hourDown(step: number = 1) {
+    // let sDate: DateObject | null = null
+
+    // if (selectedDate.value instanceof DateObject) {
+    //     // If it's a single DateObject
+    //     sDate = selectedDate.value
+    // } else if (Array.isArray(selectedDate.value) && selectedDate.value.length > 0) {
+    //     // If it's an array of DateObject
+    //     sDate = selectedDate.value[selectedDate.value.length - 1]
+    // }
+
     const totalHours = hour.value - step
     const newHour = (totalHours + 24) % 24 // Wrap around to get the correct hour
-    const daysToGoBack = Math.floor(Math.abs(totalHours) / 24)
+    // const daysToGoBack = Math.floor(Math.abs(totalHours) / 24)
 
-    if (daysToGoBack > 0) {
-        const tempDate = new Date(selectedDate.value.toDate())
-        tempDate.setDate(tempDate.getDate() - daysToGoBack)
-        const temp = new DateObject({
-            calendar: selectedDate.value.calendar,
-            locale: selectedDate.value.locale,
-            date: tempDate,
-        })
-        handleSelectDate(markRaw(temp))
-    }
+    // if (daysToGoBack > 0) {
+    // const tempDate = new Date(sDate!.toDate())
+    // tempDate.setDate(tempDate.getDate() - daysToGoBack)
+    // const temp = new DateObject({
+    //     calendar: sDate?.calendar,
+    //     locale: sDate?.locale,
+    //     date: tempDate,
+    // })
+    // handleSelectDate(markRaw(temp))
+    // }
 
     return newHour
 }
@@ -141,15 +170,15 @@ function toSecondDown(step: number = 1) {
     updateTime(step, 'second', 'down')
 }
 
-function hourChange(value: number) {
-    onTimePickerSeparatedInput(value, minute.value, second.value)
+function hourChange(event: Event) {
+    onTimePickerSeparatedInput(Number((event.target as HTMLInputElement).value), minute.value, second.value)
 }
 
-function minuteChange(value: number) {
-    onTimePickerSeparatedInput(hour.value, value, second.value)
+function minuteChange(event: Event) {
+    onTimePickerSeparatedInput(hour.value, Number((event.target as HTMLInputElement).value), second.value)
 }
-function secondChange(value: number) {
-    onTimePickerSeparatedInput(hour.value, minute.value, value)
+function secondChange(event: Event) {
+    onTimePickerSeparatedInput(hour.value, minute.value, Number((event.target as HTMLInputElement).value))
 }
 </script>
 
@@ -169,7 +198,7 @@ function secondChange(value: number) {
                 :value="hour"
                 min="0"
                 max="23"
-                @input="($event) => hourChange($event?.target?.value as number)"
+                @input="hourChange"
             />
             <button
                 class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
@@ -191,7 +220,7 @@ function secondChange(value: number) {
                 type="number"
                 :value="minute"
                 class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none"
-                @input="($event) => minuteChange($event?.target?.value as number)"
+                @input="minuteChange"
             />
             <button
                 class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
@@ -211,7 +240,7 @@ function secondChange(value: number) {
                 type="number"
                 :value="second"
                 class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none"
-                @input="($event) => secondChange($event?.target?.value as number)"
+                @input="secondChange"
             />
             <button
                 class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
