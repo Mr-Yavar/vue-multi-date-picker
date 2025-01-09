@@ -1,1 +1,1 @@
-export const YEARS_OFFSET = 12;
+export const YEARS_OFFSET = 12

@@ -8,11 +8,7 @@ import { WeekDayObject } from '../types/WeekDayObject'
 import { weekDayTemplate } from '../utils/weekDayTemplate'
 import { generatePivotDateFromYear } from '@/utils/generatePivotDateFromYear'
 
-export function useCalendar(
-    calendarOption: ICalendarOption,
-    ucurrentDate: DateObject | undefined,
-    numberOfMonth: 1 | 2 | 3 = 3,
-) {
+export function useCalendar(calendarOption: ICalendarOption, ucurrentDate: DateObject | undefined, numberOfMonth: 1 | 2 | 3 = 3) {
     const showMultipleMonth = numberOfMonth > 1
     const selectedDate = ref<DateObject>(
         markRaw(
@@ -155,11 +151,7 @@ export function useCalendar(
                 .toFirstOfWeek()
                 .toDate()
 
-            for (
-                let forWardStep = new Date(firstDay_Of_firstWeekOfPeriod);
-                forWardStep < firstDay;
-                forWardStep.setDate(forWardStep.getDate() + 1)
-            ) {
+            for (let forWardStep = new Date(firstDay_Of_firstWeekOfPeriod); forWardStep < firstDay; forWardStep.setDate(forWardStep.getDate() + 1)) {
                 days[index].push(weekDayTemplate(forWardStep, calendarOption, false))
             }
 
@@ -177,11 +169,7 @@ export function useCalendar(
                 .toLastOfWeek()
                 .toDate()
 
-            for (
-                let backWardStep = new Date(lastDay_Of_lastWeekOfPeriod);
-                backWardStep > lastDay;
-                backWardStep.setDate(backWardStep.getDate() - 1)
-            ) {
+            for (let backWardStep = new Date(lastDay_Of_lastWeekOfPeriod); backWardStep > lastDay; backWardStep.setDate(backWardStep.getDate() - 1)) {
                 days[index].push(weekDayTemplate(backWardStep, calendarOption, false))
             }
         }

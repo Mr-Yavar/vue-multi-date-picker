@@ -3,4 +3,4 @@ export const WEEKENDS = {
     persian: [6],
     arabic: [5, 6],
     indian: [0],
-  };
+}

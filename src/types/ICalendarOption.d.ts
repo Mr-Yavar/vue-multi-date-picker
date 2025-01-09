@@ -1,7 +1,7 @@
-import { Calendar, Locale } from "react-date-object";
+import { Calendar, Locale } from 'react-date-object'
 
 export interface ICalendarOption {
-  calender: Calendar;
-  locale: Locale;
-  format: string;
+    calender: Calendar
+    locale: Locale
+    format: string
 }

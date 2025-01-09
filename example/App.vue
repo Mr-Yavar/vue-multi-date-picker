@@ -1,15 +1,11 @@
 <script setup lang="ts">
-
-import Container from "@/container/Container.vue";
-import persian from 'react-date-object/calendars/persian';
-import persian_fa from 'react-date-object/locales/persian_fa';
-
-
+import Container from '@/container/Container.vue'
+import persian from 'react-date-object/calendars/persian'
+import persian_fa from 'react-date-object/locales/persian_fa'
 </script>
 
 <template>
-  <div>
-   <Container  :type="'ONE_DATE'" :subType="'DAY_AND_TIME'"  :calendar="persian" :locale="persian_fa" format="YYYY-MM-DD HH:mm:ss"/> 
-
-  </div>
+    <div>
+        <Container :type="'ONE_DATE'" :subType="'DAY_AND_TIME'" :calendar="persian" :locale="persian_fa" format="YYYY-MM-DD HH:mm:ss" />
+    </div>
 </template>

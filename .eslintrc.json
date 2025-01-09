@@ -1,16 +1,10 @@
 //.eslintrc.json file
 // @ts-check
 {
-  "parser": "@typescript-eslint/parser",
-      "extends":
-          [
-              "eslint:recommended",
-              "plugin:@typescript-eslint/recommended",
-              "@typescript-eslint"
-          ],
-      "parserOptions":
-          {"ecmaVersion": 2020, "sourceType": "module"},
-      "rules": {
-          // Add your custom rules here
-      }
+    "parser": "@typescript-eslint/parser",
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "@typescript-eslint"],
+    "parserOptions": { "ecmaVersion": 2020, "sourceType": "module" },
+    "rules": {
+        // Add your custom rules here
+    }
 }

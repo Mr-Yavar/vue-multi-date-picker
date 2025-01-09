@@ -12,34 +12,27 @@ import { ComponentMapKeys, dateSeparatorType, MapItemValues, SubTypeKeys } from 
 import { ICalendarOption } from '@/types/ICalendarOption'
 import { isValidDate } from '../utils/isValidDate'
 
-
 import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
 
 import gregorian from 'react-date-object/calendars/gregorian'
 
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 
-    
 interface Props {
     calendar: Calendar
     locale: Locale
     currentDate?: DateObject // تاریخ شروع نمایش
     format: string | 'YYYY-MM-DD HH:mm:ss'
-    type: ComponentMapKeys,
-    subType: SubTypeKeys<Props['type']>,
+    type: ComponentMapKeys
+    subType: SubTypeKeys<Props['type']>
     dateSeparator: dateSeparatorType
-    
 }
 
 const datepickerReference = ref(null)
 const datepickerFloating = ref(null)
-const { floatingStyles: datepickerFloatingStyles, middlewareData: datepickerMiddlewareData } = useFloating(
-    datepickerReference,
-    datepickerFloating,
-    {
-        middleware: [hide(), autoPlacement()],
-    },
-)
+const { floatingStyles: datepickerFloatingStyles, middlewareData: datepickerMiddlewareData } = useFloating(datepickerReference, datepickerFloating, {
+    middleware: [hide(), autoPlacement()],
+})
 
 const {
     calendar: ucalendar,
@@ -84,23 +77,16 @@ const {
     setYearCurrentYear,
 } = useCalendar(calendarOption, ucurrentDate)
 
-const {
-    hour,
-    minute,
-    second,
-    selectedTime,
-    onRawInput: onTimePickerInput,
-    onSeparatedInput: onTimePickerSeparatedInput,
-} = useTimePicker(calendarOption)
+const { hour, minute, second, selectedTime, onRawInput: onTimePickerInput, onSeparatedInput: onTimePickerSeparatedInput } = useTimePicker(calendarOption)
 
 const { rawDateTime, onInput, onOutput, isTyping } = useEntryPoint(calendarOption)
 
-const mapOfCalendar = configure(type,subType)
-console.log(mapOfCalendar);
+const mapOfCalendar = configure(type, subType)
+console.log(mapOfCalendar)
 const mode = ref<Ref<MapItemValues>>(mapOfCalendar[0])
 
 function changeMode(value: MapItemValues) {
-    mode.value = value 
+    mode.value = value
 }
 
 // const showDatepicker = () => {
@@ -119,16 +105,8 @@ function changeMode(value: MapItemValues) {
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
 watch([selectedDate, selectedTime], () => {
-    const [year, month, day]: [number, Month, number] = [
-        selectedDate.value.year,
-        selectedDate.value.month,
-        selectedDate.value.day,
-    ]
-    const [hour, minute, second]: [number, number, number] = [
-        selectedTime.value.hour,
-        selectedTime.value.minute,
-        selectedTime.value.second,
-    ]
+    const [year, month, day]: [number, Month, number] = [selectedDate.value.year, selectedDate.value.month, selectedDate.value.day]
+    const [hour, minute, second]: [number, number, number] = [selectedTime.value.hour, selectedTime.value.minute, selectedTime.value.second]
 
     onOutput(
         new DateObject({
@@ -240,7 +218,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
         </div>
     </div>
     <div>{{ selectedDate }}</div>
- 
+
     <div>{{ selectedTime.hour + ':' + selectedTime.minute }}</div>
 </template>
 

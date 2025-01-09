@@ -1,4 +1,3 @@
-
 import MAP_ITEMS from './MapItem'
 
 export const ComponentMap = {
@@ -25,6 +24,3 @@ export const ComponentMap = {
         YEAR: [MAP_ITEMS.YEAR],
     },
 }
-
-
-

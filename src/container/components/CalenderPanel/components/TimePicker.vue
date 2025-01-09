@@ -185,11 +185,7 @@ function secondChange(event: Event) {
 <template>
     <div class="grid grid-cols-3 gap-4 mt-4">
         <div class="col-span-1 w-[4em]">
-            <button
-                class="block w-[1.5em] text-center h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
-                type="button"
-                @click="toHourUp()"
-            >
+            <button class="block w-[1.5em] text-center h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" type="button" @click="toHourUp()">
                 <TopArrow class="block mx-auto" />
             </button>
             <input
@@ -200,52 +196,25 @@ function secondChange(event: Event) {
                 max="23"
                 @input="hourChange"
             />
-            <button
-                class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
-                type="button"
-                @click="toHourDown()"
-            >
+            <button class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" type="button" @click="toHourDown()">
                 <BottomArrow class="block mx-auto" />
             </button>
         </div>
         <div>
-            <button
-                class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
-                type="button"
-                @click="toMinuteUp()"
-            >
+            <button class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" type="button" @click="toMinuteUp()">
                 <TopArrow class="block mx-auto" />
             </button>
-            <input
-                type="number"
-                :value="minute"
-                class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none"
-                @input="minuteChange"
-            />
-            <button
-                class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
-                @click="toMinuteDown()"
-            >
+            <input type="number" :value="minute" class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none" @input="minuteChange" />
+            <button class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" @click="toMinuteDown()">
                 <BottomArrow class="block mx-auto" />
             </button>
         </div>
         <div>
-            <button
-                class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
-                @click="toSecondUp()"
-            >
+            <button class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" @click="toSecondUp()">
                 <TopArrow class="block mx-auto" />
             </button>
-            <input
-                type="number"
-                :value="second"
-                class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none"
-                @input="secondChange"
-            />
-            <button
-                class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1"
-                @click="toSecondDown()"
-            >
+            <input type="number" :value="second" class="block p-2 mx-auto border rounded-md w-[4em] text-center !appearance-none" @input="secondChange" />
+            <button class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" @click="toSecondDown()">
                 <BottomArrow class="block mx-auto" />
             </button>
         </div>

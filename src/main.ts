@@ -1,3 +1,3 @@
-import Container from "./container/Container.vue";
+import Container from './container/Container.vue'
 
- export {Container}
+export { Container }

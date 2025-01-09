@@ -31,12 +31,7 @@ function isSelected(day: WeekDayObject): boolean {
             </span>
         </div>
         <div class="datepicker-days">
-            <div
-                v-for="(day, index) in daysOfPeriod"
-                :key="index"
-                class="datepicker-day"
-                @click="() => day.isActive && handleSelect(day.dateObject)"
-            >
+            <div v-for="(day, index) in daysOfPeriod" :key="index" class="datepicker-day" @click="() => day.isActive && handleSelect(day.dateObject)">
                 <span
                     :class="{
                         semiActive: !day.isActive && isSelected(day),
