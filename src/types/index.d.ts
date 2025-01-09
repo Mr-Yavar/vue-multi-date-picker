@@ -1,3 +1,5 @@
+import { ComponentMap } from "@/constants/ComponentMap";
+
 export type Weekday =
   | "Monday"
   | "Tuesday"
@@ -53,6 +55,7 @@ type LongMonthName =
 
 type MonthIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 
-export type ComponentType = "DATE" | "DATETIME" | "TIME";
-
+export type ComponentMapKeys = keyof typeof ComponentMap;
+export type SubTypeKeys<T extends ComponentMapKeys> = keyof typeof ComponentMap[T];
+export type MapItemValues = typeof MAP_ITEMS[keyof typeof MAP_ITEMS];
 export type dateSeparatorType = "," | "-" | "|" | "~";

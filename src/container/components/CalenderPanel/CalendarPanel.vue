@@ -6,13 +6,14 @@ import CalendarHeader from './components/CalendarHeader.vue'
 import WeekDaysPanel from './components/WeekDaysPanel.vue'
 import YearsPanel from './components/YearsPanel.vue'
 import MAP_ITEMS from '@/constants/MapItem'
-import MonthPanel from './components/MonthPanel.vue'
 import { isFinalStep } from '@/utils/isFinalStep'
 import TimePicker from './components/TimePicker.vue'
 import { computed, toRefs } from 'vue'
+import MonthPanel from './components/MonthPanel.vue'
+import { MapItemValues } from '@/types'
 
 interface Props {
-    changeMode: (mode: string) => void
+    changeMode: (mode: MapItemValues) => void
     mode: string
     daysOfPeriod: WeekDayObject[][]
     weekDays: string[][]
@@ -88,6 +89,7 @@ const classOfHeader = computed(()=>{
 <template>
     <div :class="'grid grid-cols-'+( mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)">
     <template v-if="mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME">
+      
         <CalendarHeader
             v-for="(days, i) in daysOfPeriod"
             :isFirst="i == 0"

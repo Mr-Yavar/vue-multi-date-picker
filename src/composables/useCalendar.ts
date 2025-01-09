@@ -1,5 +1,5 @@
 import { YEARS_OFFSET } from '@/constants/Offsets'
-import { ComponentType } from '@/types'
+
 import { generateYears } from '@/utils/generateYears'
 import DateObject from 'react-date-object'
 import { computed, markRaw, ref } from 'vue'
@@ -11,7 +11,6 @@ import { generatePivotDateFromYear } from '@/utils/generatePivotDateFromYear'
 export function useCalendar(
     calendarOption: ICalendarOption,
     ucurrentDate: DateObject | undefined,
-    type: ComponentType,
     numberOfMonth: 1 | 2 | 3 = 3,
 ) {
     const showMultipleMonth = numberOfMonth > 1

@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import MAP_ITEMS from '@/constants/MapItem'
+import { MapItemValues } from '@/types';
 import DateObject from 'react-date-object'
-import { ComputedRef, PropType } from 'vue';
+
 
 interface Props {
     prevMonth: ()=>void
     nextMonth: Function
     currentDate: DateObject
     mode: string
-    changeMode: (mode :string) =>void
+    changeMode: (mode :MapItemValues) =>void
     nextYears: ()=>void
     prevYears: ()=>void
     nextYear: ()=>void
@@ -37,7 +38,8 @@ const {
 </script>
 
 <template>
-    <template v-if="MAP_ITEMS.DAY == mode">
+   
+    <template v-if="MAP_ITEMS.DAY == mode || MAP_ITEMS.DAY_AND_TIME== mode">
         <div class="datepicker-header">
             <div class="datepicker-header-prev"  >
                 <button
@@ -51,10 +53,10 @@ const {
             </div>
             <div class="datepicker-header-control">
                 <div class="mx-auto w-fit">
-                    <button @click="() => changeMode(MAP_ITEMS.MONTH as string)">
+                    <button @click="() => changeMode(MAP_ITEMS.MONTH)">
                         {{ currentDate.month }}
                     </button>
-                    <button @click="() => changeMode(MAP_ITEMS.YEAR as string)">
+                    <button @click="() => changeMode(MAP_ITEMS.YEAR)">
                         {{ currentDate.year }}
                     </button>
                 </div>

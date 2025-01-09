@@ -2,13 +2,13 @@
 import { autoPlacement, hide, useFloating } from '@floating-ui/vue'
 import DateObject, { Calendar, Locale, Month } from 'react-date-object'
 
-import { ref, toRefs, watch } from 'vue'
+import { Ref, ref, toRefs, watch } from 'vue'
 
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
 import { useTimePicker } from '../composables/useTimePicker'
-import { ComponentType, dateSeparatorType } from '@/types'
+import { ComponentMapKeys, dateSeparatorType, MapItemValues, SubTypeKeys } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
 import { isValidDate } from '../utils/isValidDate'
 
@@ -19,17 +19,16 @@ import gregorian from 'react-date-object/calendars/gregorian'
 
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 
+    
 interface Props {
     calendar: Calendar
     locale: Locale
     currentDate?: DateObject // تاریخ شروع نمایش
     format: string | 'YYYY-MM-DD HH:mm:ss'
-    type: ComponentType
-    multiple: boolean
-    range: boolean
+    type: ComponentMapKeys,
+    subType: SubTypeKeys<Props['type']>,
     dateSeparator: dateSeparatorType
-    onlyMonth: boolean
-    onlyYear: boolean
+    
 }
 
 const datepickerReference = ref(null)
@@ -48,11 +47,8 @@ const {
     currentDate: ucurrentDate, // تاریخ شروع نمایش
     format = 'YYYY-MM-DD HH:mm:ss',
     type,
-    multiple = false,
-    range = false,
+    subType,
     dateSeparator = ',',
-    onlyMonth = false,
-    onlyYear = false,
 } = defineProps<Props>()
 
 const calendar = ucalendar ?? gregorian
@@ -86,7 +82,7 @@ const {
     setMonthCurrentYear,
     setYearCurrentDate,
     setYearCurrentYear,
-} = useCalendar(calendarOption, ucurrentDate, type)
+} = useCalendar(calendarOption, ucurrentDate)
 
 const {
     hour,
@@ -99,12 +95,12 @@ const {
 
 const { rawDateTime, onInput, onOutput, isTyping } = useEntryPoint(calendarOption)
 
-const mapOfCalendar = configure(type)
+const mapOfCalendar = configure(type,subType)
+console.log(mapOfCalendar);
+const mode = ref<Ref<MapItemValues>>(mapOfCalendar[0])
 
-const mode = ref(mapOfCalendar[0])
-
-function changeMode(value: string) {
-    mode.value = value
+function changeMode(value: MapItemValues) {
+    mode.value = value 
 }
 
 // const showDatepicker = () => {
