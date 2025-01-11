@@ -1,5 +1,6 @@
 import { ComponentMapKeys, DateRange, DateStorage } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
+import { compareDate } from '@/utils/compareDate'
 import DateObject from 'react-date-object'
 
 import { markRaw, reactive, Ref, ref } from 'vue'
@@ -10,33 +11,33 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     const index = ref<number>(0)
     const isStart = ref<boolean>(true)
 
+    function applyStart(is: boolean) {
+        isStart.value = is
+    }
+
     const storage = reactive<Data<T>>({ data: null })
     console.log(Map, storage)
     // Function to check if a date or range exists in storage based on mode
     function existsInStorage(value: DateObject): boolean {
         switch (Map) {
             case 'ONE_DATE':
-                return (
-                    storage !== null &&
-                    value instanceof DateObject &&
-                    (value.toDate() as Date).toDateString() === ((storage.data as DateObject)?.toDate() as Date)?.toDateString()
-                )
+                return storage.data !== null && value instanceof DateObject && compareDate((storage.data as DateObject).toDate(), '===', value.toDate())
 
             case 'MULTI_DATE':
-                if (storage === null) return false
-                return (storage.data as DateObject[])?.some((day) => (day.toDate() as Date)?.toDateString() === (value.toDate() as Date)?.toDateString())
+                if (storage.data === null) return false
+                return (storage.data as DateObject[])?.some((day) => compareDate(day.toDate(), '===', value.toDate()))
 
             case 'RANGE_DATE':
-                if (storage === null) return false
+                if (storage.data === null) return false
 
                 const rangeStorage = storage.data as DateRange
 
-                if (rangeStorage.start == null) return false
+                if (rangeStorage?.start == null || rangeStorage?.end == null) return false
 
-                const startMatch = rangeStorage.start?.toDate() >= value.toDate()
+                const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
 
-                if (rangeStorage.end == null) return startMatch
-                const endMatch = rangeStorage.end.toDate() <= value.toDate()
+                const endMatch = compareDate(rangeStorage.end?.toDate(), '>=', value.toDate())
+
                 return startMatch && endMatch
 
             case 'MULTI_RANGE_DATE':
@@ -46,12 +47,11 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                 return multiRangeStorage.some((range) => {
                     const rangeStorage = range
 
-                    if (rangeStorage.start == null) return false
+                    if (rangeStorage?.start == null || rangeStorage?.end == null) return false
 
-                    const startMatch = rangeStorage.start?.toDate() >= value.toDate()
+                    const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
 
-                    if (rangeStorage.end == null) return startMatch
-                    const endMatch = rangeStorage.end.toDate() <= value.toDate()
+                    const endMatch = compareDate(rangeStorage.end?.toDate(), '>=', value.toDate())
                     return startMatch && endMatch
                 })
 
@@ -112,11 +112,20 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                 break
 
             case 'RANGE_DATE':
-                if (isStart) {
-                    ;(storage.data as DateRange).start = value
+                if (!(storage.data as DateRange)) (storage.data as DateRange) = { start: null, end: null }
+
+                const dateRange = storage.data as DateRange
+
+                if (isStart.value) {
+                    dateRange.start = value
+                    applyStart(false)
                 } else {
-                    if ((storage.data as DateRange).start != null) (storage.data as DateRange).end = value
-                    else (storage.data as DateRange).start = value
+                    if (dateRange.start != null && dateRange.start?.toDate() <= value.toDate()) {
+                        dateRange.end = value
+                    } else {
+                        dateRange.start = value
+                        dateRange.end = null
+                    }
                 }
 
                 break
@@ -157,7 +166,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'RANGE_DATE':
                 // For a DateRange, format the start and end dates
                 const range = storage.data as DateRange
-                return `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat)}`
+                return `${range.start?.format(dateFormat)}${dateSeparator}${!!range.end ? range.end?.format(dateFormat) : ''}`
 
             case 'MULTI_RANGE_DATE':
                 // For an array of DateRanges, format each range and join with a semicolon
@@ -266,10 +275,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         }
     }
 
-
-    function removeFromStorage(){
-        
-    }
+    function removeFromStorage() {}
 
     return { existsInStorage, setIndex, addToStorage, toString, fromString, storage }
 }
