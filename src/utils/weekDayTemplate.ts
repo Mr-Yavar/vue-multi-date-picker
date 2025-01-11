@@ -1,4 +1,3 @@
-import { DayOfMonth, LongMonthName, MonthIndex, Weekday } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 
@@ -9,16 +8,16 @@ export function weekDayTemplate(date: Date, calendarOption: ICalendarOption, isA
     return {
         weekday: date.toLocaleDateString('en-us', {
             weekday: 'long',
-        }) as Weekday,
+        }),
         date: new Date(date),
-        dayOfMonth: date.getDate() as DayOfMonth,
+        dayOfMonth: date.getDate(),
         monthIndex: new DateObject({
             calendar: calendarOption.calender,
             locale: calendarOption.locale,
             format: calendarOption.format,
             date: new Date(date),
-        }).monthIndex as MonthIndex,
-        month: date.toLocaleDateString('en-us', { month: 'long' }) as LongMonthName,
+        }).monthIndex,
+        month: date.toLocaleDateString('en-us', { month: 'long' }),
         dateObject: markRaw(
             new DateObject({
                 calendar: calendarOption.calender,
