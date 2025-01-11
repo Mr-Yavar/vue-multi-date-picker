@@ -2,32 +2,34 @@ import { ComponentMapKeys, DateRange, DateStorage } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
 import DateObject from 'react-date-object'
 
-import { markRaw, Ref, ref } from 'vue'
-
+import { markRaw, reactive, Ref, ref } from 'vue'
+interface Data<T extends ComponentMapKeys> {
+    data: DateStorage<T> | null
+}
 export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICalendarOption) {
     const index = ref<number>(0)
     const isStart = ref<boolean>(true)
 
-    const storage = ref<DateStorage<T>>()
-    console.log(Map, storage.value)
+    const storage = reactive<Data<T>>({ data: null })
+    console.log(Map, storage)
     // Function to check if a date or range exists in storage based on mode
     function existsInStorage(value: DateObject): boolean {
         switch (Map) {
             case 'ONE_DATE':
                 return (
-                    storage.value !== null &&
+                    storage !== null &&
                     value instanceof DateObject &&
-                    (value.toDate() as Date).toDateString() === ((storage.value as DateObject)?.toDate() as Date)?.toDateString()
+                    (value.toDate() as Date).toDateString() === ((storage.data as DateObject)?.toDate() as Date)?.toDateString()
                 )
 
             case 'MULTI_DATE':
-                if (storage.value === null) return false
-                return (storage.value as DateObject[]).some((day) => (day.toDate() as Date)?.toDateString() === (value.toDate() as Date)?.toDateString())
+                if (storage === null) return false
+                return (storage.data as DateObject[])?.some((day) => (day.toDate() as Date)?.toDateString() === (value.toDate() as Date)?.toDateString())
 
             case 'RANGE_DATE':
-                if (storage.value === null) return false
+                if (storage === null) return false
 
-                const rangeStorage = storage.value as DateRange
+                const rangeStorage = storage.data as DateRange
 
                 if (rangeStorage.start == null) return false
 
@@ -38,9 +40,9 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                 return startMatch && endMatch
 
             case 'MULTI_RANGE_DATE':
-                if (storage.value === null) return false
+                if (storage === null) return false
 
-                const multiRangeStorage = storage.value as Array<DateRange>
+                const multiRangeStorage = storage.data as Array<DateRange>
                 return multiRangeStorage.some((range) => {
                     const rangeStorage = range
 
@@ -70,7 +72,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'MULTI_DATE':
                 return
             case 'RANGE_DATE':
-                const range = storage.value as DateRange
+                const range = storage.data as DateRange
                 if (newLoc) isStart.value = true
 
             case 'MULTI_RANGE_DATE':
@@ -97,33 +99,34 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         switch (Map) {
             case 'ONE_DATE':
             case 'TIME':
-                ;(storage as Ref<DateObject>).value = value // Store a single DateObject
+                ;(storage.data as DateObject) = value // Store a single DateObject
                 break
 
             case 'MULTI_TIME':
             case 'MULTI_DATE':
-                if (!Array.isArray(storage.value)) {
-                    ;(storage as Ref<DateObject[]>).value = [] // Initialize as an array if it's not already
+                if (!storage.data) {
+                    ;(storage.data as unknown) = [] // Initialize as an array if it's not already
                 }
-                ;(storage.value as DateObject[])[index.value] = value // Add the new date object
+                ;(storage.data as DateObject[])[index.value] = value // Add the new date object
+                index.value = (storage.data as DateObject[]).length
                 break
 
             case 'RANGE_DATE':
                 if (isStart) {
-                    ;(storage as Ref<DateRange>).value.start = value
+                    ;(storage.data as DateRange).start = value
                 } else {
-                    if ((storage as Ref<DateRange>).value.start != null) (storage as Ref<DateRange>).value.end = value
-                    else (storage as Ref<DateRange>).value.start = value
+                    if ((storage.data as DateRange).start != null) (storage.data as DateRange).end = value
+                    else (storage.data as DateRange).start = value
                 }
 
                 break
 
             case 'MULTI_RANGE_DATE':
-                if (!(storage as Ref<Array<DateRange>>).value) (storage as Ref<Array<DateRange>>).value = [{ start: null, end: null }]
+                if (!(storage.data as Array<DateRange>)) (storage.data as Array<DateRange>) = [{ start: null, end: null }]
 
-                if (!(storage as Ref<Array<DateRange>>).value[index.value]) (storage as Ref<Array<DateRange>>).value[index.value] = { start: null, end: null }
+                if (!(storage.data as Array<DateRange>)[index.value]) (storage.data as Array<DateRange>)[index.value] = { start: null, end: null }
 
-                const range = (storage as Ref<Array<DateRange>>).value[index.value]
+                const range = (storage.data as Array<DateRange>)[index.value]
 
                 if (isStart) range.start = value
                 else if (!range.start) range.start = value
@@ -137,27 +140,28 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
 
     function toString(rangeSeparator: string, dateSeparator: string): string {
         const dateFormat = calendarOption.format
-
         switch (Map) {
             case 'ONE_DATE':
             case 'TIME':
-                console.log(storage.value)
+                console.log(storage)
                 // For a single DateObject, format it directly
-                return (storage.value as DateObject).format(dateFormat)
+                return (storage.data as DateObject).format(dateFormat)
 
             case 'MULTI_TIME':
             case 'MULTI_DATE':
+                console.log(Map)
+
                 // For an array of DateObjects, format each and join with a comma
-                return (storage.value as DateObject[]).map((date) => date.format(dateFormat)).join(dateSeparator)
+                return (storage.data as DateObject[]).map((date) => date.format(dateFormat)).join(dateSeparator)
 
             case 'RANGE_DATE':
                 // For a DateRange, format the start and end dates
-                const range = storage.value as DateRange
+                const range = storage.data as DateRange
                 return `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat)}`
 
             case 'MULTI_RANGE_DATE':
                 // For an array of DateRanges, format each range and join with a semicolon
-                const ranges = storage.value as Array<DateRange>
+                const ranges = storage.data as Array<DateRange>
                 return ranges.map((range) => `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat)}`).join(rangeSeparator)
 
             default:
@@ -171,7 +175,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'ONE_DATE':
             case 'TIME':
                 // For a single DateObject, parse it directly
-                ;(storage as Ref<DateObject>).value = markRaw(
+                ;(storage.data as DateObject) = markRaw(
                     new DateObject({
                         date: input,
                         calendar: calendarOption.calender,
@@ -183,7 +187,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'MULTI_TIME':
             case 'MULTI_DATE':
                 // For an array of DateObjects, split by dateSeparator and parse each
-                ;(storage as Ref<DateObject[]>).value = input.split(dateSeparator).map((dateStr) =>
+                ;(storage.data as DateObject[]) = input.split(dateSeparator).map((dateStr) =>
                     markRaw(
                         new DateObject({
                             date: dateStr,
@@ -215,12 +219,12 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                     }),
                 )
 
-                ;(storage as Ref<DateRange>).value = { start: startDate, end: endDate }
+                ;(storage.data as DateRange) = { start: startDate, end: endDate }
                 break
 
             case 'MULTI_RANGE_DATE':
                 // For an array of DateRanges, split by rangeSeparator and then by dateSeparator
-                ;(storage as Ref<DateRange[]>).value = input.split(rangeSeparator).map((rangeStr) => {
+                ;(storage.data as DateRange[]) = input.split(rangeSeparator).map((rangeStr) => {
                     const [startStr, endStr] = rangeStr.split(dateSeparator)
 
                     const startDate = markRaw(

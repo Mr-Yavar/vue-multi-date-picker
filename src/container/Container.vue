@@ -116,8 +116,6 @@ function handleSelect(obj: DateObject){
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
 watch([store.storage], () => {
-    const [year, month, day]: [number, Month, number] = [selectedDate.value.year, selectedDate.value.month, selectedDate.value.day]
-    const [hour, minute, second]: [number, number, number] = [selectedTime.value.hour, selectedTime.value.minute, selectedTime.value.second]
 
     onOutput(
       store.toString(rangeSeparator,dateSeparator)
@@ -225,7 +223,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 
     <div>{{ selectedTime.hour + ':' + selectedTime.minute }}</div>
     <div>
-        {{ JSON.stringify(store.storage.value) }}
+        {{ JSON.stringify(store.storage) }}
         </div>
 </template>
 
