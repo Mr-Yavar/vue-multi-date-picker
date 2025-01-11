@@ -44,7 +44,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                 if (storage === null) return false
 
                 const multiRangeStorage = storage.data as Array<DateRange>
-                return multiRangeStorage.some((range) => {
+                return multiRangeStorage?.some((range) => {
                     const rangeStorage = range
 
                     if (rangeStorage?.start == null || rangeStorage?.end == null) return false
@@ -131,16 +131,26 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                 break
 
             case 'MULTI_RANGE_DATE':
-                if (!(storage.data as Array<DateRange>)) (storage.data as Array<DateRange>) = [{ start: null, end: null }]
+                {
+                    if (!(storage.data as Array<DateRange>)) (storage.data as Array<DateRange>) = [{ start: null, end: null }]
 
-                if (!(storage.data as Array<DateRange>)[index.value]) (storage.data as Array<DateRange>)[index.value] = { start: null, end: null }
+                    if (!(storage.data as Array<DateRange>)[index.value]) (storage.data as Array<DateRange>)[index.value] = { start: null, end: null }
 
-                const range = (storage.data as Array<DateRange>)[index.value]
+                    const dateRange = (storage.data as Array<DateRange>)[index.value] as DateRange
 
-                if (isStart) range.start = value
-                else if (!range.start) range.start = value
-                else range.end = value
-
+                    if (isStart.value) {
+                        dateRange.start = value
+                        applyStart(false)
+                    } else {
+                        if (dateRange.start != null && dateRange.start?.toDate() <= value.toDate()) {
+                            dateRange.end = value
+                            index.value++
+                        } else {
+                            dateRange.start = value
+                            dateRange.end = null
+                        }
+                    }
+                }
                 break
 
             default:
