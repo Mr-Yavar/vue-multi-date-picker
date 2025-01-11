@@ -24,6 +24,4 @@ export type DateStorage<T extends ComponentMapKeys> = T extends 'ONE_DATE'
               ? Array<DateRange>
               : never // Fallback to never if no match is found
 
-
-
 export type dateSeparatorType = ',' | '-' | '|' | '~'

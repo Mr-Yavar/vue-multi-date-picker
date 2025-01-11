@@ -18,7 +18,7 @@ interface Props {
     daysOfPeriod: WeekDayObject[][]
     weekDays: string[][]
     handleSelect: (date: DateObject) => void
-    existsInStorage:(date:DateObject)=>boolean
+    existsInStorage: (date: DateObject) => boolean
     selectedDate: DateObject | DateObject[] | DateObject[][]
     calendarOption: ICalendarOption
     prevMonth: () => void
@@ -103,8 +103,7 @@ const {
                 :prevYear="prevYear"
                 :changeMode="changeMode"
                 :mode="mode"
-                :AvailableMap="AvailableMap"
-            />
+                :AvailableMap="AvailableMap" />
         </template>
         <template v-else>
             <CalendarHeader
@@ -120,8 +119,7 @@ const {
                 :prevYear="prevYear"
                 :changeMode="changeMode"
                 :mode="mode"
-                :AvailableMap="AvailableMap"
-            />
+                :AvailableMap="AvailableMap" />
         </template>
 
         <template v-if="mode == MAP_ITEMS.DAY">
@@ -134,43 +132,38 @@ const {
                 :handleSelect="handleSelect"
                 :selectedDate="selectedDate"
                 :calendarOption="calendarOption"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
-            />
+                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
         </template>
         <template v-if="mode == MAP_ITEMS.DAY_AND_TIME && (selectedDate instanceof DateObject || (Array.isArray(selectedDate) && selectedDate.length == 2))">
             <WeekDaysPanel
                 v-for="days in daysOfPeriod"
                 :key="days[0].month"
                 :existsInStorage="existsInStorage"
-
                 :daysOfPeriod="days"
                 :weekDays="weekDays"
                 :handleSelect="handleSelect"
                 :selectedDate="selectedDate"
                 :calendarOption="calendarOption"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
-            />
+                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
             <TimePicker
                 :hour="hour"
                 :minute="minute"
                 :second="second"
                 :selected-time="selectedTime"
                 :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
-                :handleSelect="handleSelect"
-            />
+                :handleSelect="handleSelect" />
         </template>
 
         <template v-if="mode == MAP_ITEMS.MONTH">
             <MonthPanel
-            :AvailableMap="AvailableMap"
+                :AvailableMap="AvailableMap"
                 :currentDate="currentDate"
                 :yearsOfPeriod="yearsOfPeriod"
                 :calendarOption="calendarOption"
                 :setMonthCurrentDate="setMonthCurrentDate"
                 :changeMode="changeMode"
                 :handleSelect="handleSelect"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
-            />
+                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
         </template>
 
         <template v-if="mode == MAP_ITEMS.YEAR">
@@ -183,8 +176,7 @@ const {
                 :setYearCurrentDate="setYearCurrentDate"
                 :changeMode="changeMode"
                 :handleSelect="handleSelect"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])"
-            />
+                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
         </template>
     </div>
 </template>

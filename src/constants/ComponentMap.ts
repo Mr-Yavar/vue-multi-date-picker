@@ -30,5 +30,3 @@ export const ComponentMap = {
         YEAR: [MAP_ITEMS.YEAR],
     },
 }
-
-

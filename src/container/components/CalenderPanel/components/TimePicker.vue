@@ -194,8 +194,7 @@ function secondChange(event: Event) {
                 :value="hour"
                 min="0"
                 max="23"
-                @input="hourChange"
-            />
+                @input="hourChange" />
             <button class="block w-[1.5em] h-[1.5em] text-blue-700 bg-gray-300 rounded-md mx-auto my-1" type="button" @click="toHourDown()">
                 <BottomArrow class="block mx-auto" />
             </button>

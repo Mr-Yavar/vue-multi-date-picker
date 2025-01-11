@@ -26,8 +26,8 @@ interface Props {
     format: string | 'YYYY-MM-DD HH:mm:ss'
     type: ComponentMapKeys
     subType: SubTypeKeys<Props['type']>
-    dateSeparator: dateSeparatorType,
-    rangeSeparator:string
+    dateSeparator: dateSeparatorType
+    rangeSeparator: string
 }
 
 const datepickerReference = ref(null)
@@ -44,7 +44,7 @@ const {
     type,
     subType,
     dateSeparator = ',',
-    rangeSeparator = " ~ "
+    rangeSeparator = ' ~ ',
 } = defineProps<Props>()
 
 const calendar = ucalendar ?? gregorian
@@ -84,7 +84,7 @@ const { hour, minute, second, selectedTime, onRawInput: onTimePickerInput, onSep
 
 const { rawDateTime, onInput, onOutput, isTyping } = useEntryPoint(calendarOption)
 
-const store = useStore(type,calendarOption);
+const store = useStore(type, calendarOption)
 
 const mapOfCalendar = configure(type, subType)
 console.log(mapOfCalendar)
@@ -94,11 +94,9 @@ function changeMode(value: MapItemValues) {
     mode.value = value
 }
 
-function handleSelect(obj: DateObject){
-    store.addToStorage(obj,selectedTime.value)
+function handleSelect(obj: DateObject) {
+    store.addToStorage(obj, selectedTime.value)
 }
-
-
 
 // const showDatepicker = () => {
 //   if (datepickerFloating.value) {
@@ -116,18 +114,14 @@ function handleSelect(obj: DateObject){
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
 watch([store.storage], () => {
-
-    onOutput(
-      store.toString(rangeSeparator,dateSeparator)
-    )
+    onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 
 function onRawEntryPointUpdate(event: any) {
     const updatedRawValue: string = event.target.value
     onInput(updatedRawValue)
 
-
-    store.fromString(updatedRawValue,rangeSeparator,dateSeparator);
+    store.fromString(updatedRawValue, rangeSeparator, dateSeparator)
     // const dateObject: DateObject = new DateObject({
     //     date: updatedRawValue,
     //     calendar: calendarOption.calender,
@@ -213,8 +207,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
                         :minute="minute as number"
                         :second="second as number"
                         :selected-time="selectedTime"
-                        :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
-                    />
+                        :onTimePickerSeparatedInput="onTimePickerSeparatedInput" />
                 </div>
             </div>
         </div>
@@ -224,7 +217,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
     <div>{{ selectedTime.hour + ':' + selectedTime.minute }}</div>
     <div>
         {{ JSON.stringify(store.storage) }}
-        </div>
+    </div>
 </template>
 
 <style></style>

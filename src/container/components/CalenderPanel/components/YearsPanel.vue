@@ -38,8 +38,7 @@ const { yearsOfPeriod, nextYears, prevYears, calendarOption } = defineProps<Prop
                         if (isFinalStep) handleSelect(markRaw(year))
                         else changeMode(MAP_ITEMS.MONTH)
                     }
-                "
-            >
+                ">
                 {{ year.format('YYYY') }}
             </div>
         </div>

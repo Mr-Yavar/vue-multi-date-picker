@@ -11,7 +11,7 @@ interface Props {
     calendarOption: ICalendarOption
     //==================
     setMonthCurrentDate: Function
-    AvailableMap: (string|number)[]
+    AvailableMap: (string | number)[]
     //=====================
     changeMode: Function
     handleSelect: Function
@@ -53,13 +53,11 @@ const { calendarOption } = defineProps<Props>()
                         )
                     else changeMode(AvailableMap[0])
                 }
-            "
-        >
+            ">
             <div
                 :class="{
                     active: currentDate.month.index == index,
-                }"
-            >
+                }">
                 {{ month[0] }}
             </div>
         </div>
