@@ -171,6 +171,9 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     }
 
     function fromString(input: string, rangeSeparator: string, dateSeparator: string): any {
+        let empty = false
+        if (input.replaceAll(rangeSeparator, '').replaceAll(dateSeparator, '').trim().length == 0) empty = true
+
         switch (Map) {
             case 'ONE_DATE':
             case 'TIME':
@@ -187,16 +190,20 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'MULTI_TIME':
             case 'MULTI_DATE':
                 // For an array of DateObjects, split by dateSeparator and parse each
-                ;(storage.data as DateObject[]) = input.split(dateSeparator).map((dateStr) =>
-                    markRaw(
-                        new DateObject({
-                            date: dateStr,
-                            calendar: calendarOption.calender,
-                            locale: calendarOption.locale,
-                            format: calendarOption.format as string,
-                        }),
-                    ),
-                )
+                ;(storage.data as DateObject[]) = !empty
+                    ? input.split(dateSeparator).map((dateStr) =>
+                          markRaw(
+                              new DateObject({
+                                  date: dateStr,
+                                  calendar: calendarOption.calender,
+                                  locale: calendarOption.locale,
+                                  format: calendarOption.format as string,
+                              }),
+                          ),
+                      )
+                    : []
+
+                index.value = (storage.data as DateObject[]).length
                 break
 
             case 'RANGE_DATE':
@@ -224,34 +231,44 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
 
             case 'MULTI_RANGE_DATE':
                 // For an array of DateRanges, split by rangeSeparator and then by dateSeparator
-                ;(storage.data as DateRange[]) = input.split(rangeSeparator).map((rangeStr) => {
-                    const [startStr, endStr] = rangeStr.split(dateSeparator)
+                ;(storage.data as DateRange[]) = !empty
+                    ? input.split(rangeSeparator).map((rangeStr) => {
+                          const [startStr, endStr] = rangeStr.split(dateSeparator)
 
-                    const startDate = markRaw(
-                        new DateObject({
-                            date: startStr,
-                            calendar: calendarOption.calender,
-                            locale: calendarOption.locale,
-                            format: calendarOption.format as string,
-                        }),
-                    )
-                    const endDate = markRaw(
-                        new DateObject({
-                            date: endStr,
-                            calendar: calendarOption.calender,
-                            locale: calendarOption.locale,
-                            format: calendarOption.format as string,
-                        }),
-                    )
+                          const startDate = markRaw(
+                              new DateObject({
+                                  date: startStr,
+                                  calendar: calendarOption.calender,
+                                  locale: calendarOption.locale,
+                                  format: calendarOption.format as string,
+                              }),
+                          )
+                          const endDate = markRaw(
+                              new DateObject({
+                                  date: endStr,
+                                  calendar: calendarOption.calender,
+                                  locale: calendarOption.locale,
+                                  format: calendarOption.format as string,
+                              }),
+                          )
 
-                    return { start: startDate, end: endDate } as DateRange
-                })
+                          return { start: startDate, end: endDate } as DateRange
+                      })
+                    : []
+
+                index.value = (storage.data as DateRange[]).length
+
                 break
 
             default:
                 // Return null or throw an error for unknown types
                 return null
         }
+    }
+
+
+    function removeFromStorage(){
+        
     }
 
     return { existsInStorage, setIndex, addToStorage, toString, fromString, storage }

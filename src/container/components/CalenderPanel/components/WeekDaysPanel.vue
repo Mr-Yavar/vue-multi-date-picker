@@ -3,7 +3,7 @@ import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 import { getWeekOrders } from '@/utils/getWeekOrders'
 import DateObject from 'react-date-object'
-import { toRefs } from 'vue'
+
 
 interface Props {
     daysOfPeriod: WeekDayObject[]
@@ -18,10 +18,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const { daysOfPeriod, handleSelect, calendarOption } = props
-const { selectedDate } = toRefs(props)
-function isSelected(day: WeekDayObject): boolean {
-    return day.date.toDateString() === selectedDate.value?.toDate().toDateString()
-}
+
+//TODO: deselect date
 </script>
 
 <template>

@@ -43,7 +43,7 @@ const {
     format = 'YYYY-MM-DD HH:mm:ss',
     type,
     subType,
-    dateSeparator = ',',
+    dateSeparator = ' , ',
     rangeSeparator = ' ~ ',
 } = defineProps<Props>()
 
