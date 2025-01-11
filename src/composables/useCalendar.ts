@@ -49,7 +49,7 @@ export function useCalendar(calendarOption: ICalendarOption, ucurrentDate: DateO
         const date = currentYear.value.toDate()
 
         date.setFullYear(date.getFullYear() - YEARS_OFFSET)
-        console.log('dd')
+        // console.log('dd')
         updateCurrentYear(
             markRaw(
                 new DateObject({

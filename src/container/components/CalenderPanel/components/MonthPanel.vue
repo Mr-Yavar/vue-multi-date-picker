@@ -11,7 +11,7 @@ interface Props {
     calendarOption: ICalendarOption
     //==================
     setMonthCurrentDate: Function
-
+    AvailableMap: (string|number)[]
     //=====================
     changeMode: Function
     handleSelect: Function
@@ -51,7 +51,7 @@ const { calendarOption } = defineProps<Props>()
                                 }),
                             ),
                         )
-                    else changeMode(MAP_ITEMS.DAY)
+                    else changeMode(AvailableMap[0])
                 }
             "
         >

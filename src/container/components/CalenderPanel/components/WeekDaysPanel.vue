@@ -12,6 +12,7 @@ interface Props {
     selectedDate: DateObject | any
     calendarOption: ICalendarOption
     isFinalStep: boolean
+    existsInStorage:(date:DateObject)=>boolean
 }
 
 const props = defineProps<Props>()
@@ -31,12 +32,12 @@ function isSelected(day: WeekDayObject): boolean {
             </span>
         </div>
         <div class="datepicker-days">
-            <div v-for="(day, index) in daysOfPeriod" :key="index" class="datepicker-day" @click="() => day.isActive && handleSelect(day.dateObject)">
+            <div v-for="(day, index) in daysOfPeriod" :key="index" class="datepicker-day" @click="() => day.isActive && handleSelect(day.dateObject.convert(calendarOption.calender, calendarOption.locale))">
                 <span
                     :class="{
-                        semiActive: !day.isActive && isSelected(day),
-                        active: day.isActive && isSelected(day),
-                        disabled: !day.isActive && !isSelected(day),
+                        semiActive: !day.isActive && existsInStorage(day.dateObject),
+                        active: day.isActive && existsInStorage(day.dateObject),
+                        disabled: !day.isActive && !existsInStorage(day.dateObject),
                     }"
                 >
                     {{ day.dateObject.convert(calendarOption.calender, calendarOption.locale).format('D') }}

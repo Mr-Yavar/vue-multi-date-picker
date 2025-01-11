@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 import { convertToEnglishNumbers } from '../utils/convertToEnglishNumbers'
 import { ICalendarOption } from '../types/ICalendarOption'
-import DateObject from 'react-date-object'
 
 export function useEntryPoint(calendarOption: ICalendarOption) {
     const rawDateTime = ref<string>('') // برای اینپوت نمایش دهنده و ویرایش
@@ -9,10 +8,10 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
     let isTypingTimeout: NodeJS.Timeout | null = null
 
     // بروز کردن محتوای اینپوت اصلی
-    const onOutput = (selectedValue: DateObject) => {
+    const onOutput = (rawToShow: string) => {
         if (isTyping.value) return
 
-        rawDateTime.value = convertToEnglishNumbers(selectedValue.format(calendarOption.format))
+        rawDateTime.value = convertToEnglishNumbers(rawToShow)
     }
 
     function onInput(rawValue: string) {

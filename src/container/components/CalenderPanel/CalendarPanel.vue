@@ -18,6 +18,7 @@ interface Props {
     daysOfPeriod: WeekDayObject[][]
     weekDays: string[][]
     handleSelect: (date: DateObject) => void
+    existsInStorage:(date:DateObject)=>boolean
     selectedDate: DateObject | DateObject[] | DateObject[][]
     calendarOption: ICalendarOption
     prevMonth: () => void
@@ -50,6 +51,7 @@ const {
     daysOfPeriod,
     weekDays,
     handleSelect,
+    existsInStorage,
     selectedDate,
     calendarOption,
     //----------------
@@ -74,13 +76,13 @@ const {
     ///==========
     changeMode,
 } = toRefs(props)
-for (const item of daysOfPeriod.value) {
-    for (const day of item) {
-        console.log(day.dateObject.format())
-    }
-}
+// for (const item of daysOfPeriod.value) {
+//     for (const day of item) {
+//         console.log(day.dateObject.format())
+//     }
+// }
 
-const classOfHeader = computed(() => {})
+// const classOfHeader = computed(() => {})
 </script>
 
 <template>
@@ -125,6 +127,7 @@ const classOfHeader = computed(() => {})
         <template v-if="mode == MAP_ITEMS.DAY">
             <WeekDaysPanel
                 v-for="days in daysOfPeriod"
+                :existsInStorage="existsInStorage"
                 :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
                 :daysOfPeriod="days"
                 :weekDays="weekDays"
@@ -138,6 +141,8 @@ const classOfHeader = computed(() => {})
             <WeekDaysPanel
                 v-for="days in daysOfPeriod"
                 :key="days[0].month"
+                :existsInStorage="existsInStorage"
+
                 :daysOfPeriod="days"
                 :weekDays="weekDays"
                 :handleSelect="handleSelect"
@@ -157,6 +162,7 @@ const classOfHeader = computed(() => {})
 
         <template v-if="mode == MAP_ITEMS.MONTH">
             <MonthPanel
+            :AvailableMap="AvailableMap"
                 :currentDate="currentDate"
                 :yearsOfPeriod="yearsOfPeriod"
                 :calendarOption="calendarOption"
