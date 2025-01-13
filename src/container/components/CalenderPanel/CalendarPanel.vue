@@ -13,6 +13,7 @@ import TimePicker from './components/TimePicker.vue'
 import { ComputedRef, DeepReadonly, toRefs } from 'vue'
 import MonthPanel from './components/MonthPanel.vue'
 import { ComponentMapKeys, DateStorage, MapItemValues } from '@/types'
+import { MapKeys } from '@/constants/ComponentMap'
 
 interface Props {
     type: ComponentMapKeys
@@ -97,7 +98,7 @@ const {
 
 <template>
     <div class="flex flex-row-reverse justify-center">
-        <div>
+        <div v-if="type == MapKeys.MULTI_DATE || type == MapKeys.MULTI_TIME || type == MapKeys.MULTI_RANGE_DATE">
             <SideBarPanel
                 :removeFromStorage="removeFromStorage"
                 :date-separator="dateSeparator"
@@ -204,6 +205,32 @@ const {
                     :changeMode="changeMode"
                     :handleSelect="handleSelect"
                     :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
+            </template>
+
+            <template v-if="mode == MAP_ITEMS.TIME">
+                <TimePicker
+                    :hour="hour"
+                    :minute="minute"
+                    :second="second"
+                    :selected-time="selectedTime"
+                    :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
+                    :handleSelect="handleSelect" />
+
+                <div
+                    class="mx-auto"
+                    @click="
+                        () => {
+                            handleSelect(
+                                new DateObject({
+                                    calendar: calendarOption.calender,
+                                    locale: calendarOption.locale,
+                                    date: new Date(),
+                                }),
+                            )
+                        }
+                    ">
+                    <button type="button" class="px-2 py-1 text-white bg-blue-500 rounded-md shadow-xl">Apply</button>
+                </div>
             </template>
         </div>
     </div>

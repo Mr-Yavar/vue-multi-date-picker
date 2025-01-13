@@ -166,13 +166,12 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         switch (Map) {
             case 'ONE_DATE':
             case 'TIME':
-                console.log(storage)
+             
                 // For a single DateObject, format it directly
                 return (storage.data as DateObject)?.format(dateFormat)
 
             case 'MULTI_TIME':
             case 'MULTI_DATE':
-                console.log(Map)
 
                 // For an array of DateObjects, format each and join with a comma
                 return (storage.data as DateObject[])?.map((date) => date.format(dateFormat)).join(dateSeparator)
