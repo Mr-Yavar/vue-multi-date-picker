@@ -186,6 +186,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
                         :weekDays="weekDays"
                         :handleSelect="handleSelect"
                         :existsInStorage="store.existsInStorage"
+                        :removeFromStorage="store.removeFromStorage"
                         :selectedDate="selectedDate"
                         :calendarOption="calendarOption"
                         :prevMonth="prevMonth"

@@ -18,45 +18,49 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     const storage = reactive<Data<T>>({ data: null })
     console.log(Map, storage)
     // Function to check if a date or range exists in storage based on mode
-    function existsInStorage(value: DateObject): boolean {
+    function existsInStorage(value: DateObject): number {
         switch (Map) {
             case 'ONE_DATE':
                 return storage.data !== null && value instanceof DateObject && compareDate((storage.data as DateObject).toDate(), '===', value.toDate())
+                    ? 1
+                    : -1
 
             case 'MULTI_DATE':
-                if (storage.data === null) return false
-                return (storage.data as DateObject[])?.some((day) => compareDate(day.toDate(), '===', value.toDate()))
+                if (storage.data === null) return -1
+                return (storage.data as DateObject[])?.findIndex((day) => compareDate(day.toDate(), '===', value.toDate())) ?? -1
 
             case 'RANGE_DATE':
-                if (storage.data === null) return false
+                if (storage.data === null) return -1
 
                 const rangeStorage = storage.data as DateRange
 
-                if (rangeStorage?.start == null || rangeStorage?.end == null) return false
+                if (rangeStorage?.start == null || rangeStorage?.end == null) return -1
 
                 const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
 
                 const endMatch = compareDate(rangeStorage.end?.toDate(), '>=', value.toDate())
 
-                return startMatch && endMatch
+                return startMatch && endMatch ? 1 : -1
 
             case 'MULTI_RANGE_DATE':
-                if (storage === null) return false
+                if (storage === null) return -1
 
                 const multiRangeStorage = storage.data as Array<DateRange>
-                return multiRangeStorage?.some((range) => {
-                    const rangeStorage = range
+                return (
+                    multiRangeStorage?.findLastIndex((range) => {
+                        const rangeStorage = range
 
-                    if (rangeStorage?.start == null || rangeStorage?.end == null) return false
+                        if (rangeStorage?.start == null || rangeStorage?.end == null) return false
 
-                    const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
+                        const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
 
-                    const endMatch = compareDate(rangeStorage.end?.toDate(), '>=', value.toDate())
-                    return startMatch && endMatch
-                })
+                        const endMatch = compareDate(rangeStorage.end?.toDate(), '>=', value.toDate())
+                        return startMatch && endMatch
+                    }) ?? -1
+                )
 
             default:
-                return false // Fallback in case of an unexpected mode
+                return -1 // Fallback in case of an unexpected mode
         }
     }
 
@@ -285,7 +289,14 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         }
     }
 
-    function removeFromStorage() {}
+    function removeFromStorage(dIndex: number) {
+        switch (Map) {
+            case 'MULTI_DATE':
+            case 'MULTI_TIME':
+                ;(storage.data as DateObject[]).splice(dIndex, 1)
+                index.value = (storage.data as DateObject[]).length
+        }
+    }
 
-    return { existsInStorage, setIndex, addToStorage, toString, fromString, storage }
+    return { existsInStorage, setIndex, addToStorage, toString, fromString, removeFromStorage, storage }
 }

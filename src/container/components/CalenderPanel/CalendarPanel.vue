@@ -18,7 +18,7 @@ interface Props {
     daysOfPeriod: WeekDayObject[][]
     weekDays: string[][]
     handleSelect: (date: DateObject) => void
-    existsInStorage: (date: DateObject) => boolean
+    existsInStorage: (date: DateObject) => number
     selectedDate: DateObject | DateObject[] | DateObject[][]
     calendarOption: ICalendarOption
     prevMonth: () => void
@@ -37,6 +37,7 @@ interface Props {
     setMonthCurrentYear: (month: number) => void
     setYearCurrentDate: (date: DateObject) => void
     setYearCurrentYear: (year: number) => void
+    removeFromStorage:(index:number)=>void
     //==============
     selectedTime: DateObject
     hour: number
@@ -126,6 +127,7 @@ const {
             <WeekDaysPanel
                 v-for="days in daysOfPeriod"
                 :existsInStorage="existsInStorage"
+                :removeFromStorage="removeFromStorage"
                 :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
                 :daysOfPeriod="days"
                 :weekDays="weekDays"
@@ -138,6 +140,8 @@ const {
             <WeekDaysPanel
                 v-for="days in daysOfPeriod"
                 :key="days[0].month"
+                :removeFromStorage="removeFromStorage"
+
                 :existsInStorage="existsInStorage"
                 :daysOfPeriod="days"
                 :weekDays="weekDays"

@@ -3,6 +3,7 @@ import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
 import { getWeekOrders } from '@/utils/getWeekOrders'
 import DateObject from 'react-date-object'
+import { computed } from 'vue'
 
 
 interface Props {
@@ -12,12 +13,27 @@ interface Props {
     selectedDate: DateObject | any
     calendarOption: ICalendarOption
     isFinalStep: boolean
-    existsInStorage: (date: DateObject) => boolean
+    removeFromStorage : (index:number)=> void
+    existsInStorage: (date: DateObject) => number
 }
 
 const props = defineProps<Props>()
 
 const { daysOfPeriod, handleSelect, calendarOption } = props
+
+
+const processed_daysOfPeriod = computed(()=>{
+
+    return daysOfPeriod.map(day=>{
+        const inStorage = props.existsInStorage(day.dateObject);
+        return {...day,isSelected:inStorage>-1,inStorage}
+    });
+        
+   
+        
+    
+    
+})
 
 //TODO: deselect date
 </script>
@@ -31,15 +47,15 @@ const { daysOfPeriod, handleSelect, calendarOption } = props
         </div>
         <div class="datepicker-days">
             <div
-                v-for="(day, index) in daysOfPeriod"
+                v-for="(day, index) in processed_daysOfPeriod"
                 :key="index"
                 class="datepicker-day"
-                @click="() => day.isActive && handleSelect(day.dateObject.convert(calendarOption.calender, calendarOption.locale))">
+                @click="() => (day.isActive && !day.isSelected && handleSelect(day.dateObject.convert(calendarOption.calender, calendarOption.locale))) || (day.isSelected && removeFromStorage(day.inStorage))">
                 <span
                     :class="{
-                        semiActive: !day.isActive && existsInStorage(day.dateObject),
-                        active: day.isActive && existsInStorage(day.dateObject),
-                        disabled: !day.isActive && !existsInStorage(day.dateObject),
+                        semiActive: !day.isActive && day.isSelected,
+                        active: day.isActive && day.isSelected,
+                        disabled: !day.isActive && !day.isSelected,
                     }">
                     {{ day.dateObject.convert(calendarOption.calender, calendarOption.locale).format('D') }}
                 </span>
