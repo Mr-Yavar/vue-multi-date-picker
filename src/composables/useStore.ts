@@ -168,7 +168,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'TIME':
                 console.log(storage)
                 // For a single DateObject, format it directly
-                return (storage.data as DateObject).format(dateFormat)
+                return (storage.data as DateObject)?.format(dateFormat)
 
             case 'MULTI_TIME':
             case 'MULTI_DATE':
@@ -185,7 +185,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'MULTI_RANGE_DATE':
                 // For an array of DateRanges, format each range and join with a semicolon
                 const ranges = storage.data as Array<DateRange>
-                return ranges?.map((range) => `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat)}`).join(rangeSeparator)
+                return ranges?.map((range) => `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat) ?? ''}`).join(rangeSeparator)
 
             default:
                 // Return an empty string for unknown types
@@ -294,6 +294,9 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'MULTI_DATE':
             case 'MULTI_TIME':
                 ;(storage.data as DateObject[]).splice(dIndex, 1)
+                index.value = (storage.data as DateObject[]).length
+            case 'MULTI_RANGE_DATE':
+                ;(storage.data as DateRange[]).splice(dIndex, 1)
                 index.value = (storage.data as DateObject[]).length
         }
     }

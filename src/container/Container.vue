@@ -77,7 +77,7 @@ const {
     setMonthCurrentYear,
     setYearCurrentDate,
     setYearCurrentYear,
-} = useCalendar(calendarOption, ucurrentDate)
+} = useCalendar(calendarOption, ucurrentDate, 1)
 
 const { hour, minute, second, selectedTime, onRawInput: onTimePickerInput, onSeparatedInput: onTimePickerSeparatedInput } = useTimePicker(calendarOption)
 
@@ -112,7 +112,7 @@ function handleSelect(obj: DateObject) {
 
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
-watch([store.dataSource], () => {
+watch([store.dataSource.value], () => {
     onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 

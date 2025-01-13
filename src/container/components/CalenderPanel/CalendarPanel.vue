@@ -96,9 +96,10 @@ const {
 </script>
 
 <template>
-    <div class="flex justify-center">
+    <div class="flex flex-row-reverse justify-center">
         <div>
             <SideBarPanel
+                :removeFromStorage="removeFromStorage"
                 :date-separator="dateSeparator"
                 :range-separator="rangeSeparator"
                 :storageToString="storageToString"
