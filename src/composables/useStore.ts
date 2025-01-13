@@ -185,7 +185,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             case 'MULTI_RANGE_DATE':
                 // For an array of DateRanges, format each range and join with a semicolon
                 const ranges = storage.data as Array<DateRange>
-                return ranges.map((range) => `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat)}`).join(rangeSeparator)
+                return ranges?.map((range) => `${range.start?.format(dateFormat)}${dateSeparator}${range.end?.format(dateFormat)}`).join(rangeSeparator)
 
             default:
                 // Return an empty string for unknown types

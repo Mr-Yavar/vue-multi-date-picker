@@ -30,3 +30,12 @@ export const ComponentMap = {
         YEAR: [MAP_ITEMS.YEAR],
     },
 }
+
+export const MapKeys = {
+    TIME: 'TIME',
+    MULTI_TIME: 'MULTI_TIME',
+    ONE_DATE: 'ONE_DATE',
+    RANGE_DATE: 'RANGE_DATE',
+    MULTI_RANGE_DATE: 'MULTI_RANGE_DATE',
+    MULTI_DATE: 'MULTI_DATE',
+}

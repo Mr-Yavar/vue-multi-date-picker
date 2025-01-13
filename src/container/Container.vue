@@ -2,13 +2,13 @@
 import { autoPlacement, hide, useFloating } from '@floating-ui/vue'
 import DateObject, { Calendar, Locale, Month } from 'react-date-object'
 
-import { Ref, ref, toRefs, watch } from 'vue'
+import { ComputedRef, DeepReadonly, Ref, ref, toRefs, watch } from 'vue'
 
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
 import { useTimePicker } from '../composables/useTimePicker'
-import { ComponentMapKeys, dateSeparatorType, MapItemValues, SubTypeKeys } from '@/types'
+import { ComponentMapKeys, dateSeparatorType, DateStorage, MapItemValues, SubTypeKeys } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
 
 import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
@@ -112,7 +112,7 @@ function handleSelect(obj: DateObject) {
 
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
-watch([store.storage], () => {
+watch([store.dataSource], () => {
     onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 
@@ -179,10 +179,12 @@ const AvailableMap: (string | number)[] = mapOfCalendar
                     <!--- BODY OF DATEPICKER -->
 
                     <CalendarPanel
-                        :dataSource="store.dataSource"
+                        :type="type"
+                        :dataSource="store.dataSource as unknown as ComputedRef<DeepReadonly<DateStorage<typeof type>>>"
+                        :rangeSeparator="rangeSeparator"
+                        :dateSeparator="dateSeparator"
                         :changeMode="changeMode"
                         :mode="mode as string"
-                        :type="type"
                         :daysOfPeriod="daysOfPeriod"
                         :weekDays="weekDays"
                         :handleSelect="handleSelect"

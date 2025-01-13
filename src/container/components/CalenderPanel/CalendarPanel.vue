@@ -6,15 +6,19 @@ import CalendarHeader from './components/CalendarHeader.vue'
 import WeekDaysPanel from './components/WeekDaysPanel.vue'
 import YearsPanel from './components/YearsPanel.vue'
 import MAP_ITEMS from '@/constants/MapItem'
+import SideBarPanel from './components/SideBarPanel.vue'
+
 import { isFinalStep } from '@/utils/isFinalStep'
 import TimePicker from './components/TimePicker.vue'
-import { computed, toRefs } from 'vue'
+import { ComputedRef, DeepReadonly, toRefs } from 'vue'
 import MonthPanel from './components/MonthPanel.vue'
-import { ComponentMapKeys, MapItemValues } from '@/types'
+import { ComponentMapKeys, DateStorage, MapItemValues } from '@/types'
 
 interface Props {
-    dataSource: any
     type: ComponentMapKeys
+    dataSource: ComputedRef<DeepReadonly<DateStorage<Props['type']>>>
+    rangeSeparator: string
+    dateSeparator: string
     changeMode: (mode: MapItemValues) => void
     mode: string
     daysOfPeriod: WeekDayObject[][]
@@ -88,24 +92,19 @@ const {
 
 // const classOfHeader = computed(() => {})
 
-//TODO: create sidebar + 
+//TODO: create sidebar +
 </script>
 
 <template>
-   
-   <!-- <div class="flex justify-center">
-        <div v-if="type == 'MULTI_DATE'">
-            <ul>
-                <li>انتخاب‌ها:</li>
-                <li
-                    v-for="i in storageToString('__SEP_RANGE__', '__SEP_DATE__')?.includes('__SEP_RANGE__')
-                        ? storageToString('__SEP_RANGE__', ' , ')?.split('__SEP_RANGE__')
-                        : (storageToString('__SEP_RANGE__', '__SEP_DATE__')?.split('__SEP_DATE__') ?? [])">
-                    {{ i }}
-                </li>
-            </ul>
-        </div> -->
-
+    <div class="flex justify-center">
+        <div>
+            <SideBarPanel
+                :date-separator="dateSeparator"
+                :range-separator="rangeSeparator"
+                :storageToString="storageToString"
+                :dataSource="dataSource as unknown as ComputedRef<DeepReadonly<DateStorage<typeof type>>>"
+                :type="type" />
+        </div>
         <div :class="'grid grid-cols-' + (mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)">
             <template v-if="mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME">
                 <CalendarHeader
