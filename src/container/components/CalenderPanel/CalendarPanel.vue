@@ -19,6 +19,8 @@ interface Props {
     weekDays: string[][]
     handleSelect: (date: DateObject) => void
     existsInStorage: (date: DateObject) => number
+    removeFromStorage: (index: number) => void
+
     selectedDate: DateObject | DateObject[] | DateObject[][]
     calendarOption: ICalendarOption
     prevMonth: () => void
@@ -37,7 +39,6 @@ interface Props {
     setMonthCurrentYear: (month: number) => void
     setYearCurrentDate: (date: DateObject) => void
     setYearCurrentYear: (year: number) => void
-    removeFromStorage:(index:number)=>void
     //==============
     selectedTime: DateObject
     hour: number
@@ -141,7 +142,6 @@ const {
                 v-for="days in daysOfPeriod"
                 :key="days[0].month"
                 :removeFromStorage="removeFromStorage"
-
                 :existsInStorage="existsInStorage"
                 :daysOfPeriod="days"
                 :weekDays="weekDays"
@@ -164,6 +164,8 @@ const {
                 :currentDate="currentDate"
                 :yearsOfPeriod="yearsOfPeriod"
                 :calendarOption="calendarOption"
+                :exists-in-storage="existsInStorage"
+                :removeFromStorage="removeFromStorage"
                 :setMonthCurrentDate="setMonthCurrentDate"
                 :changeMode="changeMode"
                 :handleSelect="handleSelect"
@@ -177,6 +179,8 @@ const {
                 :nextYears="nextYears"
                 :prevYears="prevYears"
                 :calendarOption="calendarOption"
+                :exists-in-storage="existsInStorage"
+                :removeFromStorage="removeFromStorage"
                 :setYearCurrentDate="setYearCurrentDate"
                 :changeMode="changeMode"
                 :handleSelect="handleSelect"

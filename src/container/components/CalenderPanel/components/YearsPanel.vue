@@ -2,9 +2,10 @@
 import MAP_ITEMS from '@/constants/MapItem'
 import { ICalendarOption } from '@/types/ICalendarOption'
 import { WeekDayObject } from '@/types/WeekDayObject'
+import { computePosition } from '@floating-ui/vue'
 
 import DateObject from 'react-date-object'
-import { markRaw } from 'vue'
+import { computed, markRaw, watchEffect } from 'vue'
 
 interface Props {
     yearsOfPeriod: DateObject[]
@@ -12,6 +13,9 @@ interface Props {
     prevYears: Function
     currentDate: DateObject
     calendarOption: ICalendarOption
+    existsInStorage: (date: DateObject) => number
+    removeFromStorage: (index: number) => void
+
     //==================
     setYearCurrentDate: Function
     //=====================
@@ -19,27 +23,35 @@ interface Props {
     handleSelect: Function
     isFinalStep: boolean
 }
-function isSelected(year: DateObject, currentDate: DateObject): boolean {
-    return year.year === currentDate.year
-}
-const { yearsOfPeriod, nextYears, prevYears, calendarOption } = defineProps<Props>()
+
+const { yearsOfPeriod, nextYears, prevYears, calendarOption, existsInStorage } = defineProps<Props>()
+
+const processed_yearsOfPeriod = computed(() => {
+    return yearsOfPeriod.map((year) => {
+        const inStorage = existsInStorage(year)
+        return { dateobject: year, isSelected: inStorage > -1, inStorage }
+    })
+})
 </script>
 
 <template>
     <div class="datepicker-years">
-        <div v-for="(year, index) in yearsOfPeriod" :key="year.format('YYYY')" class="datepicker-year">
+        <div v-for="(year, index) in processed_yearsOfPeriod" :key="year.dateobject.format('YYYY')" class="datepicker-year">
             <div
                 :class="{
-                    active: isSelected(year, currentDate),
+                    active: (isFinalStep && year.isSelected) || (!isFinalStep && year.dateobject.year == currentDate.year),
                 }"
                 @click.prevent="
                     () => {
-                        setYearCurrentDate(year)
-                        if (isFinalStep) handleSelect(markRaw(year))
-                        else changeMode(MAP_ITEMS.MONTH)
+                        setYearCurrentDate(year.dateobject)
+
+                        if (isFinalStep) {
+                            if (!year.isSelected) handleSelect(markRaw(year.dateobject))
+                            else removeFromStorage(year.inStorage)
+                        } else changeMode(MAP_ITEMS.MONTH)
                     }
                 ">
-                {{ year.format('YYYY') }}
+                {{ year.dateobject.format('YYYY') }}
             </div>
         </div>
     </div>
