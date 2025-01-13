@@ -6,6 +6,6 @@ import persian_fa from 'react-date-object/locales/persian_fa'
 
 <template>
     <div>
-        <Container :type="'ONE_DATE'" :subType="'DAY'" :calendar="persian" :locale="persian_fa" format="YYYY-MM-DD HH:mm:ss" />
+        <Container :type="'MULTI_RANGE_DATE'" :subType="'DAY'" :calendar="persian" :locale="persian_fa" format="YYYY-MM-DD HH:mm:ss" />
     </div>
 </template>

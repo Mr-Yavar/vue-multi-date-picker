@@ -3,7 +3,7 @@ import { ICalendarOption } from '@/types/ICalendarOption'
 import { compareDate } from '@/utils/compareDate'
 import DateObject from 'react-date-object'
 
-import { markRaw, reactive, Ref, ref } from 'vue'
+import { computed, markRaw, reactive, readonly, Ref, ref, toRaw } from 'vue'
 interface Data<T extends ComponentMapKeys> {
     data: DateStorage<T> | null
 }
@@ -175,7 +175,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
                 console.log(Map)
 
                 // For an array of DateObjects, format each and join with a comma
-                return (storage.data as DateObject[]).map((date) => date.format(dateFormat)).join(dateSeparator)
+                return (storage.data as DateObject[])?.map((date) => date.format(dateFormat)).join(dateSeparator)
 
             case 'RANGE_DATE':
                 // For a DateRange, format the start and end dates
@@ -298,5 +298,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         }
     }
 
-    return { existsInStorage, setIndex, addToStorage, toString, fromString, removeFromStorage, storage }
+    const dataSource = computed(() => readonly(storage))
+
+    return { existsInStorage, setIndex, addToStorage, toString, fromString, removeFromStorage, dataSource }
 }

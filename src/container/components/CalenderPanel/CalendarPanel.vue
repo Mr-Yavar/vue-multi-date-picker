@@ -10,9 +10,11 @@ import { isFinalStep } from '@/utils/isFinalStep'
 import TimePicker from './components/TimePicker.vue'
 import { computed, toRefs } from 'vue'
 import MonthPanel from './components/MonthPanel.vue'
-import { MapItemValues } from '@/types'
+import { ComponentMapKeys, MapItemValues } from '@/types'
 
 interface Props {
+    dataSource: any
+    type: ComponentMapKeys
     changeMode: (mode: MapItemValues) => void
     mode: string
     daysOfPeriod: WeekDayObject[][]
@@ -20,7 +22,7 @@ interface Props {
     handleSelect: (date: DateObject) => void
     existsInStorage: (date: DateObject) => number
     removeFromStorage: (index: number) => void
-
+    storageToString: (rangeSeparator: string, dateSeparator: string) => string
     selectedDate: DateObject | DateObject[] | DateObject[][]
     calendarOption: ICalendarOption
     prevMonth: () => void
@@ -85,106 +87,124 @@ const {
 // }
 
 // const classOfHeader = computed(() => {})
+
+//TODO: create sidebar + 
 </script>
 
 <template>
-    <div :class="'grid grid-cols-' + (mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)">
-        <template v-if="mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME">
-            <CalendarHeader
-                v-for="(days, i) in daysOfPeriod"
-                :isFirst="i == 0"
-                :isLast="i == daysOfPeriod.length - 1"
-                :step="1"
-                :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
-                :currentDate="days[9].dateObject"
-                :nextMonth="nextMonth"
-                :prevMonth="prevMonth"
-                :nextYears="nextYears"
-                :prevYears="prevYears"
-                :nextYear="nextYear"
-                :prevYear="prevYear"
-                :changeMode="changeMode"
-                :mode="mode"
-                :AvailableMap="AvailableMap" />
-        </template>
-        <template v-else>
-            <CalendarHeader
-                :isFirst="true"
-                :isLast="true"
-                :step="1"
-                :currentDate="currentDate"
-                :nextMonth="nextMonth"
-                :prevMonth="prevMonth"
-                :nextYears="nextYears"
-                :prevYears="prevYears"
-                :nextYear="nextYear"
-                :prevYear="prevYear"
-                :changeMode="changeMode"
-                :mode="mode"
-                :AvailableMap="AvailableMap" />
-        </template>
+   
+   <!-- <div class="flex justify-center">
+        <div v-if="type == 'MULTI_DATE'">
+            <ul>
+                <li>انتخاب‌ها:</li>
+                <li
+                    v-for="i in storageToString('__SEP_RANGE__', '__SEP_DATE__')?.includes('__SEP_RANGE__')
+                        ? storageToString('__SEP_RANGE__', ' , ')?.split('__SEP_RANGE__')
+                        : (storageToString('__SEP_RANGE__', '__SEP_DATE__')?.split('__SEP_DATE__') ?? [])">
+                    {{ i }}
+                </li>
+            </ul>
+        </div> -->
 
-        <template v-if="mode == MAP_ITEMS.DAY">
-            <WeekDaysPanel
-                v-for="days in daysOfPeriod"
-                :existsInStorage="existsInStorage"
-                :removeFromStorage="removeFromStorage"
-                :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
-                :daysOfPeriod="days"
-                :weekDays="weekDays"
-                :handleSelect="handleSelect"
-                :selectedDate="selectedDate"
-                :calendarOption="calendarOption"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
-        </template>
-        <template v-if="mode == MAP_ITEMS.DAY_AND_TIME && (selectedDate instanceof DateObject || (Array.isArray(selectedDate) && selectedDate.length == 2))">
-            <WeekDaysPanel
-                v-for="days in daysOfPeriod"
-                :key="days[0].month"
-                :removeFromStorage="removeFromStorage"
-                :existsInStorage="existsInStorage"
-                :daysOfPeriod="days"
-                :weekDays="weekDays"
-                :handleSelect="handleSelect"
-                :selectedDate="selectedDate"
-                :calendarOption="calendarOption"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
-            <TimePicker
-                :hour="hour"
-                :minute="minute"
-                :second="second"
-                :selected-time="selectedTime"
-                :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
-                :handleSelect="handleSelect" />
-        </template>
+        <div :class="'grid grid-cols-' + (mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)">
+            <template v-if="mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME">
+                <CalendarHeader
+                    v-for="(days, i) in daysOfPeriod"
+                    :isFirst="i == 0"
+                    :isLast="i == daysOfPeriod.length - 1"
+                    :step="1"
+                    :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
+                    :currentDate="days[9].dateObject"
+                    :nextMonth="nextMonth"
+                    :prevMonth="prevMonth"
+                    :nextYears="nextYears"
+                    :prevYears="prevYears"
+                    :nextYear="nextYear"
+                    :prevYear="prevYear"
+                    :changeMode="changeMode"
+                    :mode="mode"
+                    :AvailableMap="AvailableMap" />
+            </template>
+            <template v-else>
+                <CalendarHeader
+                    :isFirst="true"
+                    :isLast="true"
+                    :step="1"
+                    :currentDate="currentDate"
+                    :nextMonth="nextMonth"
+                    :prevMonth="prevMonth"
+                    :nextYears="nextYears"
+                    :prevYears="prevYears"
+                    :nextYear="nextYear"
+                    :prevYear="prevYear"
+                    :changeMode="changeMode"
+                    :mode="mode"
+                    :AvailableMap="AvailableMap" />
+            </template>
 
-        <template v-if="mode == MAP_ITEMS.MONTH">
-            <MonthPanel
-                :AvailableMap="AvailableMap"
-                :currentDate="currentDate"
-                :yearsOfPeriod="yearsOfPeriod"
-                :calendarOption="calendarOption"
-                :exists-in-storage="existsInStorage"
-                :removeFromStorage="removeFromStorage"
-                :setMonthCurrentDate="setMonthCurrentDate"
-                :changeMode="changeMode"
-                :handleSelect="handleSelect"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
-        </template>
+            <template v-if="mode == MAP_ITEMS.DAY">
+                <WeekDaysPanel
+                    v-for="days in daysOfPeriod"
+                    :existsInStorage="existsInStorage"
+                    :removeFromStorage="removeFromStorage"
+                    :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
+                    :daysOfPeriod="days"
+                    :weekDays="weekDays"
+                    :handleSelect="handleSelect"
+                    :selectedDate="selectedDate"
+                    :calendarOption="calendarOption"
+                    :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
+            </template>
+            <template
+                v-if="mode == MAP_ITEMS.DAY_AND_TIME && (selectedDate instanceof DateObject || (Array.isArray(selectedDate) && selectedDate.length == 2))">
+                <WeekDaysPanel
+                    v-for="days in daysOfPeriod"
+                    :key="days[0].month"
+                    :removeFromStorage="removeFromStorage"
+                    :existsInStorage="existsInStorage"
+                    :daysOfPeriod="days"
+                    :weekDays="weekDays"
+                    :handleSelect="handleSelect"
+                    :selectedDate="selectedDate"
+                    :calendarOption="calendarOption"
+                    :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
+                <TimePicker
+                    :hour="hour"
+                    :minute="minute"
+                    :second="second"
+                    :selected-time="selectedTime"
+                    :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
+                    :handleSelect="handleSelect" />
+            </template>
 
-        <template v-if="mode == MAP_ITEMS.YEAR">
-            <YearsPanel
-                :currentDate="currentDate"
-                :yearsOfPeriod="yearsOfPeriod"
-                :nextYears="nextYears"
-                :prevYears="prevYears"
-                :calendarOption="calendarOption"
-                :exists-in-storage="existsInStorage"
-                :removeFromStorage="removeFromStorage"
-                :setYearCurrentDate="setYearCurrentDate"
-                :changeMode="changeMode"
-                :handleSelect="handleSelect"
-                :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
-        </template>
+            <template v-if="mode == MAP_ITEMS.MONTH">
+                <MonthPanel
+                    :AvailableMap="AvailableMap"
+                    :currentDate="currentDate"
+                    :yearsOfPeriod="yearsOfPeriod"
+                    :calendarOption="calendarOption"
+                    :exists-in-storage="existsInStorage"
+                    :removeFromStorage="removeFromStorage"
+                    :setMonthCurrentDate="setMonthCurrentDate"
+                    :changeMode="changeMode"
+                    :handleSelect="handleSelect"
+                    :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
+            </template>
+
+            <template v-if="mode == MAP_ITEMS.YEAR">
+                <YearsPanel
+                    :currentDate="currentDate"
+                    :yearsOfPeriod="yearsOfPeriod"
+                    :nextYears="nextYears"
+                    :prevYears="prevYears"
+                    :calendarOption="calendarOption"
+                    :exists-in-storage="existsInStorage"
+                    :removeFromStorage="removeFromStorage"
+                    :setYearCurrentDate="setYearCurrentDate"
+                    :changeMode="changeMode"
+                    :handleSelect="handleSelect"
+                    :isFinalStep="isFinalStep(mode, AvailableMap as string[])" />
+            </template>
+        </div>
     </div>
 </template>

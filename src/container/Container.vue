@@ -10,7 +10,6 @@ import { useEntryPoint } from '../composables/useEntryPoint'
 import { useTimePicker } from '../composables/useTimePicker'
 import { ComponentMapKeys, dateSeparatorType, MapItemValues, SubTypeKeys } from '@/types'
 import { ICalendarOption } from '@/types/ICalendarOption'
-import { isValidDate } from '../utils/isValidDate'
 
 import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
 
@@ -180,13 +179,16 @@ const AvailableMap: (string | number)[] = mapOfCalendar
                     <!--- BODY OF DATEPICKER -->
 
                     <CalendarPanel
+                        :dataSource="store.dataSource"
                         :changeMode="changeMode"
                         :mode="mode as string"
+                        :type="type"
                         :daysOfPeriod="daysOfPeriod"
                         :weekDays="weekDays"
                         :handleSelect="handleSelect"
                         :existsInStorage="store.existsInStorage"
                         :removeFromStorage="store.removeFromStorage"
+                        :storageToString="store.toString"
                         :selectedDate="selectedDate"
                         :calendarOption="calendarOption"
                         :prevMonth="prevMonth"
@@ -217,7 +219,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 
     <div>{{ selectedTime.hour + ':' + selectedTime.minute }}</div>
     <div>
-        {{ JSON.stringify(store.storage) }}
+        {{ JSON.stringify(store.dataSource.value) }}
     </div>
 </template>
 
