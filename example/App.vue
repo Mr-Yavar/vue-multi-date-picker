@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div class="mt-40">
     <div>
       <PickerContainer
         :type="'RANGE_DATE'"
         :subType="'DAY'"
-        :date-separator="'/'"
+        :date-separator="'  |  '"
         :calendar="persian"
         :locale="persian_fa"
         format="YYYY-MM-DD HH:mm:ss"

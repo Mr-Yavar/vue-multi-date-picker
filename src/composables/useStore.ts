@@ -91,7 +91,11 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     }
   }
 
-  function addToStorage(selectedDate: DateObject, selectedTime: DateObject) {
+  function addToStorage(
+    selectedDate: DateObject,
+    selectedTime: DateObject,
+    callBack: CallableFunction | null,
+  ) {
     console.log(selectedTime.format(calendarOption.format))
     console.log(selectedDate.format(calendarOption.format))
 
@@ -110,6 +114,9 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
       case 'ONE_DATE':
       case 'TIME':
         ;(storage.data as DateObject) = value // Store a single DateObject
+
+        callBack()
+
         break
 
       case 'MULTI_TIME':
@@ -132,6 +139,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         } else {
           if (dateRange.start != null && dateRange.start?.toDate() <= value.toDate()) {
             dateRange.end = value
+            callBack()
           } else {
             dateRange.start = value
             dateRange.end = null

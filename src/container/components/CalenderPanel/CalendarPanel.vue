@@ -92,8 +92,6 @@ const {
 // }
 
 // const classOfHeader = computed(() => {})
-
-//TODO: create sidebar +
 </script>
 
 <template>

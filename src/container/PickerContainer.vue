@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { autoPlacement, hide } from '@floating-ui/vue'
 import DateObject, { type Calendar, type Locale } from 'react-date-object'
-import { type ComputedRef, type DeepReadonly, type Ref, ref, watch } from 'vue'
+import { type ComputedRef, type DeepReadonly, onMounted, type Ref, ref, watch } from 'vue'
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
@@ -20,12 +20,14 @@ import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
 
 //================
-import { useFloating, offset } from '@floating-ui/vue'
+import { useFloating, offset, arrow } from '@floating-ui/vue'
+import { RefSymbol } from '@vue/reactivity'
 
 const reference = ref(null)
 const floating = ref(null)
-const { floatingStyles } = useFloating(reference, floating, {
-  middleware: [offset(4)],
+const floatingArrow = ref(null)
+const { floatingStyles, middlewareData } = useFloating(reference, floating, {
+  middleware: [offset(4), arrow({ element: floatingArrow }), autoPlacement()],
 })
 
 const isOpen = ref(false)
@@ -112,7 +114,7 @@ function changeMode(value: MapItemValues) {
 }
 
 function handleSelect(obj: DateObject) {
-  store.addToStorage(obj, selectedTime.value)
+  store.addToStorage(obj, selectedTime.value, dismiss)
 }
 
 // const showDatepicker = () => {
@@ -154,37 +156,54 @@ function onRawEntryPointUpdate(event: any) {
 }
 const AvailableMap: (string | number)[] = mapOfCalendar
 ///////================== EntryPoint Mid End
+const dpId = ref('dp-' + btoa(`${Math.random()}`))
+// onMounted(() => {
+//   document.onclick = (e) => {
+//     e.stopImmediatePropagation()
+//     const el = e.target as HTMLElement
+//     console.log(el)
+//     console.log(el.closest(`div#` + dpId.value + ``), el.id == dpId.value)
+//     if (el.closest(`*[id="` + dpId.value + `"]`) != null || el.id == dpId.value) return
+//     dismiss()
+//   }
+// })
 </script>
 
 <template>
-  <div class="container">
+  <div class="block w-20 mx-auto mt-50" :id="dpId">
     <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
       <input
         :value="rawDateTime"
         @input="onRawEntryPointUpdate"
         ref="reference"
+        class="border-2 border-black rounded-md"
         @click="isOpen = !isOpen"
       />
     </slot>
 
     <Teleport to="body">
       <Transition>
-        <div v-if="isOpen">
-          <div class="backdrop" @click="() => dismiss()">dddddd</div>
-          <hr />
-          <hr />
-          <hr />
-          <hr />
+        <div v-if="isOpen" class="">
+          <!-- <div class="backdrop">dddddd</div> -->
 
           <div class="popup" ref="floating" :style="floatingStyles">
-            <div class="item">My Account</div>
-
-            <hr />
-
             <div>
-              <div class="datepicker-container">
+              <div class="!relative !top-0 datepicker-container z-0">
+                <span
+                  ref="floatingArrow"
+                  class="bg-slate-100"
+                  :style="{
+                    position: 'absolute',
+                    left: middlewareData.arrow?.x != null ? `${middlewareData.arrow.x}px` : '',
+                    top: middlewareData.arrow?.y != null ? `${middlewareData.arrow.y}px` : '-5px',
+                    height: '20px',
+                    width: '20px',
+                    transform: 'rotate(45deg) ',
+                    zIndex: '-1',
+                  }"
+                ></span>
                 <!--- HEADER OF DATEPICKER -->
-                <div class="datepicker-body">
+                <div class="!z-1 datepicker-body">
                   <!--- BODY OF DATEPICKER -->
 
                   <CalendarPanel
