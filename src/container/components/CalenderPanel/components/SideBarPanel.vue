@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {  MapKeys } from '@/constants/ComponentMap'
+import { MapKeys } from '@/constants/ComponentMap'
 import type { ComponentMapKeys, DateStorage } from '@/types'
 import type { ComputedRef, DeepReadonly } from 'vue'
 
@@ -42,6 +42,7 @@ function list() {
       <li class="text-right">انتخاب‌ها:</li>
       <li
         v-for="(txt, i) in list()"
+        :key="txt"
         class="p-[0.5] px-2 my-1 bg-blue-500 rounded text-white relative"
       >
         {{ txt }}

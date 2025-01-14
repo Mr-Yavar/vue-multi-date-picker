@@ -8,7 +8,7 @@ import { computed } from 'vue'
 interface Props {
   daysOfPeriod: WeekDayObject[]
   weekDays: string[][]
-  handleSelect: Function
+  handleSelect: (date: DateObject) => void
   selectedDate: DateObject | any
   calendarOption: ICalendarOption
   isFinalStep: boolean

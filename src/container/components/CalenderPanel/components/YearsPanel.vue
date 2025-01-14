@@ -9,18 +9,18 @@ import { computed, markRaw, watchEffect } from 'vue'
 
 interface Props {
   yearsOfPeriod: DateObject[]
-  nextYears: Function
-  prevYears: Function
+  nextYears: () => void
+  prevYears: () => void
   currentDate: DateObject
   calendarOption: ICalendarOption
   existsInStorage: (date: DateObject) => number
   removeFromStorage: (index: number) => void
 
   //==================
-  setYearCurrentDate: Function
+  setYearCurrentDate: (date: DateObject) => void
   //=====================
-  changeMode: Function
-  handleSelect: Function
+  changeMode: (mode: string | number) => void
+  handleSelect: (date: DateObject) => void
   isFinalStep: boolean
 }
 
