@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { autoPlacement, hide, useFloating } from '@floating-ui/vue'
+import { autoPlacement, hide } from '@floating-ui/vue'
 import DateObject, { type Calendar, type Locale } from 'react-date-object'
-
 import { type ComputedRef, type DeepReadonly, type Ref, ref, watch } from 'vue'
-
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
@@ -16,13 +14,26 @@ import type {
   SubTypeKeys,
 } from '@/types'
 import type { ICalendarOption } from '@/types/ICalendarOption'
-
 import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
-
 import gregorian from 'react-date-object/calendars/gregorian'
-
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
+
+//================
+import { useFloating, offset } from '@floating-ui/vue'
+
+const reference = ref(null)
+const floating = ref(null)
+const { floatingStyles } = useFloating(reference, floating, {
+  middleware: [offset(4)],
+})
+
+const isOpen = ref(false)
+
+const dismiss = () => {
+  isOpen.value = false
+}
+//======================================
 
 interface Props {
   calendar: Calendar
@@ -34,13 +45,6 @@ interface Props {
   dateSeparator: dateSeparatorType
   rangeSeparator: string
 }
-
-const datepickerReference = ref(null)
-const datepickerFloating = ref(null)
-const { floatingStyles: datepickerFloatingStyles, middlewareData: datepickerMiddlewareData } =
-  useFloating(datepickerReference, datepickerFloating, {
-    middleware: [hide(), autoPlacement()],
-  })
 
 const {
   calendar: ucalendar,
@@ -153,93 +157,82 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 </script>
 
 <template>
-  {{ AvailableMap }}
-  <div class="bg-gray-400 h-[700px]">
+  <div class="container">
     <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
-      <input :value="rawDateTime" @input="onRawEntryPointUpdate" />
+      <input
+        :value="rawDateTime"
+        @input="onRawEntryPointUpdate"
+        ref="reference"
+        @click="isOpen = !isOpen"
+      />
     </slot>
 
-    <!-- <div
-    ref="datepickerReference"
-    @click="showDatepicker"
-    class="bg-red-600 focus:bg-orange-50"
-    style="display: inline-block; cursor: pointer; margin-left: 20px"
-    tabindex="100"
-    @focus="showDatepicker"
-    @blur="hideDatepicker"
-  >
-    <input type="text" readonly :value="selectedDate"  />
-  </div>
+    <Teleport to="body">
+      <Transition>
+        <div v-if="isOpen">
+          <div class="backdrop" @click="() => dismiss()">dddddd</div>
+          <hr />
+          <hr />
+          <hr />
+          <hr />
 
-      ref="datepickerFloating"
-    :style="{
-      ...datepickerFloatingStyles,
-      visibility:
-        (!datepickerMiddlewareData.hide?.referenceHidden && 'hidden') ||
-        datepickerMiddlewareData.hide?.referenceHidden
-          ? 'hidden'
-          : 'visible',
+          <div class="popup" ref="floating" :style="floatingStyles">
+            <div class="item">My Account</div>
 
-    }"
-     tabindex="10"
-     @focus="showDatepicker"
-    @blur="hideDatepicker"
-  -->
+            <hr />
 
-    <div>
-      <div class="datepicker-container">
-        <!--- HEADER OF DATEPICKER -->
-        <div class="datepicker-body">
-          <!--- BODY OF DATEPICKER -->
+            <div>
+              <div class="datepicker-container">
+                <!--- HEADER OF DATEPICKER -->
+                <div class="datepicker-body">
+                  <!--- BODY OF DATEPICKER -->
 
-          <CalendarPanel
-            :type="type"
-            :dataSource="
-              store.dataSource as unknown as ComputedRef<DeepReadonly<DateStorage<typeof type>>>
-            "
-            :rangeSeparator="rangeSeparator"
-            :dateSeparator="dateSeparator"
-            :changeMode="changeMode"
-            :mode="mode as string"
-            :daysOfPeriod="daysOfPeriod"
-            :weekDays="weekDays"
-            :handleSelect="handleSelect"
-            :existsInStorage="store.existsInStorage"
-            :removeFromStorage="store.removeFromStorage"
-            :storageToString="store.toString"
-            :selectedDate="selectedDate"
-            :calendarOption="calendarOption"
-            :prevMonth="prevMonth"
-            :nextMonth="nextMonth"
-            :currentDate="currentDate"
-            :yearsOfPeriod="yearsOfPeriod"
-            :nextYears="nextYears"
-            :prevYears="prevYears"
-            :nextYear="nextYear"
-            :prevYear="prevYear"
-            :AvailableMap="AvailableMap"
-            :currentYear="currentYear"
-            :ChangeCurrentDate="ChangeCurrentDate"
-            :setMonthCurrentDate="setMonthCurrentDate"
-            :setMonthCurrentYear="setMonthCurrentYear"
-            :setYearCurrentDate="setYearCurrentDate"
-            :setYearCurrentYear="setYearCurrentYear"
-            :hour="hour as number"
-            :minute="minute as number"
-            :second="second as number"
-            :selected-time="selectedTime"
-            :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
-          />
+                  <CalendarPanel
+                    :type="type"
+                    :dataSource="
+                      store.dataSource as unknown as ComputedRef<
+                        DeepReadonly<DateStorage<typeof type>>
+                      >
+                    "
+                    :rangeSeparator="rangeSeparator"
+                    :dateSeparator="dateSeparator"
+                    :changeMode="changeMode"
+                    :mode="mode as string"
+                    :daysOfPeriod="daysOfPeriod"
+                    :weekDays="weekDays"
+                    :handleSelect="handleSelect"
+                    :existsInStorage="store.existsInStorage"
+                    :removeFromStorage="store.removeFromStorage"
+                    :storageToString="store.toString"
+                    :selectedDate="selectedDate"
+                    :calendarOption="calendarOption"
+                    :prevMonth="prevMonth"
+                    :nextMonth="nextMonth"
+                    :currentDate="currentDate"
+                    :yearsOfPeriod="yearsOfPeriod"
+                    :nextYears="nextYears"
+                    :prevYears="prevYears"
+                    :nextYear="nextYear"
+                    :prevYear="prevYear"
+                    :AvailableMap="AvailableMap"
+                    :currentYear="currentYear"
+                    :ChangeCurrentDate="ChangeCurrentDate"
+                    :setMonthCurrentDate="setMonthCurrentDate"
+                    :setMonthCurrentYear="setMonthCurrentYear"
+                    :setYearCurrentDate="setYearCurrentDate"
+                    :setYearCurrentYear="setYearCurrentYear"
+                    :hour="hour as number"
+                    :minute="minute as number"
+                    :second="second as number"
+                    :selected-time="selectedTime"
+                    :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div>{{ selectedDate }}</div>
-
-  <div>{{ selectedTime.hour + ':' + selectedTime.minute }}</div>
-  <div>
-    {{ JSON.stringify(store.dataSource.value) }}
+      </Transition>
+    </Teleport>
   </div>
 </template>
-
-<style></style>
