@@ -1,37 +1,20 @@
-import vue from '@vitejs/plugin-vue'
-import path, { resolve } from 'path'
-import { defineConfig } from 'vite'
+// import { fileURLToPath, URL } from 'node:url'
 
-// https://vitejs.dev/config/
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+
+const projectRoot = new URL('./src', import.meta.url).pathname
+
+console.log('-------projectRoot-------', projectRoot)
+
+// https://vite.dev/config/
 export default defineConfig({
-    plugins: [vue()],
-    optimizeDeps: {
-        exclude: [''],
+  plugins: [vue(), vueDevTools()],
+  resolve: {
+    alias: {
+      // '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@': projectRoot,
     },
-    resolve: {
-        extensions: ['.js', '.ts', '.d.ts', '.vue', '.json'],
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-        },
-    },
-    build: {
-        lib: {
-            entry: resolve(__dirname, 'src/main.ts'),
-            name: 'vue-multi-date-picker',
-            // the proper extensions will be added
-            fileName: 'vue-multi-date-picker',
-        },
-        rollupOptions: {
-            // make sure to externalize deps that shouldn't be bundled
-            // into your library
-            external: ['vue'],
-            output: {
-                // Provide global variables to use in the UMD build
-                // for externalized deps
-                globals: {
-                    vue: 'Vue',
-                },
-            },
-        },
-    },
+  },
 })
