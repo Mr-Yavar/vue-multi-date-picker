@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { autoPlacement, hide } from '@floating-ui/vue'
 import DateObject, { type Calendar, type Locale } from 'react-date-object'
-import { type ComputedRef, type DeepReadonly, onMounted, type Ref, ref, watch } from 'vue'
+import { computed, type ComputedRef, type DeepReadonly, onMounted, type Ref, ref, watch } from 'vue'
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
@@ -20,14 +20,20 @@ import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
 
 //================
-import { useFloating, offset, arrow } from '@floating-ui/vue'
-import { RefSymbol } from '@vue/reactivity'
+import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
 
 const reference = ref(null)
 const floating = ref(null)
 const floatingArrow = ref(null)
-const { floatingStyles, middlewareData } = useFloating(reference, floating, {
-  middleware: [offset(4), arrow({ element: floatingArrow }), autoPlacement()],
+const { floatingStyles, middlewareData, placement } = useFloating(reference, floating, {
+  placement: 'bottom-start',
+  middleware: [
+    offset(4),
+    arrow({ element: floatingArrow, padding: 2 }),
+    autoPlacement(),
+    flip({ fallbackPlacements: ['top', 'right', 'left'] }), // Order of fallback placements
+    shift(),
+  ],
 })
 
 const isOpen = ref(false)
@@ -35,6 +41,26 @@ const isOpen = ref(false)
 const dismiss = () => {
   isOpen.value = false
 }
+
+const arrowStyles = computed(() => {
+  if (!middlewareData.value.arrow) return {}
+
+  const { x, y } = middlewareData.value.arrow
+  const placementr = placement.value.split('-')[0] // Get the base placement
+  console.log(middlewareData.value.placement)
+  switch (placementr) {
+    case 'top':
+      return { left: `${x}px`, bottom: '-5px' } // Position above
+    case 'bottom':
+      return { left: `${x}px`, top: '-5px' } // Position below
+    case 'left':
+      return { top: `${y}px`, right: '-5px' } // Position to the left
+    case 'right':
+      return { top: `${y}px`, left: '-5px' } // Position to the right
+    default:
+      return {}
+  }
+})
 //======================================
 
 interface Props {
@@ -157,16 +183,16 @@ function onRawEntryPointUpdate(event: any) {
 const AvailableMap: (string | number)[] = mapOfCalendar
 ///////================== EntryPoint Mid End
 const dpId = ref('dp-' + btoa(`${Math.random()}`))
-// onMounted(() => {
-//   document.onclick = (e) => {
-//     e.stopImmediatePropagation()
-//     const el = e.target as HTMLElement
-//     console.log(el)
-//     console.log(el.closest(`div#` + dpId.value + ``), el.id == dpId.value)
-//     if (el.closest(`*[id="` + dpId.value + `"]`) != null || el.id == dpId.value) return
-//     dismiss()
-//   }
-// })
+onMounted(() => {
+  document.onclick = (e) => {
+    e.stopImmediatePropagation()
+    const el = e.target as HTMLElement
+    // console.log(el)
+    // console.log(el.closest(`div[id="` + dpId.value + `"]`), el.id == dpId.value)
+    if (el.closest(`*[id="` + dpId.value + `"]`) != null || el.id == dpId.value) return
+    dismiss()
+  }
+})
 </script>
 
 <template>
@@ -180,26 +206,20 @@ const dpId = ref('dp-' + btoa(`${Math.random()}`))
         @click="isOpen = !isOpen"
       />
     </slot>
-
-    <Teleport to="body">
+    <div class="!relative w-full h-full">
       <Transition>
         <div v-if="isOpen" class="">
           <!-- <div class="backdrop">dddddd</div> -->
 
           <div class="popup" ref="floating" :style="floatingStyles">
             <div>
-              <div class="!relative !top-0 datepicker-container z-0">
+              <div class="!top-0 datepicker-container z-0">
                 <span
                   ref="floatingArrow"
-                  class="bg-slate-100"
+                  class="arrow"
                   :style="{
                     position: 'absolute',
-                    left: middlewareData.arrow?.x != null ? `${middlewareData.arrow.x}px` : '',
-                    top: middlewareData.arrow?.y != null ? `${middlewareData.arrow.y}px` : '-5px',
-                    height: '20px',
-                    width: '20px',
-                    transform: 'rotate(45deg) ',
-                    zIndex: '-1',
+                    ...arrowStyles,
                   }"
                 ></span>
                 <!--- HEADER OF DATEPICKER -->
@@ -252,6 +272,23 @@ const dpId = ref('dp-' + btoa(`${Math.random()}`))
           </div>
         </div>
       </Transition>
-    </Teleport>
+    </div>
   </div>
 </template>
+
+<style>
+.arrow {
+  width: 10px; /* Adjust size as needed */
+  height: 10px;
+  background: white; /* Match popover background */
+  transform: rotate(45deg);
+  z-index: -1; /* Ensure it's behind the popover content */
+}
+.popup {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+</style>
