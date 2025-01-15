@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { autoPlacement, hide } from '@floating-ui/vue'
 import DateObject, { type Calendar, type Locale } from 'react-date-object'
-import { computed, type ComputedRef, type DeepReadonly, onMounted, type Ref, ref, watch } from 'vue'
+import {
+  computed,
+  type ComputedRef,
+  type DeepReadonly,
+  onMounted,
+  type Ref,
+  ref,
+  type StyleValue,
+  useCssModule,
+  watch,
+} from 'vue'
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
@@ -25,16 +35,6 @@ import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
 const reference = ref(null)
 const floating = ref(null)
 const floatingArrow = ref(null)
-const { floatingStyles, middlewareData, placement } = useFloating(reference, floating, {
-  placement: 'bottom-start',
-  middleware: [
-    offset(4),
-    arrow({ element: floatingArrow, padding: 2 }),
-    autoPlacement(),
-    flip({ fallbackPlacements: ['top', 'right', 'left'] }), // Order of fallback placements
-    shift(),
-  ],
-})
 
 const isOpen = ref(false)
 
@@ -42,23 +42,50 @@ const dismiss = () => {
   isOpen.value = false
 }
 
+
+const { floatingStyles, middlewareData, placement } = useFloating(reference, floating, {
+  placement: 'top-end', // Initial placement (will be overridden by autoPlacement)
+  middleware: [
+    offset(8), // Add some spacing between the reference and floating element
+    arrow({ element: floatingArrow, padding: 4 }), // Configure the arrow
+    // autoPlacement({
+    //   allowedPlacements: [
+    //     'top-start',
+    //     'top-end',
+    //     'bottom-start',
+    //     'bottom-end',
+    //     'right-start',
+    //     'right-end',
+    //     'left-start',
+    //     'left-end',
+    //     'bottom',
+    //     'right',
+    //     'top',
+    //   ], // Define allowed placements
+    // }),
+    flip({
+      // fallbackPlacements: ['top', 'bottom', 'right', 'left'], // Fallback if autoPlacement fails
+    }),
+    shift({ padding: 8 }), // Prevent the floating element from going off-screen
+  ],
+})
+
 const arrowStyles = computed(() => {
   if (!middlewareData.value.arrow) return {}
 
   const { x, y } = middlewareData.value.arrow
-  const placementr = placement.value.split('-')[0] // Get the base placement
-  console.log(middlewareData.value.placement)
-  switch (placementr) {
-    case 'top':
-      return { left: `${x}px`, bottom: '-5px' } // Position above
-    case 'bottom':
-      return { left: `${x}px`, top: '-5px' } // Position below
-    case 'left':
-      return { top: `${y}px`, right: '-5px' } // Position to the left
-    case 'right':
-      return { top: `${y}px`, left: '-5px' } // Position to the right
-    default:
-      return {}
+
+  return {
+    position: 'absolute',
+    left: x != null ? `${x}px` : '',
+    top: y != null ? `${y}px` : '',
+    [(placement.value.startsWith('top')
+      ? 'bottom'
+      : placement.value.startsWith('bottom')
+        ? 'top'
+        : placement.value.startsWith('left')
+          ? 'right'
+          : 'left') as string]: '-4px', // Adjust as needed
   }
 })
 //======================================
@@ -196,7 +223,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="block w-20 mx-auto mt-50" :id="dpId">
+  <div :id="dpId">
     <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
       <input
         :value="rawDateTime"
@@ -211,17 +238,10 @@ onMounted(() => {
         <div v-if="isOpen" class="">
           <!-- <div class="backdrop">dddddd</div> -->
 
-          <div class="popup" ref="floating" :style="floatingStyles">
+          <div class="" ref="floating" :style="floatingStyles">
             <div>
-              <div class="!top-0 datepicker-container z-0">
-                <span
-                  ref="floatingArrow"
-                  class="arrow"
-                  :style="{
-                    position: 'absolute',
-                    ...arrowStyles,
-                  }"
-                ></span>
+              <div class="relative top-0 z-1 datepicker-container popup">
+                <span ref="floatingArrow" :style="arrowStyles as StyleValue" class="arrow"></span>
                 <!--- HEADER OF DATEPICKER -->
                 <div class="!z-1 datepicker-body">
                   <!--- BODY OF DATEPICKER -->
@@ -277,18 +297,29 @@ onMounted(() => {
 </template>
 
 <style>
-.arrow {
-  width: 10px; /* Adjust size as needed */
-  height: 10px;
-  background: white; /* Match popover background */
-  transform: rotate(45deg);
-  z-index: -1; /* Ensure it's behind the popover content */
-}
 .popup {
-  background: white;
+  background-color: white;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  min-width: 150px; /* Ensure a minimum width */
+}
+
+.arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  transform: rotate(45deg);
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  z-index: -10; /* Place behind the popup */
+}
+</style>
+
+<style module="dyn">
+.red {
+  color: red;
 }
 </style>

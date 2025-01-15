@@ -1,15 +1,13 @@
 <template>
-  <div class="mt-40">
-    <div>
-      <PickerContainer
-        :type="'RANGE_DATE'"
-        :subType="'DAY'"
-        :date-separator="'  |  '"
-        :calendar="persian"
-        :locale="persian_fa"
-        format="YYYY-MM-DD HH:mm:ss"
-      />
-    </div>
+  <div style="height: 700px; margin: 0 auto; display: flex; justify-content: center;align-items: center;">
+    <PickerContainer
+      :type="'RANGE_DATE'"
+      :subType="'DAY'"
+      :date-separator="'  |  '"
+      :calendar="persian"
+      :locale="persian_fa"
+      format="YYYY-MM-DD HH:mm:ss"
+    />
   </div>
 </template>
 
