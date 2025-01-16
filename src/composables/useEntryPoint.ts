@@ -14,7 +14,7 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
     rawDateTime.value = convertToEnglishNumbers(rawToShow)
   }
 
-  function onInput(rawValue: string) {
+  function onRawInput(rawValue: string) {
     isTyping.value = true
     rawDateTime.value = rawValue
 
@@ -22,5 +22,5 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
     isTypingTimeout = setTimeout(() => (isTyping.value = false), 100)
   }
 
-  return { rawDateTime, isTyping, onInput, onOutput }
+  return { rawDateTime, isTyping, onRawInput, onOutput }
 }

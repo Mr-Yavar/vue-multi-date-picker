@@ -42,6 +42,18 @@ interface Props {
   enableTeleport: boolean
 }
 
+const {
+  calendar: userCalendar,
+  locale: userLocale,
+  currentDate: userCurrentDate, // تاریخ شروع نمایش
+  format = 'YYYY-MM-DD HH:mm:ss',
+  type,
+  subType,
+  dateSeparator = ' , ',
+  rangeSeparator = ' ~ ',
+  enableTeleport = true,
+} = defineProps<Props>()
+
 //================
 import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
 
@@ -50,7 +62,7 @@ const floating = ref(null)
 const floatingArrow = ref(null)
 const isOpen = ref(false)
 
-function setRefrence(node: VNodeRef | Element | null | undefined) {
+function setReference(node: VNodeRef | Element | null | undefined) {
   if (!node) return
 
   reference.value = node
@@ -93,30 +105,34 @@ const arrowStyles = computed(() => {
           : 'left') as string]: '-5px', // Adjust as needed
   }
 })
+
+const defaultCss = useCssModule('arrowType')
+
+const arrowClassType = computed(
+  () =>
+    defaultCss[
+      Object.keys(defaultCss).find((x) => x.includes(placement.value.split('-')[0])) as string
+    ] as string,
+)
+
 //======================================
-const dpId = ref('dp-' + btoa(`${Math.random()}`))
-const panelRef = ref<HTMLElement | null>(null)
-useDetectOutsideClick(panelRef, dismiss)
+const datePickerInstanceId = ref('dp-' + btoa(`${Math.random()}`))
+const datePickerInstanceRef = ref<HTMLElement | null>(null)
+useDetectOutsideClick([datePickerInstanceRef, floating], dismiss)
+//===================================================
 
-const {
-  calendar: ucalendar,
-  locale: ulocale,
-  currentDate: ucurrentDate, // تاریخ شروع نمایش
-  format = 'YYYY-MM-DD HH:mm:ss',
-  type,
-  subType,
-  dateSeparator = ' , ',
-  rangeSeparator = ' ~ ',
-  enableTeleport = true,
-} = defineProps<Props>()
-
-const calendar = ucalendar ?? gregorian
-const locale = ulocale ?? gregorian_en
+const calendar = userCalendar ?? gregorian
+const locale = userLocale ?? gregorian_en
 const calendarOption = {
   calender: calendar,
   format: format,
   locale: locale,
 } as ICalendarOption
+
+const mapOfCalendar = configure(type, subType)
+
+//=======================================================
+
 const store = useStore(type, calendarOption)
 const {
   currentDate,
@@ -136,7 +152,7 @@ const {
   setMonthCurrentYear,
   setYearCurrentDate,
   setYearCurrentYear,
-} = useCalendar(calendarOption, ucurrentDate, 1)
+} = useCalendar(calendarOption, userCurrentDate, 1)
 
 const {
   hour,
@@ -147,16 +163,16 @@ const {
   onSeparatedInput: onTimePickerSeparatedInput,
 } = useTimePicker(calendarOption)
 
-const { rawDateTime, onInput, onOutput, isTyping } = useEntryPoint(calendarOption)
+const { rawDateTime, onRawInput, onOutput, isTyping } = useEntryPoint(calendarOption)
 
-const mapOfCalendar = configure(type, subType)
-
+//==================================================
+//====VIEW MODE
 const mode = ref<Ref<MapItemValues>>(mapOfCalendar[0])
 
 function changeMode(value: MapItemValues) {
   mode.value = value
 }
-
+//======================================================
 function handleSelect(obj: DateObject) {
   store.addToStorage(obj, selectedTime.value, dismiss)
 }
@@ -167,9 +183,12 @@ watch([store.dataSource.value], () => {
   onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 
-function onRawEntryPointUpdate(event: any) {
+function onInput(event: any) {
   const updatedRawValue: string = event.target.value
-  onInput(updatedRawValue)
+
+  console.log(updatedRawValue)
+
+  onRawInput(updatedRawValue)
 
   store.fromString(updatedRawValue, rangeSeparator, dateSeparator)
 }
@@ -180,25 +199,26 @@ onMounted(() => {
     update()
   }
 })
-const defaultCss = useCssModule()
 </script>
 
 <template>
-  <div :id="dpId" ref="panelRef">
+  <div :id="datePickerInstanceId" ref="datePickerInstanceRef">
     <slot
       name="entryPoint"
-      :updateValue="onRawEntryPointUpdate"
+      :onInput="onInput"
+      :onRawInput="onRawInput"
       :value="rawDateTime"
       :toggle="toggle"
       :dismiss="dismiss"
-      :setReference="setRefrence"
+      :setReference="setReference"
+      :isTyping="isTyping"
     >
       <input
         :value="rawDateTime"
-        @input="onRawEntryPointUpdate"
+        @input="onInput"
         ref="reference"
         class="border-2 border-black rounded-md"
-        @click="isOpen = !isOpen"
+        @click="toggle"
       />
     </slot>
     <div class="!relative w-full h-full">
@@ -214,17 +234,13 @@ const defaultCss = useCssModule()
                       ...{ ...arrowStyles },
                     } as StyleValue
                   "
-                  :class="'arrow ' +
-                    `${defaultCss[Object.keys(defaultCss).find((x) => x.includes(placement.split('-')[0])) as string] as string}`
-                  "
+                  :class="'arrow ' + arrowClassType"
                 ></div>
 
                 <div
                   ref="floatingArrow"
                   :style="arrowStyles as StyleValue"
-                  :class="'arrow ' +
-                    `${defaultCss[Object.keys(defaultCss).find((x) => x.includes(placement.split('-')[0])) as string] as string}`
-                  "
+                  :class="'arrow ' + arrowClassType"
                 ></div>
                 <!--- HEADER OF DATEPICKER -->
                 <div class="!z-1 datepicker-body">
@@ -240,7 +256,7 @@ const defaultCss = useCssModule()
                     :rangeSeparator="rangeSeparator"
                     :dateSeparator="dateSeparator"
                     :changeMode="changeMode"
-                    :mode="mode as string"
+                    :mode="mode"
                     :daysOfPeriod="daysOfPeriod"
                     :handleSelect="handleSelect"
                     :existsInStorage="store.existsInStorage"
@@ -263,9 +279,9 @@ const defaultCss = useCssModule()
                     :setMonthCurrentYear="setMonthCurrentYear"
                     :setYearCurrentDate="setYearCurrentDate"
                     :setYearCurrentYear="setYearCurrentYear"
-                    :hour="hour as number"
-                    :minute="minute as number"
-                    :second="second as number"
+                    :hour="hour"
+                    :minute="minute"
+                    :second="second"
                     :selected-time="selectedTime"
                     :onTimePickerSeparatedInput="onTimePickerSeparatedInput"
                   />
@@ -286,7 +302,7 @@ const defaultCss = useCssModule()
   z-index: 0; /* Place behind the popup */
 }
 </style>
-<style module>
+<style module="arrowType">
 .arrow-top {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
