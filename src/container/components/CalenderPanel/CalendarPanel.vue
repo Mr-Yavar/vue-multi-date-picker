@@ -23,7 +23,6 @@ interface Props {
   changeMode: (mode: MapItemValues) => void
   mode: string
   daysOfPeriod: WeekDayObject[][]
-  weekDays: string[][]
   handleSelect: (date: DateObject) => void
   existsInStorage: (date: DateObject) => number
   removeFromStorage: (index: number) => void
@@ -58,7 +57,6 @@ const props = defineProps<Props>()
 
 const {
   daysOfPeriod,
-  weekDays,
   handleSelect,
   existsInStorage,
   selectedDate,
@@ -76,12 +74,8 @@ const {
   AvailableMap,
 
   //==============
-  currentYear,
-  ChangeCurrentDate,
   setMonthCurrentDate,
-  setMonthCurrentYear,
   setYearCurrentDate,
-  setYearCurrentYear,
   ///==========
   changeMode,
 } = toRefs(props)
@@ -160,7 +154,7 @@ const {
           :removeFromStorage="removeFromStorage"
           :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
           :daysOfPeriod="days"
-          :weekDays="weekDays"
+          :weekDays="calendarOption.locale.weekDays"
           :handleSelect="handleSelect"
           :selectedDate="selectedDate"
           :calendarOption="calendarOption"
@@ -180,7 +174,7 @@ const {
           :removeFromStorage="removeFromStorage"
           :existsInStorage="existsInStorage"
           :daysOfPeriod="days"
-          :weekDays="weekDays"
+          :weekDays="calendarOption.locale.weekDays"
           :handleSelect="handleSelect"
           :selectedDate="selectedDate"
           :calendarOption="calendarOption"

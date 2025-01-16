@@ -4,10 +4,12 @@ import {
   computed,
   type ComputedRef,
   type DeepReadonly,
+  onMounted,
   type Ref,
   ref,
   type StyleValue,
   useCssModule,
+  type VNodeRef,
   watch,
 } from 'vue'
 import { configure } from '@/utils/configure'
@@ -28,16 +30,38 @@ import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
 import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
 
+interface Props {
+  calendar: Calendar
+  locale: Locale
+  currentDate?: DateObject // تاریخ شروع نمایش
+  format: string | 'YYYY-MM-DD HH:mm:ss'
+  type: ComponentMapKeys
+  subType: SubTypeKeys<Props['type']>
+  dateSeparator: dateSeparatorType
+  rangeSeparator: string
+  enableTeleport: boolean
+}
+
 //================
 import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
 
-const reference = ref(null)
+const reference = ref<VNodeRef | null>(null)
 const floating = ref(null)
 const floatingArrow = ref(null)
 const isOpen = ref(false)
 
+function setRefrence(node: VNodeRef | Element | null | undefined) {
+  if (!node) return
+
+  reference.value = node
+}
+
 const dismiss = () => {
   isOpen.value = false
+}
+
+function toggle() {
+  isOpen.value = !isOpen.value
 }
 
 const { floatingStyles, middlewareData, placement, update } = useFloating(reference, floating, {
@@ -70,17 +94,9 @@ const arrowStyles = computed(() => {
   }
 })
 //======================================
-
-interface Props {
-  calendar: Calendar
-  locale: Locale
-  currentDate?: DateObject // تاریخ شروع نمایش
-  format: string | 'YYYY-MM-DD HH:mm:ss'
-  type: ComponentMapKeys
-  subType: SubTypeKeys<Props['type']>
-  dateSeparator: dateSeparatorType
-  rangeSeparator: string
-}
+const dpId = ref('dp-' + btoa(`${Math.random()}`))
+const panelRef = ref<HTMLElement | null>(null)
+useDetectOutsideClick(panelRef, dismiss)
 
 const {
   calendar: ucalendar,
@@ -91,6 +107,7 @@ const {
   subType,
   dateSeparator = ' , ',
   rangeSeparator = ' ~ ',
+  enableTeleport = true,
 } = defineProps<Props>()
 
 const calendar = ucalendar ?? gregorian
@@ -100,24 +117,19 @@ const calendarOption = {
   format: format,
   locale: locale,
 } as ICalendarOption
-const weekDays = locale.weekDays
-const months = locale.months
-
+const store = useStore(type, calendarOption)
 const {
   currentDate,
   selectedDate,
   daysOfPeriod,
   prevMonth,
   nextMonth,
-  updateCurrentDate,
   onSeparatedInput: onCalenderSeparatedInput,
-  // updateSelectedDate: handleSelect,
   prevYears,
   nextYears,
   yearsOfPeriod,
   prevYear,
   nextYear,
-  //================
   currentYear,
   ChangeCurrentDate,
   setMonthCurrentDate,
@@ -137,10 +149,8 @@ const {
 
 const { rawDateTime, onInput, onOutput, isTyping } = useEntryPoint(calendarOption)
 
-const store = useStore(type, calendarOption)
-
 const mapOfCalendar = configure(type, subType)
-console.log(mapOfCalendar)
+
 const mode = ref<Ref<MapItemValues>>(mapOfCalendar[0])
 
 function changeMode(value: MapItemValues) {
@@ -150,19 +160,6 @@ function changeMode(value: MapItemValues) {
 function handleSelect(obj: DateObject) {
   store.addToStorage(obj, selectedTime.value, dismiss)
 }
-
-// const showDatepicker = () => {
-//   if (datepickerFloating.value) {
-//     datepickerFloating.value.style.visibility = "visible";
-//   }
-// };
-
-// const hideDatepicker = () => {
-//   if (datepickerFloating.value) {
-//     datepickerFloating.value.style.visibility = "hidden";
-//     datepickerFloating.value.style.visibility = "hidden";
-//   }
-// };
 
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
@@ -175,30 +172,27 @@ function onRawEntryPointUpdate(event: any) {
   onInput(updatedRawValue)
 
   store.fromString(updatedRawValue, rangeSeparator, dateSeparator)
-  // const dateObject: DateObject = new DateObject({
-  //     date: updatedRawValue,
-  //     calendar: calendarOption.calender,
-  //     locale: calendarOption.locale,
-  //     format: calendarOption.format as string,
-  // })
-
-  // // Update selected date and time only if the input is valid
-  // if (isValidDate(dateObject)) {
-  //     onTimePickerSeparatedInput(dateObject.hour, dateObject.minute, dateObject.second)
-  //     onCalenderSeparatedInput(dateObject.year, dateObject.month.number, dateObject.day)
-  // }
 }
 const AvailableMap: (string | number)[] = mapOfCalendar
 ///////================== EntryPoint Mid End
-const dpId = ref('dp-' + btoa(`${Math.random()}`))
-const panelRef = ref<HTMLElement | null>(null)
-useDetectOutsideClick(panelRef, dismiss)
+onMounted(() => {
+  window.onresize = () => {
+    update()
+  }
+})
 const defaultCss = useCssModule()
 </script>
 
 <template>
   <div :id="dpId" ref="panelRef">
-    <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
+    <slot
+      name="entryPoint"
+      :updateValue="onRawEntryPointUpdate"
+      :value="rawDateTime"
+      :toggle="toggle"
+      :dismiss="dismiss"
+      :setReference="setRefrence"
+    >
       <input
         :value="rawDateTime"
         @input="onRawEntryPointUpdate"
@@ -208,35 +202,30 @@ const defaultCss = useCssModule()
       />
     </slot>
     <div class="!relative w-full h-full">
-      <Transition>
-        <div v-if="isOpen" class="">
-          <!-- <div class="backdrop">dddddd</div> -->
-          <!---
-          style={{zIndex: -1, filter: 'drop-shadow(0 2px 4px rgba(0 0 0 / 0.4))'}}
-          -->
-          <div class="" ref="floating" :style="floatingStyles">
-            <div>
+      <Teleport to="body" :disabled="!enableTeleport">
+        <Transition>
+          <div v-if="isOpen">
+            <div ref="floating" :style="floatingStyles">
               <div class="relative top-0 z-1 datepicker-container popup">
-                <span
-                  ref="floatingArrow"
+                <div
                   :style="
                     {
                       zIndex: -1,
-
                       ...{ ...arrowStyles },
                     } as StyleValue
                   "
-                  class="arrow"
-                ></span>
-
-                <span
-                  ref="floatingArrow"
-                  :style="arrowStyles as StyleValue"
-                  :class="
-                    'arrow ' +
+                  :class="'arrow ' +
                     `${defaultCss[Object.keys(defaultCss).find((x) => x.includes(placement.split('-')[0])) as string] as string}`
                   "
-                ></span>
+                ></div>
+
+                <div
+                  ref="floatingArrow"
+                  :style="arrowStyles as StyleValue"
+                  :class="'arrow ' +
+                    `${defaultCss[Object.keys(defaultCss).find((x) => x.includes(placement.split('-')[0])) as string] as string}`
+                  "
+                ></div>
                 <!--- HEADER OF DATEPICKER -->
                 <div class="!z-1 datepicker-body">
                   <!--- BODY OF DATEPICKER -->
@@ -253,7 +242,6 @@ const defaultCss = useCssModule()
                     :changeMode="changeMode"
                     :mode="mode as string"
                     :daysOfPeriod="daysOfPeriod"
-                    :weekDays="weekDays"
                     :handleSelect="handleSelect"
                     :existsInStorage="store.existsInStorage"
                     :removeFromStorage="store.removeFromStorage"
@@ -285,28 +273,20 @@ const defaultCss = useCssModule()
               </div>
             </div>
           </div>
-        </div>
-      </Transition>
+        </Transition>
+      </Teleport>
     </div>
   </div>
 </template>
-
-<style module>
-.popup {
-  background-color: var(--bg-color);
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
-  min-width: 150px; /* Ensure a minimum width */
-}
-
+<style scoped>
 .arrow {
   position: absolute;
   width: 0;
   height: 0;
-  z-index: -10; /* Place behind the popup */
+  z-index: 0; /* Place behind the popup */
 }
+</style>
+<style module>
 .arrow-top {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
