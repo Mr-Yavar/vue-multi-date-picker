@@ -1,3 +1,5 @@
-import Container from './container/PickerContainer.vue'
+import './style.css'
 
-export { Container }
+import PickerContainer from './container/PickerContainer.vue'
+
+export { PickerContainer }

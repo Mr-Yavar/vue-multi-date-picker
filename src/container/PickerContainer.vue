@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { autoPlacement, hide } from '@floating-ui/vue'
 import DateObject, { type Calendar, type Locale } from 'react-date-object'
 import {
   computed,
@@ -31,6 +30,7 @@ import { useStore } from '@/composables/useStore'
 
 //================
 import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
+import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
 
 const reference = ref(null)
 const floating = ref(null)
@@ -42,30 +42,13 @@ const dismiss = () => {
   isOpen.value = false
 }
 
-
-const { floatingStyles, middlewareData, placement } = useFloating(reference, floating, {
-  placement: 'top-end', // Initial placement (will be overridden by autoPlacement)
+const { floatingStyles, middlewareData, placement, update } = useFloating(reference, floating, {
+  // placement: 'top-end', // Initial placement (will be overridden by autoPlacement)
   middleware: [
     offset(8), // Add some spacing between the reference and floating element
-    arrow({ element: floatingArrow, padding: 4 }), // Configure the arrow
-    // autoPlacement({
-    //   allowedPlacements: [
-    //     'top-start',
-    //     'top-end',
-    //     'bottom-start',
-    //     'bottom-end',
-    //     'right-start',
-    //     'right-end',
-    //     'left-start',
-    //     'left-end',
-    //     'bottom',
-    //     'right',
-    //     'top',
-    //   ], // Define allowed placements
-    // }),
-    flip({
-      // fallbackPlacements: ['top', 'bottom', 'right', 'left'], // Fallback if autoPlacement fails
-    }),
+    arrow({ element: floatingArrow }), // Configure the arrow
+
+    flip({}),
     shift({ padding: 8 }), // Prevent the floating element from going off-screen
   ],
 })
@@ -85,7 +68,7 @@ const arrowStyles = computed(() => {
         ? 'top'
         : placement.value.startsWith('left')
           ? 'right'
-          : 'left') as string]: '-4px', // Adjust as needed
+          : 'left') as string]: '-5px', // Adjust as needed
   }
 })
 //======================================
@@ -210,20 +193,14 @@ function onRawEntryPointUpdate(event: any) {
 const AvailableMap: (string | number)[] = mapOfCalendar
 ///////================== EntryPoint Mid End
 const dpId = ref('dp-' + btoa(`${Math.random()}`))
-onMounted(() => {
-  document.onclick = (e) => {
-    e.stopImmediatePropagation()
-    const el = e.target as HTMLElement
-    // console.log(el)
-    // console.log(el.closest(`div[id="` + dpId.value + `"]`), el.id == dpId.value)
-    if (el.closest(`*[id="` + dpId.value + `"]`) != null || el.id == dpId.value) return
-    dismiss()
-  }
-})
+const panelRef = ref<HTMLElement | null>(null)
+useDetectOutsideClick(panelRef, dismiss)
+const defaultCss = useCssModule()
 </script>
 
 <template>
-  <div :id="dpId">
+  <div :id="dpId" ref="panelRef">
+
     <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
       <input
         :value="rawDateTime"
@@ -235,13 +212,33 @@ onMounted(() => {
     </slot>
     <div class="!relative w-full h-full">
       <Transition>
-        <div v-if="isOpen" class="">
+        <div v-if="isOpen" class="" >
           <!-- <div class="backdrop">dddddd</div> -->
-
+          <!---
+          style={{zIndex: -1, filter: 'drop-shadow(0 2px 4px rgba(0 0 0 / 0.4))'}}
+          -->
           <div class="" ref="floating" :style="floatingStyles">
             <div>
               <div class="relative top-0 z-1 datepicker-container popup">
-                <span ref="floatingArrow" :style="arrowStyles as StyleValue" class="arrow"></span>
+                <span
+                  ref="floatingArrow"
+                  :style="
+                    {
+                      zIndex: -1,
+
+                      ...{ ...arrowStyles },
+                    } as StyleValue
+                  "
+                  class="arrow"
+                ></span>
+
+                <span
+                  ref="floatingArrow"
+                  :style="arrowStyles as StyleValue"
+                  :class="'arrow ' +
+                    `${defaultCss[Object.keys(defaultCss).find((x) => x.includes(placement.split('-')[0])) as string] as string}`
+                  "
+                ></span>
                 <!--- HEADER OF DATEPICKER -->
                 <div class="!z-1 datepicker-body">
                   <!--- BODY OF DATEPICKER -->
@@ -296,9 +293,9 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
+<style module>
 .popup {
-  background-color: white;
+  background-color: var(--bg-color);
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
@@ -308,18 +305,41 @@ onMounted(() => {
 
 .arrow {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: white;
-  transform: rotate(45deg);
-  border-left: 1px solid #ccc;
-  border-top: 1px solid #ccc;
+  width: 0;
+  height: 0;
   z-index: -10; /* Place behind the popup */
 }
-</style>
+.arrow-top {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--bg-color);
+}
 
-<style module="dyn">
-.red {
-  color: red;
+.arrow-bottom {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  border-bottom: 8px solid var(--bg-color);
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+  border-right: 8px solid var(--bg-color);
+}
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+
+  border-left: 8px solid var(--bg-color);
 }
 </style>
