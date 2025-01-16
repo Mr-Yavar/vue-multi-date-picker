@@ -9,12 +9,13 @@
     "
   >
     <PickerContainer
-      :type="'RANGE_DATE'"
-      :subType="'DAY'"
+      :type="'TIME'"
+      :subType="'TIME'"
       :date-separator="'  |  '"
+      :rangeSeparator="'~'"
       :calendar="persian"
       :locale="persian_fa"
-      format="YYYY-MM-DD HH:mm:ss"
+      format="HH:mm:ss"
     />
   </div>
 </template>

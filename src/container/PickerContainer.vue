@@ -4,7 +4,6 @@ import {
   computed,
   type ComputedRef,
   type DeepReadonly,
-  onMounted,
   type Ref,
   ref,
   type StyleValue,
@@ -27,15 +26,14 @@ import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
 import gregorian from 'react-date-object/calendars/gregorian'
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
+import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
 
 //================
 import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
-import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
 
 const reference = ref(null)
 const floating = ref(null)
 const floatingArrow = ref(null)
-
 const isOpen = ref(false)
 
 const dismiss = () => {
@@ -200,7 +198,6 @@ const defaultCss = useCssModule()
 
 <template>
   <div :id="dpId" ref="panelRef">
-
     <slot name="entryPoint" :updateValue="onRawEntryPointUpdate" :value="rawDateTime">
       <input
         :value="rawDateTime"
@@ -212,7 +209,7 @@ const defaultCss = useCssModule()
     </slot>
     <div class="!relative w-full h-full">
       <Transition>
-        <div v-if="isOpen" class="" >
+        <div v-if="isOpen" class="">
           <!-- <div class="backdrop">dddddd</div> -->
           <!---
           style={{zIndex: -1, filter: 'drop-shadow(0 2px 4px rgba(0 0 0 / 0.4))'}}
@@ -235,7 +232,8 @@ const defaultCss = useCssModule()
                 <span
                   ref="floatingArrow"
                   :style="arrowStyles as StyleValue"
-                  :class="'arrow ' +
+                  :class="
+                    'arrow ' +
                     `${defaultCss[Object.keys(defaultCss).find((x) => x.includes(placement.split('-')[0])) as string] as string}`
                   "
                 ></span>
