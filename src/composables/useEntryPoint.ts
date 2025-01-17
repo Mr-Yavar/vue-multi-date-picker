@@ -11,7 +11,7 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
   const onOutput = (rawToShow: string) => {
     if (isTyping.value) return
 
-    rawDateTime.value = convertToEnglishNumbers(rawToShow)
+    rawDateTime.value = rawToShow //convertToEnglishNumbers(rawToShow)
   }
 
   function onRawInput(rawValue: string) {
