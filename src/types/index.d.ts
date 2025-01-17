@@ -1,5 +1,5 @@
 import { ComponentMap } from '@/constants/ComponentMap'
-import DateObject from 'react-date-object'
+import type DateObject from 'react-date-object'
 
 export type ComponentMapKeys = keyof typeof ComponentMap
 export type SubTypeKeys<T extends ComponentMapKeys> = keyof (typeof ComponentMap)[T]

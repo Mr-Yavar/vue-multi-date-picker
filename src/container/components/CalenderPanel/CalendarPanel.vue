@@ -13,7 +13,7 @@ import TimePicker from './components/TimePicker.vue'
 import { type ComputedRef, type DeepReadonly, toRefs } from 'vue'
 import MonthPanel from './components/MonthPanel.vue'
 import type { ComponentMapKeys, DateStorage, MapItemValues } from '@/types'
-import { MAP_KEYS, MapKeys } from '@/constants/ComponentMap'
+import { MAP_KEYS } from '@/constants/ComponentMap'
 
 interface Props {
   type: ComponentMapKeys
