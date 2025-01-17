@@ -316,6 +316,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
   }
 
   function removeFromStorage(dIndex: number) {
+    //TODO: bug in removing item
     switch (Map) {
       case MAP_KEYS.MULTI_DATE:
       case MAP_KEYS.MULTI_TIME:
