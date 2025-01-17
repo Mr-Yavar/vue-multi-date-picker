@@ -8,12 +8,12 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-*{
-  --bg-color:#f1f5f9;
+* {
+  --bg-color: #f1f5f9;
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 .datepicker-container {
@@ -47,7 +47,6 @@ input[type=number] {
 .datepicker-body {
   padding: 10px;
   @apply grid grid-cols-1;
- 
 }
 
 .datepicker-weekdays {
@@ -88,7 +87,7 @@ input[type=number] {
 }
 
 .datepicker-day:has(.active):hover {
-  @apply  bg-blue-400 ;
+  @apply bg-blue-400;
 }
 .datepicker-day:has(.semiActive) {
   @apply !block !rounded-full !w-[35px] !h-[35px] bg-blue-200 text-gray-200;
@@ -113,11 +112,8 @@ input[type=number] {
 /****/
 
 .datepicker-years {
-  @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white ;
- 
+  @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white;
 }
-
-
 
 .datepicker-years div {
   text-align: center;
@@ -128,25 +124,21 @@ input[type=number] {
 }
 
 .datepicker-year:hover {
-  @apply  !rounded-full  bg-blue-200 !text-white;
+  @apply !rounded-full  bg-blue-200 !text-white;
 }
 
-
 .datepicker-year:has(.active) {
-  @apply  !rounded-full  bg-blue-600 !text-white;
+  @apply !rounded-full  bg-blue-600 !text-white;
 }
 
 .datepicker-year:has(.active):hover {
-  @apply  bg-blue-400 ;
+  @apply bg-blue-400;
 }
 
 /****/
 .datepicker-months {
-  @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white ;
-
+  @apply grid items-center w-full grid-cols-3 gap-2 py-2 border-b border-b-white;
 }
-
-
 
 .datepicker-months div {
   text-align: center;
@@ -157,14 +149,13 @@ input[type=number] {
 }
 
 .datepicker-month:hover {
-  @apply  !rounded-full  bg-blue-200 !text-white;
+  @apply !rounded-full  bg-blue-200 !text-white;
 }
 
-
 .datepicker-month:has(.active) {
-  @apply  !rounded-full  bg-blue-600 !text-white;
+  @apply !rounded-full  bg-blue-600 !text-white;
 }
 
 .datepicker-month:has(.active):hover {
-  @apply  bg-blue-400 ;
+  @apply bg-blue-400;
 }

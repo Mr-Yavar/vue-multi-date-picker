@@ -107,7 +107,8 @@ const {
       />
     </div>
     <div
-      :class="'grid grid-cols-' +
+      :class="
+        'grid grid-cols-' +
         (mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)
       "
     >

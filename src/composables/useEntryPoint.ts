@@ -18,7 +18,7 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
     rawDateTime.value = rawValue
 
     if (isTypingTimeout) clearTimeout(isTypingTimeout)
-      isTypingTimeout = setTimeout(() => (isTyping.value = false), 100)
+    isTypingTimeout = setTimeout(() => (isTyping.value = false), 100)
   }
 
   return { rawDateTime, isTyping, onRawInput, onOutput }

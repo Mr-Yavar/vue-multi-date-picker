@@ -1,4 +1,4 @@
 // :))))
 export function isFinalStep(item: string, array: string[]) {
-    return array.indexOf(item) === 0
+  return array.indexOf(item) === 0
 }
