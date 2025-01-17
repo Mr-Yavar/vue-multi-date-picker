@@ -316,15 +316,18 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
   }
 
   function removeFromStorage(dIndex: number) {
-    //TODO: bug in removing item
-    switch (Map) {
-      case MAP_KEYS.MULTI_DATE:
-      case MAP_KEYS.MULTI_TIME:
+    switch (Map as string) {
+      case MAP_KEYS.MULTI_DATE as string:
+      case MAP_KEYS.MULTI_TIME as string:
         ;(storage.data as DateObject[]).splice(dIndex, 1)
+
         index.value = (storage.data as DateObject[]).length
-      case MAP_KEYS.MULTI_RANGE_DATE:
+        break
+      case MAP_KEYS.MULTI_RANGE_DATE as string:
+        console.log(Map == MAP_KEYS.MULTI_RANGE_DATE)
         ;(storage.data as DateRange[]).splice(dIndex, 1)
         index.value = (storage.data as DateObject[]).length
+        break
     }
   }
 

@@ -48,6 +48,7 @@ function list() {
         {{ txt }}
 
         <span
+          key=""
           class="absolute top-[10%] right-[2%] inline-block bg-blue-700 shadow-xxl rounded-full leading-1 w-[1.25em] leading-[1.25em] text-center"
           @click.prevent="
             () => {
