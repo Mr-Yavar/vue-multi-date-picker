@@ -10,7 +10,7 @@
     "noUnusedParameters": false,
     "noImplicitAny": false,
     "rootDir": "./src", // Set this to your source directory
-    "outDir": "./dist",
+    "outDir": ".",
     "declaration": true,
     "types": ["./src/types"],
     "paths": {

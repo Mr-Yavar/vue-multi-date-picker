@@ -9,12 +9,13 @@
   "types": "./dist/main.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/main.d.ts",
       "import": "./dist/vue-multi-date-picker.js",
       "require": "./dist/vue-multi-date-picker.umd.js"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./dist/vue-multi-date-picker.css"
   },
-  "private": true,
+  "private": false,
   "type": "module",
   "scripts": {
     "dev": "vite",
