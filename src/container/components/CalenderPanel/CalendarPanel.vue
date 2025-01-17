@@ -13,7 +13,7 @@ import TimePicker from './components/TimePicker.vue'
 import { type ComputedRef, type DeepReadonly, toRefs } from 'vue'
 import MonthPanel from './components/MonthPanel.vue'
 import type { ComponentMapKeys, DateStorage, MapItemValues } from '@/types'
-import { MapKeys } from '@/constants/ComponentMap'
+import { MAP_KEYS, MapKeys } from '@/constants/ComponentMap'
 
 interface Props {
   type: ComponentMapKeys
@@ -92,7 +92,9 @@ const {
   <div class="flex flex-row-reverse justify-center">
     <div
       v-if="
-        type == MapKeys.MULTI_DATE || type == MapKeys.MULTI_TIME || type == MapKeys.MULTI_RANGE_DATE
+        type == MAP_KEYS.MULTI_DATE ||
+        type == MAP_KEYS.MULTI_TIME ||
+        type == MAP_KEYS.MULTI_RANGE_DATE
       "
     >
       <SideBarPanel
@@ -105,8 +107,7 @@ const {
       />
     </div>
     <div
-      :class="
-        'grid grid-cols-' +
+      :class="'grid grid-cols-' +
         (mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)
       "
     >

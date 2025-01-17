@@ -19,7 +19,7 @@ export function useTimePicker(
   const minute = ref<number>(currentDate.minute) // تایپ دقیقه پایین تقویم
   const second = ref<number>(currentDate.second) // تایپ ثانیه پایین تقویم
 
-  function setSelectedTime(uhour: number, uminute: number, usecond: number) {
+  function setSelectedTime(userHour: number, userMinute: number, userSecond: number) {
     selectedTime.value = markRaw(
       new DateObject({
         calendar: calendarOption.calender,
@@ -29,31 +29,41 @@ export function useTimePicker(
           selectedTime.value.toDate().getFullYear(),
           selectedTime.value.toDate().getMonth(),
           selectedTime.value.toDate().getDate(),
-          uhour,
-          uminute,
-          usecond,
+          userHour,
+          userMinute,
+          userSecond,
         ),
       }),
     )
   }
 
-  function onSeparatedInput(uhour: number, uminute: number, usecond: number) {
-    hour.value = uhour
-    minute.value = uminute
-    second.value = usecond
-    setSelectedTime(uhour, uminute, usecond)
+  function onSeparatedInput(userHour: number, userMinute: number, userSecond: number) {
+    hour.value = userHour
+    minute.value = userMinute
+    second.value = userSecond
+  
+    setSelectedTime(userHour, userMinute, userSecond)
   }
 
-  function onRawInput(rawTime: string, format: string) {
-    const txtTime = new Date().toISOString().split('T')[0] + ' ' + rawTime
+  function onRawInput(rawTime: string) {
+    const txtTime = rawTime
     const dateObject = new DateObject({
       calendar: calendarOption.calender,
       locale: calendarOption.locale,
-      format: 'YYYY-MM-DD ' + format,
+      format: calendarOption.format,
       date: txtTime,
     })
+    if (dateObject.toDate().toString() == 'Invalid Date') {
+      dateObject.setYear(selectedTime.value.year)
+      dateObject.setMonth(selectedTime.value.month.number)
+      dateObject.setDay(selectedTime.value.day)
+    }
 
-    setSelectedTime(dateObject.hour, dateObject.minute, dateObject.second)
+    onSeparatedInput(
+      !isNaN(dateObject.hour) ? dateObject.hour : 0,
+      !isNaN(dateObject.minute) ? dateObject.minute : 0,
+      !isNaN(dateObject.second) ? dateObject.second : 0,
+    )
   }
 
   return { hour, minute, second, selectedTime, onSeparatedInput, onRawInput }

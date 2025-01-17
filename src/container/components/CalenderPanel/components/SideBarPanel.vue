@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MapKeys } from '@/constants/ComponentMap'
+import { MAP_KEYS } from '@/constants/ComponentMap'
 import type { ComponentMapKeys, DateStorage } from '@/types'
 import type { ComputedRef, DeepReadonly } from 'vue'
 
@@ -20,13 +20,13 @@ function list() {
   if (!strOfStore) return arr
 
   switch (props.type as string) {
-    case MapKeys.MULTI_RANGE_DATE:
+    case MAP_KEYS.MULTI_RANGE_DATE:
       arr = strOfStore
         .split('__SEP_RANGE__')
         .map((x) => x.replaceAll('__SEP_DATE__', props.dateSeparator))
       break
-    case MapKeys.MULTI_DATE:
-    case MapKeys.MULTI_TIME:
+    case MAP_KEYS.MULTI_DATE:
+    case MAP_KEYS.MULTI_TIME:
       arr = strOfStore.split('__SEP_DATE__')
 
     default:

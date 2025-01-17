@@ -56,6 +56,7 @@ const {
 
 //================
 import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
+import { ComponentMap, MAP_KEYS } from '@/constants/ComponentMap'
 
 const reference = ref<VNodeRef | null>(null)
 const floating = ref(null)
@@ -159,7 +160,7 @@ const {
   minute,
   second,
   selectedTime,
-  onRawInput: onTimePickerInput,
+  onRawInput: onRawTimePickerInput,
   onSeparatedInput: onTimePickerSeparatedInput,
 } = useTimePicker(calendarOption)
 
@@ -186,10 +187,9 @@ watch([store.dataSource.value], () => {
 function onInput(event: any) {
   const updatedRawValue: string = event.target.value
 
-  console.log(updatedRawValue)
+  onRawTimePickerInput(updatedRawValue)
 
   onRawInput(updatedRawValue)
-
   store.fromString(updatedRawValue, rangeSeparator, dateSeparator)
 }
 const AvailableMap: (string | number)[] = mapOfCalendar

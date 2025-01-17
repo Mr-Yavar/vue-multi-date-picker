@@ -10,8 +10,8 @@
     "
   >
     <PickerContainer
-      :type="'TIME'"
-      :subType="'TIME'"
+      :type="'MULTI_DATE'"
+      :subType="'DAY'"
       :date-separator="'  |  '"
       :rangeSeparator="'~'"
       :calendar="persian"

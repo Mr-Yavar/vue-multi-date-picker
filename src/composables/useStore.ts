@@ -1,3 +1,4 @@
+import { MAP_KEYS } from '@/constants/ComponentMap'
 import type { ComponentMapKeys, DateRange, DateStorage } from '@/types'
 import type { ICalendarOption } from '@/types/ICalendarOption'
 import { compareDate } from '@/utils/compareDate'
@@ -16,18 +17,18 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
   }
 
   const storage = reactive<Data<T>>({ data: null })
-  console.log(Map, storage)
+
   // Function to check if a date or range exists in storage based on mode
   function existsInStorage(value: DateObject): number {
     switch (Map) {
-      case 'ONE_DATE':
+      case MAP_KEYS.ONE_DATE:
         return storage.data !== null &&
           value instanceof DateObject &&
           compareDate((storage.data as DateObject).toDate(), '===', value.toDate())
           ? 1
           : -1
 
-      case 'MULTI_DATE':
+      case MAP_KEYS.MULTI_DATE:
         if (storage.data === null) return -1
         return (
           (storage.data as DateObject[])?.findIndex((day) =>
@@ -35,7 +36,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
           ) ?? -1
         )
 
-      case 'RANGE_DATE':
+      case MAP_KEYS.RANGE_DATE:
         if (storage.data === null) return -1
 
         const rangeStorage = storage.data as DateRange
@@ -48,7 +49,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
 
         return startMatch && endMatch ? 1 : -1
 
-      case 'MULTI_RANGE_DATE':
+      case MAP_KEYS.MULTI_RANGE_DATE:
         if (storage === null) return -1
 
         const multiRangeStorage = storage.data as Array<DateRange>
@@ -74,23 +75,6 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     index.value = newIndex
   }
 
-  function setLoc(newLoc: boolean) {
-    switch (Map) {
-      case 'ONE_DATE':
-      case 'TIME':
-      case 'MULTI_TIME':
-      case 'MULTI_DATE':
-        return
-      case 'RANGE_DATE':
-        const range = storage.data as DateRange
-        if (newLoc) isStart.value = true
-
-      case 'MULTI_RANGE_DATE':
-
-      default:
-    }
-  }
-
   function addToStorage(
     selectedDate: DateObject,
     selectedTime: DateObject,
@@ -111,16 +95,15 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     value.setMinute(selectedTime.minute)
     value.setSecond(selectedTime.second)
     switch (Map) {
-      case 'ONE_DATE':
-      case 'TIME':
+      case MAP_KEYS.ONE_DATE:
+      case MAP_KEYS.TIME:
         ;(storage.data as DateObject) = value // Store a single DateObject
-
-        callBack()
+        if (typeof callBack == 'function') callBack()
 
         break
 
-      case 'MULTI_TIME':
-      case 'MULTI_DATE':
+      case MAP_KEYS.MULTI_TIME:
+      case MAP_KEYS.MULTI_DATE:
         if (!storage.data) {
           ;(storage.data as unknown) = [] // Initialize as an array if it's not already
         }
@@ -128,7 +111,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         index.value = (storage.data as DateObject[]).length
         break
 
-      case 'RANGE_DATE':
+      case MAP_KEYS.RANGE_DATE:
         if (!(storage.data as DateRange)) (storage.data as DateRange) = { start: null, end: null }
 
         const dateRange = storage.data as DateRange
@@ -139,7 +122,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         } else {
           if (dateRange.start != null && dateRange.start?.toDate() <= value.toDate()) {
             dateRange.end = value
-            callBack()
+            if (typeof callBack == 'function') callBack()
           } else {
             dateRange.start = value
             dateRange.end = null
@@ -148,7 +131,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
 
         break
 
-      case 'MULTI_RANGE_DATE':
+      case MAP_KEYS.MULTI_RANGE_DATE:
         {
           if (!(storage.data as Array<DateRange>))
             (storage.data as Array<DateRange>) = [{ start: null, end: null }]
@@ -180,24 +163,24 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
   function toString(rangeSeparator: string, dateSeparator: string): string {
     const dateFormat = calendarOption.format
     switch (Map) {
-      case 'ONE_DATE':
-      case 'TIME':
+      case MAP_KEYS.ONE_DATE:
+      case MAP_KEYS.TIME:
         // For a single DateObject, format it directly
         return (storage.data as DateObject)?.format(dateFormat)
 
-      case 'MULTI_TIME':
-      case 'MULTI_DATE':
+      case MAP_KEYS.MULTI_TIME:
+      case MAP_KEYS.MULTI_DATE:
         // For an array of DateObjects, format each and join with a comma
         return (storage.data as DateObject[])
           ?.map((date) => date.format(dateFormat))
           .join(dateSeparator)
 
-      case 'RANGE_DATE':
+      case MAP_KEYS.RANGE_DATE:
         // For a DateRange, format the start and end dates
         const range = storage.data as DateRange
-        return `${range.start?.format(dateFormat)}${dateSeparator}${!!range.end ? range.end?.format(dateFormat) : ''}`
+        return `${range.start?.format(dateFormat)}${dateSeparator}${range.end ? range.end?.format(dateFormat) : ''}`
 
-      case 'MULTI_RANGE_DATE':
+      case MAP_KEYS.MULTI_RANGE_DATE:
         // For an array of DateRanges, format each range and join with a semicolon
         const ranges = storage.data as Array<DateRange>
         return ranges
@@ -219,8 +202,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
       empty = true
 
     switch (Map) {
-      case 'ONE_DATE':
-      case 'TIME':
+      case MAP_KEYS.ONE_DATE:
         // For a single DateObject, parse it directly
         ;(storage.data as DateObject) = markRaw(
           new DateObject({
@@ -230,9 +212,32 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
             format: calendarOption.format as string,
           }),
         )
+
         break
-      case 'MULTI_TIME':
-      case 'MULTI_DATE':
+      case MAP_KEYS.TIME:
+        {
+          const fixedDate = new DateObject({
+            calendar: calendarOption.calender,
+            locale: calendarOption.locale,
+            date: new Date(),
+          })
+          const dateObject = new DateObject({
+            calendar: calendarOption.calender,
+            locale: calendarOption.locale,
+            format: calendarOption.format,
+            date: input,
+          })
+
+          if (dateObject.toDate().toString() == 'Invalid Date') {
+            dateObject.setYear(fixedDate.year)
+            dateObject.setMonth(fixedDate.month.number)
+            dateObject.setDay(fixedDate.day)
+          }
+          ;(storage.data as DateObject) = markRaw(dateObject)
+        }
+        break
+      case MAP_KEYS.MULTI_TIME:
+      case MAP_KEYS.MULTI_DATE:
         // For an array of DateObjects, split by dateSeparator and parse each
         ;(storage.data as DateObject[]) = !empty
           ? input.split(dateSeparator).map((dateStr) =>
@@ -250,7 +255,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         index.value = (storage.data as DateObject[]).length
         break
 
-      case 'RANGE_DATE':
+      case MAP_KEYS.RANGE_DATE:
         // For a DateRange, split by dateSeparator to get start and end dates
         const [startStr, endStr] = input.split(dateSeparator)
         const startDate = markRaw(
@@ -273,7 +278,7 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         ;(storage.data as DateRange) = { start: startDate, end: endDate }
         break
 
-      case 'MULTI_RANGE_DATE':
+      case MAP_KEYS.MULTI_RANGE_DATE:
         // For an array of DateRanges, split by rangeSeparator and then by dateSeparator
         ;(storage.data as DateRange[]) = !empty
           ? input.split(rangeSeparator).map((rangeStr) => {
@@ -312,11 +317,11 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
 
   function removeFromStorage(dIndex: number) {
     switch (Map) {
-      case 'MULTI_DATE':
-      case 'MULTI_TIME':
+      case MAP_KEYS.MULTI_DATE:
+      case MAP_KEYS.MULTI_TIME:
         ;(storage.data as DateObject[]).splice(dIndex, 1)
         index.value = (storage.data as DateObject[]).length
-      case 'MULTI_RANGE_DATE':
+      case MAP_KEYS.MULTI_RANGE_DATE:
         ;(storage.data as DateRange[]).splice(dIndex, 1)
         index.value = (storage.data as DateObject[]).length
     }
