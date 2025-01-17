@@ -13,9 +13,12 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitAny": false,
-
+    "rootDir": ".", // Set this to your source directory
+    "outDir": "./dist",
+    "declaration": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node"]
+    "types": ["node","./src/types"],
+
   }
 }

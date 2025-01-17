@@ -1,10 +1,9 @@
 import { onBeforeUnmount, onMounted, type Ref } from 'vue'
 
-export default function useDetectOutsideClick(component: Ref<HTMLElement | null>[], callback) {
+export default function useDetectOutsideClick(component: Ref<HTMLElement | null>[], callback: any) {
   if (!component) return
 
-  const listener = (event) => {
-
+  const listener = (event: Event) => {
     if (event.composedPath().some((item) => component.some((rf) => rf.value == item))) {
       return
     }

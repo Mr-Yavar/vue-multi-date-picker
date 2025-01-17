@@ -117,16 +117,16 @@ export function useCalendar(
     }).toFirstOfMonth(),
   )
   // آخر دوره
-  const lastDayOfPeriodObject = computed<DateObject>(() =>
-    new DateObject({
-      calendar: calendarOption.calender,
-      locale: calendarOption.locale,
-      format: calendarOption.format,
-      year: currentDate.value.year,
-      month: currentDate.value.month.number + numberOfMonth - 1,
-      day: currentDate.value.day,
-    }).toLastOfMonth(),
-  )
+  // const lastDayOfPeriodObject = computed<DateObject>(() =>
+  //   new DateObject({
+  //     calendar: calendarOption.calender,
+  //     locale: calendarOption.locale,
+  //     format: calendarOption.format,
+  //     year: currentDate.value.year,
+  //     month: currentDate.value.month.number + numberOfMonth - 1,
+  //     day: currentDate.value.day,
+  //   }).toLastOfMonth(),
+  // )
 
   const daysOfPeriod = computed<WeekDayObject[][]>(() => {
     const days: WeekDayObject[][] = [[]]

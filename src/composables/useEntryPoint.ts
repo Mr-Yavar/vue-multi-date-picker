@@ -1,5 +1,4 @@
 import { ref } from 'vue'
-import { convertToEnglishNumbers } from '../utils/convertToEnglishNumbers'
 import type { ICalendarOption } from '../types/ICalendarOption'
 
 export function useEntryPoint(calendarOption: ICalendarOption) {
@@ -19,7 +18,7 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
     rawDateTime.value = rawValue
 
     if (isTypingTimeout) clearTimeout(isTypingTimeout)
-    isTypingTimeout = setTimeout(() => (isTyping.value = false), 100)
+      isTypingTimeout = setTimeout(() => (isTyping.value = false), 100)
   }
 
   return { rawDateTime, isTyping, onRawInput, onOutput }

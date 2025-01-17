@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import MAP_ITEMS from '@/constants/MapItem'
 import type { ICalendarOption } from '@/types/ICalendarOption'
-import type { WeekDayObject } from '@/types/WeekDayObject'
-import { computePosition } from '@floating-ui/vue'
 
 import DateObject from 'react-date-object'
-import { computed, markRaw, watchEffect } from 'vue'
+import { computed, markRaw } from 'vue'
 
 interface Props {
   yearsOfPeriod: DateObject[]
@@ -38,7 +36,7 @@ const processed_yearsOfPeriod = computed(() => {
 <template>
   <div class="datepicker-years">
     <div
-      v-for="(year, index) in processed_yearsOfPeriod"
+      v-for="(year, _) in processed_yearsOfPeriod"
       :key="year.dateobject.format('YYYY')"
       class="datepicker-year"
     >

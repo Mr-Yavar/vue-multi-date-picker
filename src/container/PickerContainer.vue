@@ -30,7 +30,7 @@ import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
 import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
 
-interface Props {
+export interface Props {
   calendar: Calendar
   locale: Locale
   currentDate?: DateObject // تاریخ شروع نمایش
