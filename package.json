@@ -2,7 +2,7 @@
   "name": "vue-multi-date-picker",
   "version": "0.0.1",
   "files": [
-    "dist"
+    "/dist"
   ],
   "main": "./dist/vue-multi-date-picker.umd.cjs",
   "module": "./dist/vue-multi-date-picker.js",
@@ -14,6 +14,9 @@
       "require": "./dist/vue-multi-date-picker.umd.js"
     },
     "./dist/style.css": "./dist/vue-multi-date-picker.css"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "private": false,
   "type": "module",
