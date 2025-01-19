@@ -1,5 +1,6 @@
 import './style.css'
-import type * as Type from '@/types'
-import PickerContainer from './container/PickerContainer.vue'
 
+import PickerContainer from './container/PickerContainer.vue'
+import DateObject from 'react-date-object'
+export { DateObject }
 export default PickerContainer

@@ -4,6 +4,7 @@ import {
   computed,
   type ComputedRef,
   type DeepReadonly,
+  type ModelRef,
   onMounted,
   type Ref,
   ref,
@@ -40,6 +41,8 @@ export interface Props {
   dateSeparator: dateSeparatorType
   rangeSeparator: string
   enableTeleport: boolean
+  handleChange: (v: any) => void
+  defaultValue: Data<Props['type']>
 }
 
 const {
@@ -52,11 +55,13 @@ const {
   dateSeparator = ' , ',
   rangeSeparator = ' ~ ',
   enableTeleport = true,
+  handleChange,
+  defaultValue,
 } = defineProps<Props>()
 
 //================
 import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
-import { ComponentMap, MAP_KEYS } from '@/constants/ComponentMap'
+import type { Data } from '@/types/data'
 
 const reference = ref<VNodeRef | null>(null)
 const floating = ref(null)
@@ -134,7 +139,8 @@ const mapOfCalendar = configure(type, subType)
 
 //=======================================================
 
-const store = useStore(type, calendarOption)
+const store = useStore(handleChange, defaultValue, type, calendarOption)
+
 const {
   currentDate,
   selectedDate,

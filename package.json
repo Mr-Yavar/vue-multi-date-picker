@@ -33,7 +33,9 @@
   "dependencies": {
     "@floating-ui/vue": "^1.1.5",
     "react-date-object": "^2.1.8",
-    "vue": "^3.5.13"
+    "vee-validate": "^4.14.0",
+    "vue": "^3.5.13",
+    "vue-use-form": "^0.1.3"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",

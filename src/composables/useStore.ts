@@ -1,14 +1,18 @@
 import { MAP_KEYS } from '@/constants/ComponentMap'
-import type { ComponentMapKeys, DateRange, DateStorage } from '@/types'
+import type { ComponentMapKeys, DateRange } from '@/types'
+import type { Data } from '@/types/data'
 import type { ICalendarOption } from '@/types/ICalendarOption'
 import { compareDate } from '@/utils/compareDate'
 import DateObject from 'react-date-object'
 
-import { computed, markRaw, reactive, readonly, ref } from 'vue'
-interface Data<T extends ComponentMapKeys> {
-  data: DateStorage<T> | null
-}
-export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICalendarOption) {
+import { computed, markRaw, reactive, readonly, ref, toRaw, watch } from 'vue'
+
+export function useStore<T extends ComponentMapKeys>(
+  handleChange: (v: any) => void,
+  model: any,
+  Map: T,
+  calendarOption: ICalendarOption,
+) {
   const index = ref<number>(0)
   const isStart = ref<boolean>(true)
 
@@ -16,7 +20,11 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
     isStart.value = is
   }
 
-  const storage = reactive<Data<T>>({ data: null })
+  const storage = reactive<Data<T>>({ data: model ?? null })
+
+  watch([storage], () => {
+    handleChange(markRaw(storage.data))
+  })
 
   // Function to check if a date or range exists in storage based on mode
   function existsInStorage(value: DateObject): number {
@@ -239,18 +247,20 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
       case MAP_KEYS.MULTI_TIME:
       case MAP_KEYS.MULTI_DATE:
         // For an array of DateObjects, split by dateSeparator and parse each
-        ;(storage.data as DateObject[]) = !empty
-          ? input.split(dateSeparator).map((dateStr) =>
-              markRaw(
-                new DateObject({
-                  date: dateStr,
-                  calendar: calendarOption.calender,
-                  locale: calendarOption.locale,
-                  format: calendarOption.format as string,
-                }),
-              ),
-            )
-          : []
+        ;(storage.data as DateObject[]) = (
+          !empty
+            ? input.split(dateSeparator).map((dateStr) =>
+                markRaw(
+                  new DateObject({
+                    date: dateStr,
+                    calendar: calendarOption.calender,
+                    locale: calendarOption.locale,
+                    format: calendarOption.format,
+                  }),
+                ),
+              )
+            : []
+        ).filter(Boolean)
 
         index.value = (storage.data as DateObject[]).length
         break
@@ -324,7 +334,6 @@ export function useStore<T extends ComponentMapKeys>(Map: T, calendarOption: ICa
         index.value = (storage.data as DateObject[]).length
         break
       case MAP_KEYS.MULTI_RANGE_DATE as string:
-        console.log(Map == MAP_KEYS.MULTI_RANGE_DATE)
         ;(storage.data as DateRange[]).splice(dIndex, 1)
         index.value = (storage.data as DateObject[]).length
         break
