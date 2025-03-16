@@ -11,7 +11,7 @@
       "
     >
       <PickerContainer
-        :type="'ONE_DATE'"
+        :type="'MULTI_DATE'"
         :subType="'DAY'"
         :date-separator="'  |  '"
         :rangeSeparator="'~'"
@@ -20,7 +20,7 @@
         :enableTeleport="true"
         format="YYYY-MM-DD HH:mm:ss"
         :handleChange="handleChange2"
-        :defaultValue="value"
+        :defaultValue="null"
       >
         <template #entryPoint="{ onInput, value, toggle, setReference, isTyping, onRawInput }">
           <input
@@ -36,7 +36,7 @@
     </div>
     <button>sss</button>
   </form>
-  {{ JSON.stringify(d) }}
+  <!-- {{ JSON.stringify(d) }} -->
 </template>
 
 <script setup lang="ts">
@@ -48,10 +48,10 @@ import { markRaw, readonly, ref, shallowReactive, shallowRef, toValue, unref, wa
 import DateObject from 'react-date-object'
 
 function handleChange2(v: any) {
-  console.log(getValues('date'))
+  // console.log(getValues('date'))
 
-  setValue('date', v)
-  console.log(getValues('date').date?.format('YYYY'))
+  // setValue('date', v)
+  // console.log(getValues('date').date?.format('YYYY'))
 
   // handleChange(v)
 }
