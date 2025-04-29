@@ -2,7 +2,7 @@
 import { MAP_KEYS } from '@/constants/ComponentMap'
 import type { ComponentMapKeys, DateStorage } from '@/types'
 import type { ComputedRef, DeepReadonly } from 'vue'
-
+import { PrTimes } from '@kalimahapps/vue-icons';
 interface Props {
   type: ComponentMapKeys
   dataSource: ComputedRef<DeepReadonly<DateStorage<Props['type']>>>
@@ -37,9 +37,10 @@ function list() {
 }
 </script>
 <template>
-  <div class="w-[300px] max-h-[300px] overflow-y-scroll overflow-x-hidden">
-    <ul>
-      <li class="text-right">انتخاب‌ها:</li>
+  <div class=" overflow-x-hidden">
+    <p class="text-right">: انتخاب‌ها</p>
+    <ul class="w-[300px] max-h-[300px] overflow-y-scroll shadow-inner pr-1">
+
       <li
         v-for="(txt, i) in list()"
         :key="txt"
@@ -49,14 +50,17 @@ function list() {
 
         <span
           key=""
-          class="absolute top-[10%] right-[2%] inline-block bg-blue-700 shadow-xxl rounded-full leading-1 w-[1.25em] leading-[1.25em] text-center"
+          class="absolute top-[15%] cursor-pointer right-[2%] inline-block bg-gray-300 text-black shadow-xxl rounded-full leading-1  leading-[1.25em] text-center"
           @click.prevent="
             () => {
-              console.log(i)
+
               removeFromStorage(i)
             }
           "
-          >×</span
+          >
+
+          <PrTimes/>
+         </span
         >
       </li>
     </ul>

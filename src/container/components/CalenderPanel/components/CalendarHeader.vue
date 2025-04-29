@@ -2,7 +2,7 @@
 import MAP_ITEMS from '@/constants/MapItem'
 import type { MapItemValues } from '@/types'
 import DateObject from 'react-date-object'
-
+import { PrChevronRight,PrChevronLeft } from '@kalimahapps/vue-icons';
 interface Props {
   prevMonth: () => void
   nextMonth: () => void
@@ -44,9 +44,9 @@ const {
           v-if="isFirst"
           @click="() => prevMonth()"
           type="button"
-          class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50 "
         >
-          {{ '<' }}
+          <PrChevronLeft class="mx-auto"/>
         </button>
       </div>
       <div class="datepicker-header-control">
@@ -64,9 +64,9 @@ const {
           v-if="isLast"
           type="button"
           @click="() => nextMonth()"
-          class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          {{ '>' }}
+          <PrChevronRight/>
         </button>
       </div>
     </div>
@@ -77,9 +77,9 @@ const {
         <button
           @click="() => prevYear()"
           type="button"
-          class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          {{ '<' }}
+          <PrChevronLeft/>
         </button>
       </div>
       <div class="datepicker-header-control">
@@ -95,9 +95,9 @@ const {
         <button
           type="button"
           @click="() => nextYear()"
-          class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          {{ '>' }}
+           <PrChevronRight/>
         </button>
       </div>
     </div></template
@@ -108,9 +108,9 @@ const {
         <button
           @click="() => prevYears()"
           type="button"
-          class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          {{ '<' }}
+          <PrChevronLeft/>
         </button>
       </div>
       <div class="datepicker-header-control">
@@ -123,9 +123,9 @@ const {
         <button
           type="button"
           @click="() => nextYears()"
-          class="block w-[30px] h-[30px] mx-auto !rounded-full bg-gray-50"
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          {{ '>' }}
+           <PrChevronRight/>
         </button>
       </div>
     </div></template
