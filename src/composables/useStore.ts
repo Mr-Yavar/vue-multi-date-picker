@@ -342,6 +342,8 @@ export function useStore<T extends ComponentMapKeys>(
 
   const dataSource = computed(() => readonly(storage))
 
+
+
   return {
     existsInStorage,
     setIndex,
@@ -349,6 +351,6 @@ export function useStore<T extends ComponentMapKeys>(
     toString,
     fromString,
     removeFromStorage,
-    dataSource,
+    dataSource ,
   }
 }

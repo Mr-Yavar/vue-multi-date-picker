@@ -12,6 +12,7 @@ import {
   useCssModule,
   type VNodeRef,
   watch,
+  watchEffect,
 } from 'vue'
 import { configure } from '@/utils/configure'
 import { useCalendar } from '../composables/useCalendar'
@@ -186,7 +187,9 @@ function handleSelect(obj: DateObject) {
 
 ////////================= EntryPoint Mid
 // بروزرسانی محتوای
-watch([store.dataSource.value], () => {
+watchEffect( () => {
+
+
   onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 
