@@ -4,6 +4,19 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Vue-Multi-DatePicker",
   description: "A documentation for vue-multi-date-picker component",
+  locales:{
+    root: {
+      label: 'English',
+      lang: 'en'
+    },
+    fr: {
+      label: 'Persian',
+      lang: 'fa',
+      link: '/fa'
+
+      // other locale specific properties...
+    }
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
