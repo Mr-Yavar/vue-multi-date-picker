@@ -28,7 +28,10 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "prepare": "tw-patch install"
+    "prepare": "tw-patch install",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@floating-ui/vue": "^1.1.5",
@@ -58,6 +61,7 @@
     "vite": "^6.0.5",
     "vite-plugin-dts": "^4.5.0",
     "vite-plugin-vue-devtools": "^7.6.8",
+    "vitepress": "^1.6.3",
     "vue-tsc": "^2.1.10"
   },
   "packageManager": "pnpm@10.3.0+sha512.ee592eda8815a8a293c206bb0917c4bb0ff274c50def7cbc17be05ec641fc2d1b02490ce660061356bd0d126a4d7eb2ec8830e6959fb8a447571c631d5a2442d"
