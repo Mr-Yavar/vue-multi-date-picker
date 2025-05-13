@@ -3,7 +3,6 @@
 import persian_fa from 'react-date-object/locales/persian_fa'
 import persian from 'react-date-object/calendars/persian'
 import PickerContainer from '../../src/main';
-
 interface Props {
   handleChange: CallableFunction
   value: any
@@ -23,8 +22,8 @@ interface Props {
     :enableTeleport="true"
     format="YYYY-MM-DD HH:mm:ss"
     :handleChange="handleChange"
-    :defaultValue="value"
-    :value=""
+
+    :value="value"
   >
     <template #entryPoint="{ onInput, value, toggle, setReference, isTyping, onRawInput }">
       <input

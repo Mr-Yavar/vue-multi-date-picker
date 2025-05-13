@@ -47,7 +47,8 @@ export interface Props {
   rangeSeparator: string
   enableTeleport: boolean
   handleChange: (v: any) => void
-  defaultValue: DateStorage<Props['type']>
+  defaultValue: DateStorage<Props['type']> | PlainDateStorage<Props['type']>
+  value : DateStorage<Props['type']> | PlainDateStorage<Props['type']>
 }
 
 const {
@@ -63,6 +64,7 @@ const {
   enableTeleport = true,
   handleChange,
   defaultValue,
+  value
 } = defineProps<Props>()
 
 const calendar = userCalendar ?? gregorian
@@ -73,12 +75,17 @@ const calendarOption = {
   locale: locale,
 } as ICalendarOption
 
-const mapOfCalendar = configure(type, subType)
+const mapOfCalendar = configure(type, subType);
+
+
+
 //#endregion
 //=======================================================
 
-const store = useStore(handleChange, defaultValue, type, calendarOption)
-
+const store = useStore(handleChange, defaultValue, type, calendarOption,plainJsDate)
+  watchEffect(()=>{
+    store.setStorage(value);
+  });
 const {
   currentDate,
   selectedDate,

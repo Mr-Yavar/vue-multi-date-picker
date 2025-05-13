@@ -6,7 +6,18 @@ import { compareDate } from '@/utils/compareDate'
 import DateObject from 'react-date-object'
 
 import { computed, markRaw, reactive, readonly, ref, watch } from 'vue'
-
+/**
+ *
+ *
+ * @export
+ * @template T
+ * @param {(v: any) => void} handleChange
+ * @param {*} model
+ * @param {T} Map type of component
+ * @param {ICalendarOption} calendarOption
+ * @param {boolean} plainJsDate export js Date
+ * @return {*}
+ */
 export function useStore<T extends ComponentMapKeys>(
   handleChange: (v: any) => void,
   model: any,
@@ -427,6 +438,58 @@ export function useStore<T extends ComponentMapKeys>(
     }
   }
 
+  /**
+   * fill storage.data by input that itself is DateStorage
+   *
+   * @param input {DateStorage<T>} value
+   */
+function fillStorage(
+  input: DateStorage<T>
+): void {
+  switch (Map) {
+    case MAP_KEYS.ONE_DATE:
+    case MAP_KEYS.TIME:
+      storage.data = markRaw(input as DateObject) as DateStorage<T>
+      break
+
+    case MAP_KEYS.MULTI_DATE:
+    case MAP_KEYS.MULTI_TIME:
+      storage.data = (input as DateObject[]).map(markRaw) as DateStorage<T>
+      index.value = (storage.data as DateObject[]).length
+      break
+
+    case MAP_KEYS.RANGE_DATE: {
+      const { start, end } = input as DateRange
+      storage.data = {
+        start: markRaw(start as DateObject),
+        end: end ? markRaw(end) : null,
+      } as DateStorage<T>
+      break
+    }
+
+    case MAP_KEYS.MULTI_RANGE_DATE:
+      storage.data = (input as DateRange[]).map(({ start, end }) => ({
+        start: markRaw(start as DateObject),
+        end: end ? markRaw(end) : null,
+      })) as DateStorage<T>
+      index.value = (storage.data as DateRange[]).length
+      break
+
+    default:
+      storage.data = null as any
+  }
+}
+
+  function setStorage(input: PlainDateStorage<T> | DateStorage<T>):void{
+    if(!input)
+      return;
+
+    if(plainJsDate)
+      fromJsDate(input as PlainDateStorage<T>);
+    else
+      fillStorage(input as DateStorage<T>);
+  }
+
   return {
     existsInStorage,
     setIndex,
@@ -434,8 +497,7 @@ export function useStore<T extends ComponentMapKeys>(
     toString,
     fromString,
     removeFromStorage,
-    toJSDate,
-    fromJsDate,
+    setStorage,
     dataSource,
   }
 }
