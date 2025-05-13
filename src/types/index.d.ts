@@ -24,4 +24,18 @@ export type DateStorage<T extends ComponentMapKeys> = T extends MAP_KEYS.ONE_DAT
             ? Array<DateRange>
             : never // Fallback to never if no match is found
 
+export type PlainDateStorage<T extends ComponentMapKeys> = T extends MAP_KEYS.ONE_DATE
+  ? Date
+  : T extends MAP_KEYS.TIME
+    ? Date
+    : T extends MAP_KEYS.MULTI_DATE
+      ? Date[]
+      : T extends MAP_KEYS.MULTI_TIME
+        ? Date[]
+        : T extends MAP_KEYS.RANGE_DATE
+          ? { start: Date; end: Date | null }
+          : T extends MAP_KEYS.MULTI_RANGE_DATE
+            ? Array<{ start: Date; end: Date | null }>
+            : never
+
 export type dateSeparatorType = ',' | '-' | '|' | '~'

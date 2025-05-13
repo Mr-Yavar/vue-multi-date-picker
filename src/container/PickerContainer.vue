@@ -31,8 +31,12 @@ import gregorian from 'react-date-object/calendars/gregorian'
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
 import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
+import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
 
+//====================== Props Area
+//#region [Props Area]
 export interface Props {
+  plainDate: boolean
   calendar: Calendar
   locale: Locale
   currentDate?: DateObject // تاریخ شروع نمایش
@@ -43,10 +47,11 @@ export interface Props {
   rangeSeparator: string
   enableTeleport: boolean
   handleChange: (v: any) => void
-  defaultValue: Data<Props['type']>
+  defaultValue: DateStorage<Props['type']>
 }
 
 const {
+  plainJsDate = false,
   calendar: userCalendar,
   locale: userLocale,
   currentDate: userCurrentDate, // تاریخ شروع نمایش
@@ -60,25 +65,79 @@ const {
   defaultValue,
 } = defineProps<Props>()
 
-//================
-import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
-import type { Data } from '@/types/data'
+const calendar = userCalendar ?? gregorian
+const locale = userLocale ?? gregorian_en
+const calendarOption = {
+  calender: calendar,
+  format: format,
+  locale: locale,
+} as ICalendarOption
+
+const mapOfCalendar = configure(type, subType)
+//#endregion
+//=======================================================
+
+const store = useStore(handleChange, defaultValue, type, calendarOption)
+
+const {
+  currentDate,
+  selectedDate,
+  daysOfPeriod,
+  prevMonth,
+  nextMonth,
+  onSeparatedInput: onCalenderSeparatedInput,
+  prevYears,
+  nextYears,
+  yearsOfPeriod,
+  prevYear,
+  nextYear,
+  currentYear,
+  ChangeCurrentDate,
+  setMonthCurrentDate,
+  setMonthCurrentYear,
+  setYearCurrentDate,
+  setYearCurrentYear,
+} = useCalendar(calendarOption, userCurrentDate, 1)
+
+const {
+  hour,
+  minute,
+  second,
+  selectedTime,
+  onRawInput: onRawTimePickerInput,
+  onSeparatedInput: onTimePickerSeparatedInput,
+} = useTimePicker(calendarOption)
+
+const { rawDateTime, onRawInput, onOutput, isTyping } = useEntryPoint(calendarOption)
+
+//================ Floating UI Area
+//#region [Floating UI Area]
 
 const reference = ref<VNodeRef | null>(null)
 const floating = ref(null)
 const floatingArrow = ref(null)
 const isOpen = ref(false)
 
+/**
+ * set point for floating ui
+ * @param node html element to point floating panel
+ */
 function setReference(node: VNodeRef | Element | null | undefined) {
   if (!node) return
 
   reference.value = node
 }
 
+/**
+ * close floating panel
+ */
 const dismiss = () => {
   isOpen.value = false
 }
 
+/**
+ * toggle of floating panel
+ */
 function toggle() {
   isOpen.value = !isOpen.value
 }
@@ -121,75 +180,40 @@ const arrowClassType = computed(
       Object.keys(defaultCss).find((x) => x.includes(placement.value.split('-')[0])) as string
     ] as string,
 )
-
+//#endregion
 //======================================
+
+//#region [Detect Outside Click]
 const datePickerInstanceId = ref('dp-' + btoa(`${Math.random()}`))
 const datePickerInstanceRef = ref<HTMLElement | null>(null)
 useDetectOutsideClick([datePickerInstanceRef, floating], dismiss)
+//#endregion
 //===================================================
 
-const calendar = userCalendar ?? gregorian
-const locale = userLocale ?? gregorian_en
-const calendarOption = {
-  calender: calendar,
-  format: format,
-  locale: locale,
-} as ICalendarOption
+//#region [View of Panel Area]
 
-const mapOfCalendar = configure(type, subType)
-
-//=======================================================
-
-const store = useStore(handleChange, defaultValue, type, calendarOption)
-
-const {
-  currentDate,
-  selectedDate,
-  daysOfPeriod,
-  prevMonth,
-  nextMonth,
-  onSeparatedInput: onCalenderSeparatedInput,
-  prevYears,
-  nextYears,
-  yearsOfPeriod,
-  prevYear,
-  nextYear,
-  currentYear,
-  ChangeCurrentDate,
-  setMonthCurrentDate,
-  setMonthCurrentYear,
-  setYearCurrentDate,
-  setYearCurrentYear,
-} = useCalendar(calendarOption, userCurrentDate, 1)
-
-const {
-  hour,
-  minute,
-  second,
-  selectedTime,
-  onRawInput: onRawTimePickerInput,
-  onSeparatedInput: onTimePickerSeparatedInput,
-} = useTimePicker(calendarOption)
-
-const { rawDateTime, onRawInput, onOutput, isTyping } = useEntryPoint(calendarOption)
-
-//==================================================
-//====VIEW MODE
+//should start from first step
 const mode = ref<Ref<MapItemValues>>(mapOfCalendar[0])
 
 function changeMode(value: MapItemValues) {
   mode.value = value
 }
-//======================================================
+
+/**
+ *
+ *  انتخاب تاریخ
+ */
 function handleSelect(obj: DateObject) {
   store.addToStorage(obj, selectedTime.value, dismiss)
 }
 
+//#endregion
+//======================================================
+
 ////////================= EntryPoint Mid
+//#region [EntryPoint Control Area]
 // بروزرسانی محتوای
-watchEffect( () => {
-
-
+watchEffect(() => {
   onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 
@@ -208,6 +232,8 @@ onMounted(() => {
     update()
   }
 })
+
+//#endregion
 </script>
 
 <template>

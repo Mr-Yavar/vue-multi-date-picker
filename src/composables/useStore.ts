@@ -1,17 +1,18 @@
 import { MAP_KEYS } from '@/constants/ComponentMap'
-import type { ComponentMapKeys, DateRange } from '@/types'
+import type { ComponentMapKeys, DateRange, DateStorage, PlainDateStorage } from '@/types'
 import type { Data } from '@/types/data'
 import type { ICalendarOption } from '@/types/ICalendarOption'
 import { compareDate } from '@/utils/compareDate'
 import DateObject from 'react-date-object'
 
-import { computed, markRaw, reactive, readonly, ref, toRaw, watch } from 'vue'
+import { computed, markRaw, reactive, readonly, ref, watch } from 'vue'
 
 export function useStore<T extends ComponentMapKeys>(
   handleChange: (v: any) => void,
   model: any,
   Map: T,
   calendarOption: ICalendarOption,
+  plainJsDate: boolean,
 ) {
   const index = ref<number>(0)
   const isStart = ref<boolean>(true)
@@ -21,9 +22,11 @@ export function useStore<T extends ComponentMapKeys>(
   }
 
   const storage = reactive<Data<T>>({ data: model ?? null })
+  const dataSource = computed(() => readonly(storage))
 
   watch([storage], () => {
-    handleChange(markRaw(storage.data))
+    if (plainJsDate) handleChange(toJSDate())
+    else handleChange(dataSource.value.data)
   })
 
   // Function to check if a date or range exists in storage based on mode
@@ -88,9 +91,6 @@ export function useStore<T extends ComponentMapKeys>(
     selectedTime: DateObject,
     callBack: CallableFunction | null,
   ) {
-    console.log(selectedTime.format(calendarOption.format))
-    console.log(selectedDate.format(calendarOption.format))
-
     const value = markRaw(
       new DateObject({
         calendar: calendarOption.calender,
@@ -340,9 +340,92 @@ export function useStore<T extends ComponentMapKeys>(
     }
   }
 
-  const dataSource = computed(() => readonly(storage))
+  /**
+   * convert DateObject/s that are stored in storage to Js Date
+   *
+   *
+   * @returns data with Date
+   */
+  function toJSDate(): PlainDateStorage<T> {
+    const data = storage.data
+    switch (Map) {
+      case MAP_KEYS.ONE_DATE:
+      case MAP_KEYS.TIME:
+        return (data as DateObject).toDate() as PlainDateStorage<T>
 
+      case MAP_KEYS.MULTI_DATE:
+      case MAP_KEYS.MULTI_TIME:
+        return (data as DateObject[]).map((d) => d.toDate()) as PlainDateStorage<T>
 
+      case MAP_KEYS.RANGE_DATE:
+        const range = data as DateRange
+        return {
+          start: range.start?.toDate(),
+          end: range.end ? range.end.toDate() : null,
+        } as PlainDateStorage<T>
+
+      case MAP_KEYS.MULTI_RANGE_DATE:
+        return (data as Array<DateRange>).map((range) => ({
+          start: range.start?.toDate(),
+          end: range.end ? range.end.toDate() : null,
+        })) as PlainDateStorage<T>
+
+      default:
+        throw new Error('Unsupported map key')
+    }
+  }
+  /**
+   *
+   * fill storage by Js Date/s
+   *
+   * @param mapKey
+   * @param input
+   */
+  function fromJsDate(input: PlainDateStorage<T>): void {
+    const createDateObject = (d: Date): DateObject =>
+      markRaw(
+        new DateObject({
+          date: d,
+          calendar: calendarOption.calender,
+          locale: calendarOption.locale,
+          format: calendarOption.format as string,
+        }),
+      )
+
+    switch (Map) {
+      case MAP_KEYS.ONE_DATE:
+      case MAP_KEYS.TIME:
+        storage.data = createDateObject(input as Date) as DateStorage<T>
+        break
+
+      case MAP_KEYS.MULTI_DATE:
+      case MAP_KEYS.MULTI_TIME:
+        storage.data = (input as Date[]).map(createDateObject) as DateStorage<T>
+        index.value = (storage.data as DateObject[]).length
+        break
+
+      case MAP_KEYS.RANGE_DATE: {
+        const { start, end } = input as { start: Date; end: Date | null }
+        const startDate = createDateObject(start)
+        const endDate = end ? createDateObject(end) : null
+        storage.data = { start: startDate, end: endDate } as DateStorage<T>
+        break
+      }
+
+      case MAP_KEYS.MULTI_RANGE_DATE:
+        storage.data = (input as Array<{ start: Date; end: Date | null }>).map(
+          ({ start, end }) => ({
+            start: createDateObject(start),
+            end: end ? createDateObject(end) : null,
+          }),
+        ) as DateStorage<T>
+        index.value = (storage.data as DateRange[]).length
+        break
+
+      default:
+        throw new Error('Unsupported map key')
+    }
+  }
 
   return {
     existsInStorage,
@@ -351,6 +434,8 @@ export function useStore<T extends ComponentMapKeys>(
     toString,
     fromString,
     removeFromStorage,
-    dataSource ,
+    toJSDate,
+    fromJsDate,
+    dataSource,
   }
 }
