@@ -8,7 +8,7 @@ export function useEntryPoint(calendarOption: ICalendarOption) {
 
   // بروز کردن محتوای اینپوت اصلی
   const onOutput = (rawToShow: string) => {
-    console.log("🚀 ~ onOutput ~ rawToShow:", rawToShow)
+    console.log('🚀 ~ onOutput ~ rawToShow:', rawToShow)
     if (isTyping.value) return
 
     rawDateTime.value = rawToShow //convertToEnglishNumbers(rawToShow)

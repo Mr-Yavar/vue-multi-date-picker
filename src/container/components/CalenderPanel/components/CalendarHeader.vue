@@ -2,7 +2,7 @@
 import MAP_ITEMS from '@/constants/MapItem'
 import type { MapItemValues } from '@/types'
 import DateObject from 'react-date-object'
-import { PrChevronRight,PrChevronLeft } from '@kalimahapps/vue-icons';
+import { PrChevronRight, PrChevronLeft } from '@kalimahapps/vue-icons'
 interface Props {
   prevMonth: () => void
   nextMonth: () => void
@@ -44,9 +44,9 @@ const {
           v-if="isFirst"
           @click="() => prevMonth()"
           type="button"
-          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50 "
+          class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          <PrChevronLeft class="mx-auto"/>
+          <PrChevronLeft class="mx-auto" />
         </button>
       </div>
       <div class="datepicker-header-control">
@@ -66,7 +66,7 @@ const {
           @click="() => nextMonth()"
           class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          <PrChevronRight/>
+          <PrChevronRight />
         </button>
       </div>
     </div>
@@ -79,7 +79,7 @@ const {
           type="button"
           class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          <PrChevronLeft/>
+          <PrChevronLeft />
         </button>
       </div>
       <div class="datepicker-header-control">
@@ -97,11 +97,10 @@ const {
           @click="() => nextYear()"
           class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-           <PrChevronRight/>
+          <PrChevronRight />
         </button>
-      </div>
-    </div></template
-  >
+      </div></div
+  ></template>
   <template v-else-if="MAP_ITEMS.YEAR == mode">
     <div class="datepicker-header">
       <div class="datepicker-header-prev">
@@ -110,7 +109,7 @@ const {
           type="button"
           class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-          <PrChevronLeft/>
+          <PrChevronLeft />
         </button>
       </div>
       <div class="datepicker-header-control">
@@ -125,9 +124,8 @@ const {
           @click="() => nextYears()"
           class="block w-[40px] h-[40px] mx-auto !rounded-full bg-gray-50"
         >
-           <PrChevronRight/>
+          <PrChevronRight />
         </button>
-      </div>
-    </div></template
-  >
+      </div></div
+  ></template>
 </template>

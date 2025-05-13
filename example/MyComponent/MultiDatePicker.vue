@@ -24,6 +24,7 @@ interface Props {
     format="YYYY-MM-DD HH:mm:ss"
     :handleChange="handleChange"
     :defaultValue="value"
+    :value=""
   >
     <template #entryPoint="{ onInput, value, toggle, setReference, isTyping, onRawInput }">
       <input
