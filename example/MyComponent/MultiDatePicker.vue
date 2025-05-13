@@ -6,8 +6,10 @@ import PickerContainer from '../../src/main';
 interface Props {
   handleChange: CallableFunction
   value: any
+  field:any
 }
 
+const props = defineProps<Props>();
 
 </script>
 
@@ -22,7 +24,6 @@ interface Props {
     :enableTeleport="true"
     format="YYYY-MM-DD HH:mm:ss"
     :handleChange="handleChange"
-
     :value="value"
   >
     <template #entryPoint="{ onInput, value, toggle, setReference, isTyping, onRawInput }">

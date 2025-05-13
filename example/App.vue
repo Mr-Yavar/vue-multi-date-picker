@@ -21,7 +21,7 @@ const FormObj = useForm({
     <div class="bg-gray-500">
       <FormObj.Field name="dates">
         <template v-slot="{ field }">
-          <MultiDatePicker :handleChange="field.handleChange" />
+          <MultiDatePicker :handleChange="field.handleChange" :value="field.value" :field="field"/>
         </template>
       </FormObj.Field>
     </div>
