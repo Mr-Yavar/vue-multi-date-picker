@@ -23,6 +23,7 @@ import type {
   dateSeparatorType,
   DateStorage,
   MapItemValues,
+  PlainDateStorage,
   SubTypeKeys,
 } from '@/types'
 import type { ICalendarOption } from '@/types/ICalendarOption'
@@ -36,7 +37,7 @@ import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
 //====================== Props Area
 //#region [Props Area]
 export interface Props {
-  plainDate: boolean
+  plainJsDate: boolean
   calendar: Calendar
   locale: Locale
   currentDate?: DateObject // تاریخ شروع نمایش
@@ -49,6 +50,9 @@ export interface Props {
   handleChange: (v: any) => void
   defaultValue: DateStorage<Props['type']> | PlainDateStorage<Props['type']>
   value : DateStorage<Props['type']> | PlainDateStorage<Props['type']>
+  minDate: DateObject | Date | null
+  maxDate: DateObject | Date | null
+  bannedDates :  DateObject[] | ((date:DateObject)=>boolean) | Date | Date[] | null
 }
 
 const {
@@ -64,7 +68,10 @@ const {
   enableTeleport = true,
   handleChange,
   defaultValue,
-  value
+  value,
+  minDate = null,
+  maxDate= null,
+  bannedDates = null
 } = defineProps<Props>()
 
 const calendar = userCalendar ?? gregorian

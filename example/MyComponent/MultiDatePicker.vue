@@ -15,7 +15,7 @@ const props = defineProps<Props>();
 
 <template>
   <PickerContainer
-    :type="'MULTI_DATE'"
+    :type="'MULTI_RANGE_DATE'"
     :subType="'DAY'"
     :date-separator="'  |  '"
     :rangeSeparator="'~'"

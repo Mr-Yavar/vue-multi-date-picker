@@ -7,12 +7,17 @@ import type { ICalendarOption } from '@/types/ICalendarOption'
 import type { WeekDayObject } from '../types/WeekDayObject'
 import { weekDayTemplate } from '../utils/weekDayTemplate'
 import { generatePivotDateFromYear } from '@/utils/generatePivotDateFromYear'
+import { isActiveDate } from '@/utils/isActiveDate'
 
 export function useCalendar(
   calendarOption: ICalendarOption,
   ucurrentDate: DateObject | undefined,
   numberOfMonth: 1 | 2 | 3 = 3,
+  minDate: DateObject | Date | null,
+  maxDate: DateObject | Date | null,
+  bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date | Date[] | null,
 ) {
+
   const showMultipleMonth = numberOfMonth > 1
   const selectedDate = ref<DateObject>(
     markRaw(
@@ -165,7 +170,13 @@ export function useCalendar(
 
       for (let i = firstDay; i <= lastDay; i.setDate(i.getDate() + 1)) {
         const temp = new Date(i)
-        days[index].push(weekDayTemplate(temp, calendarOption, true))
+        days[index].push(
+          weekDayTemplate(
+            temp,
+            calendarOption,
+
+          ),
+        )
       }
 
       const lastDay_Of_lastWeekOfPeriod = new DateObject({
