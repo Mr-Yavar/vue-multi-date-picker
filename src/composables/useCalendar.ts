@@ -17,7 +17,6 @@ export function useCalendar(
   maxDate: DateObject | Date | null,
   bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date | Date[] | null,
 ) {
-
   const showMultipleMonth = numberOfMonth > 1
   const selectedDate = ref<DateObject>(
     markRaw(
@@ -29,7 +28,26 @@ export function useCalendar(
     ),
   ) // تاریخ انتخاب شده
 
+  function isBanned(date: Date | DateObject) {
+    //TODO: implment option to disable or enable dates that are not in month
+    if (date instanceof Date)
+      return isActiveDate(
+        new DateObject({
+          locale: calendarOption.locale,
+          format: calendarOption.format,
+          calendar: calendarOption.calender,
+          date,
+        }),
+        minDate,
+        maxDate,
+        bannedDates,
+      )
+    else if (date instanceof DateObject) return isActiveDate(date, minDate, maxDate, bannedDates)
+  }
+
   /// ======================================== YEAR PANEL
+  //#region [Year Panel]
+
   /**
    * This is for storing point view of year panel
    * updates:
@@ -97,8 +115,10 @@ export function useCalendar(
   function setMonthCurrentYear(month: number) {
     currentYear.value.setMonth(month)
   }
-  /// ======================================== YEAR PANEL
+  //#endregion
 
+  /// ======================================== WEEKDAY PANEL
+  //#region [WeekDay Panel]
   const currentDate = ref<DateObject>(
     markRaw(
       ucurrentDate ??
@@ -165,18 +185,12 @@ export function useCalendar(
         forWardStep < firstDay;
         forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-        days[index].push(weekDayTemplate(forWardStep, calendarOption, false))
+        days[index].push(weekDayTemplate(forWardStep, calendarOption, isBanned(forWardStep)))
       }
 
       for (let i = firstDay; i <= lastDay; i.setDate(i.getDate() + 1)) {
         const temp = new Date(i)
-        days[index].push(
-          weekDayTemplate(
-            temp,
-            calendarOption,
-
-          ),
-        )
+        days[index].push(weekDayTemplate(temp, calendarOption, isBanned(temp)))
       }
 
       const lastDay_Of_lastWeekOfPeriod = new DateObject({
@@ -188,13 +202,21 @@ export function useCalendar(
         .toLastOfWeek()
         .toDate()
 
+
+
+      const oneDay_After_end = new Date(lastDay)
+      oneDay_After_end.setDate(oneDay_After_end.getDate() + 1)
       for (
-        let backWardStep = new Date(lastDay_Of_lastWeekOfPeriod);
-        backWardStep > lastDay;
-        backWardStep.setDate(backWardStep.getDate() - 1)
+        let forWardStep = new Date(oneDay_After_end);
+        forWardStep <= new Date(lastDay_Of_lastWeekOfPeriod);
+        forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-        days[index].push(weekDayTemplate(backWardStep, calendarOption, false))
+
+        days[index].push(weekDayTemplate(forWardStep, calendarOption, isBanned(forWardStep)))
       }
+
+
+
     }
 
     return days
@@ -235,6 +257,11 @@ export function useCalendar(
       ),
     )
   }
+
+  //#endregion
+
+  //========================================== MONTH PANEL
+  //#region [MONTH PANEL]
   const prevYear = () => {
     const date = currentDate.value.toDate()
 
@@ -294,6 +321,7 @@ export function useCalendar(
       }),
     )
   }
+  //#endregion
   function updateCurrentDate(dateObject: DateObject) {
     if (dateObject instanceof DateObject && dateObject.isValid) currentDate.value = dateObject
     updateCurrentYear(markRaw(generatePivotDateFromYear(dateObject, calendarOption)))

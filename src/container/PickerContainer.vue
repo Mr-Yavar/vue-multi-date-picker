@@ -111,7 +111,7 @@ const {
   setMonthCurrentYear,
   setYearCurrentDate,
   setYearCurrentYear,
-} = useCalendar(calendarOption, userCurrentDate, 1)
+} = useCalendar(calendarOption, userCurrentDate, 1,minDate,maxDate,bannedDates)
 
 const {
   hour,
