@@ -27,12 +27,13 @@ import type {
   SubTypeKeys,
 } from '@/types'
 import type { ICalendarOption } from '@/types/ICalendarOption'
-import CalendarPanel from './components/CalenderPanel/CalendarPanel.vue'
+import CalendarPanel from './components/CalendarPanel/CalendarPanel.vue'
 import gregorian from 'react-date-object/calendars/gregorian'
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
 import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
-import { useFloating, offset, arrow, flip, shift } from '@floating-ui/vue'
+
+import { useFloatingUI } from '../composables/useFloatingUI'
 
 //====================== Props Area
 //#region [Props Area]
@@ -49,10 +50,10 @@ export interface Props {
   enableTeleport: boolean
   handleChange: (v: any) => void
   defaultValue: DateStorage<Props['type']> | PlainDateStorage<Props['type']>
-  value : DateStorage<Props['type']> | PlainDateStorage<Props['type']>
+  value: DateStorage<Props['type']> | PlainDateStorage<Props['type']>
   minDate: DateObject | Date | null
   maxDate: DateObject | Date | null
-  bannedDates :  DateObject[] | ((date:DateObject)=>boolean) | Date | Date[] | null
+  bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date | Date[] | null
 }
 
 const {
@@ -70,8 +71,8 @@ const {
   defaultValue,
   value,
   minDate = null,
-  maxDate= null,
-  bannedDates = null
+  maxDate = null,
+  bannedDates = null,
 } = defineProps<Props>()
 
 const calendar = userCalendar ?? gregorian
@@ -82,17 +83,15 @@ const calendarOption = {
   locale: locale,
 } as ICalendarOption
 
-const mapOfCalendar = configure(type, subType);
-
-
+const mapOfCalendar = configure(type, subType)
 
 //#endregion
 //=======================================================
 
-const store = useStore(handleChange, defaultValue, type, calendarOption,plainJsDate)
-  watchEffect(()=>{
-    store.setStorage(value);
-  });
+const store = useStore(handleChange, defaultValue, type, calendarOption, plainJsDate)
+watchEffect(() => {
+  store.setStorage(value)
+})
 const {
   currentDate,
   selectedDate,
@@ -111,7 +110,7 @@ const {
   setMonthCurrentYear,
   setYearCurrentDate,
   setYearCurrentYear,
-} = useCalendar(calendarOption, userCurrentDate, 1,minDate,maxDate,bannedDates)
+} = useCalendar(calendarOption, userCurrentDate, 1, minDate, maxDate, bannedDates)
 
 const {
   hour,
@@ -126,83 +125,27 @@ const { rawDateTime, onRawInput, onOutput, isTyping } = useEntryPoint(calendarOp
 
 //================ Floating UI Area
 //#region [Floating UI Area]
-
-const reference = ref<VNodeRef | null>(null)
-const floating = ref(null)
-const floatingArrow = ref(null)
-const isOpen = ref(false)
-
-/**
- * set point for floating ui
- * @param node html element to point floating panel
- */
-function setReference(node: VNodeRef | Element | null | undefined) {
-  if (!node) return
-
-  reference.value = node
-}
-
-/**
- * close floating panel
- */
-const dismiss = () => {
-  isOpen.value = false
-}
-
-/**
- * toggle of floating panel
- */
-function toggle() {
-  isOpen.value = !isOpen.value
-}
-
-const { floatingStyles, middlewareData, placement, update } = useFloating(reference, floating, {
-  // placement: 'top-end', // Initial placement (will be overridden by autoPlacement)
-  middleware: [
-    offset(8), // Add some spacing between the reference and floating element
-    arrow({ element: floatingArrow }), // Configure the arrow
-
-    flip({}),
-    shift({ padding: 8 }), // Prevent the floating element from going off-screen
-  ],
-})
-
-const arrowStyles = computed(() => {
-  if (!middlewareData.value.arrow) return {}
-
-  const { x, y } = middlewareData.value.arrow
-
-  return {
-    position: 'absolute',
-    left: x != null ? `${x}px` : '',
-    top: y != null ? `${y}px` : '',
-    [(placement.value.startsWith('top')
-      ? 'bottom'
-      : placement.value.startsWith('bottom')
-        ? 'top'
-        : placement.value.startsWith('left')
-          ? 'right'
-          : 'left') as string]: '-5px', // Adjust as needed
-  }
-})
-
-const defaultCss = useCssModule('arrowType')
-
-const arrowClassType = computed(
-  () =>
-    defaultCss[
-      Object.keys(defaultCss).find((x) => x.includes(placement.value.split('-')[0])) as string
-    ] as string,
-)
-//#endregion
-//======================================
-
-//#region [Detect Outside Click]
+const {
+  reference,
+  floating,
+  floatingArrow,
+  isOpen,
+  setReference,
+  open,
+  toggle,
+  dismiss,
+  manualUpdate,
+  floatingStyles,
+  arrowStyles,
+  arrowClassType,
+  actualPlacement,
+  teleportTarget,
+  animationClasses,
+} = useFloatingUI()
 const datePickerInstanceId = ref('dp-' + btoa(`${Math.random()}`))
 const datePickerInstanceRef = ref<HTMLElement | null>(null)
-useDetectOutsideClick([datePickerInstanceRef, floating], dismiss)
 //#endregion
-//===================================================
+//======================================
 
 //#region [View of Panel Area]
 
@@ -228,24 +171,19 @@ function handleSelect(obj: DateObject) {
 //#region [EntryPoint Control Area]
 // بروزرسانی محتوای
 watchEffect(() => {
+  //TODO: bug in typing
   onOutput(store.toString(rangeSeparator, dateSeparator))
 })
 
 function onInput(event: any) {
   const updatedRawValue: string = event.target.value
-
+  onRawInput(updatedRawValue)
   onRawTimePickerInput(updatedRawValue)
 
-  onRawInput(updatedRawValue)
   store.fromString(updatedRawValue, rangeSeparator, dateSeparator)
 }
 const AvailableMap: (string | number)[] = mapOfCalendar
 ///////================== EntryPoint Mid End
-onMounted(() => {
-  window.onresize = () => {
-    update()
-  }
-})
 
 //#endregion
 </script>

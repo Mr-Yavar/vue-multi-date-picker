@@ -7,24 +7,24 @@ export function isActiveDate(
   bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date | Date[] | null,
 ): boolean {
   if (minDate instanceof DateObject) {
-    return dateForChecking.toDate() >= minDate.toDate();
+    return dateForChecking.toDate() >= minDate.toDate()
   } else if (minDate instanceof Date) {
-    return dateForChecking.toDate() >= minDate;
+    return dateForChecking.toDate() >= minDate
   }
 
   if (maxDate instanceof DateObject) {
-    return dateForChecking.toDate() <= maxDate.toDate();
+    return dateForChecking.toDate() <= maxDate.toDate()
   } else if (maxDate instanceof Date) {
-    return dateForChecking.toDate() <= maxDate;
+    return dateForChecking.toDate() <= maxDate
   }
 
   if (Array.isArray(bannedDates) && bannedDates.every((item) => item instanceof DateObject)) {
-    return bannedDates.every((ban) => ban.toDate() != dateForChecking.toDate());
+    return bannedDates.every((ban) => ban.toDate() != dateForChecking.toDate())
   } else if (Array.isArray(bannedDates) && bannedDates.every((item) => item instanceof Date)) {
-    return bannedDates.every((ban) => ban != dateForChecking.toDate());
+    return bannedDates.every((ban) => ban != dateForChecking.toDate())
   } else if (bannedDates instanceof Function) {
-    return bannedDates(dateForChecking);
+    return bannedDates(dateForChecking)
   }
 
-  return true;
+  return true
 }

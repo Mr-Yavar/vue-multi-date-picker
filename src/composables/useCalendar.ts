@@ -202,8 +202,6 @@ export function useCalendar(
         .toLastOfWeek()
         .toDate()
 
-
-
       const oneDay_After_end = new Date(lastDay)
       oneDay_After_end.setDate(oneDay_After_end.getDate() + 1)
       for (
@@ -211,12 +209,8 @@ export function useCalendar(
         forWardStep <= new Date(lastDay_Of_lastWeekOfPeriod);
         forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-
         days[index].push(weekDayTemplate(forWardStep, calendarOption, isBanned(forWardStep)))
       }
-
-
-
     }
 
     return days
