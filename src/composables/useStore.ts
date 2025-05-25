@@ -3,6 +3,7 @@ import type { ComponentMapKeys, DateRange, DateStorage, PlainDateStorage } from 
 import type { Data } from '@/types/data'
 import type { ICalendarOption } from '@/types/ICalendarOption'
 import { compareDate } from '@/utils/compareDate'
+import { isValidDate } from '@/utils/isValidDate'
 import DateObject from 'react-date-object'
 
 import { computed, markRaw, reactive, readonly, ref, watch } from 'vue'
@@ -278,52 +279,69 @@ export function useStore<T extends ComponentMapKeys>(
 
       case MAP_KEYS.RANGE_DATE:
         // For a DateRange, split by dateSeparator to get start and end dates
-        const [startStr, endStr] = input.split(dateSeparator)
-        const startDate = markRaw(
-          new DateObject({
-            date: startStr,
-            calendar: calendarOption.calender,
-            locale: calendarOption.locale,
-            format: calendarOption.format as string,
-          }),
-        )
-        const endDate = markRaw(
-          new DateObject({
-            date: endStr,
-            calendar: calendarOption.calender,
-            locale: calendarOption.locale,
-            format: calendarOption.format as string,
-          }),
-        )
 
-        ;(storage.data as DateRange) = { start: startDate, end: endDate }
+        const [startStr, endStr] = input.split(dateSeparator.trim())
+        if(!startStr)
+          break;
+
+        const startDate = startStr
+          ? markRaw(
+              new DateObject({
+                date: startStr,
+                calendar: calendarOption.calender,
+                locale: calendarOption.locale,
+                format: calendarOption.format as string,
+              }),
+            )
+          : null;
+        const endDate = endStr
+          ? markRaw(
+              new DateObject({
+                date: endStr,
+                calendar: calendarOption.calender,
+                locale: calendarOption.locale,
+                format: calendarOption.format as string,
+              }),
+            )
+          : null;
+
+        (storage.data as DateRange) = { start: startDate, end: endDate }
         break
 
       case MAP_KEYS.MULTI_RANGE_DATE:
         // For an array of DateRanges, split by rangeSeparator and then by dateSeparator
-        ;(storage.data as DateRange[]) = !empty
-          ? input.split(rangeSeparator).map((rangeStr) => {
-              const [startStr, endStr] = rangeStr.split(dateSeparator)
+        (storage.data as DateRange[]) = !empty
+          ? input
+              .split(rangeSeparator)
+              .map((x) => x.trim())
+              .filter((x) => !!x && x.length > 1)
+              .map((rangeStr) => {
+                const [startStr, endStr] = rangeStr.split(dateSeparator.trim())
 
-              const startDate = markRaw(
-                new DateObject({
-                  date: startStr,
-                  calendar: calendarOption.calender,
-                  locale: calendarOption.locale,
-                  format: calendarOption.format as string,
-                }),
-              )
-              const endDate = markRaw(
-                new DateObject({
-                  date: endStr,
-                  calendar: calendarOption.calender,
-                  locale: calendarOption.locale,
-                  format: calendarOption.format as string,
-                }),
-              )
+                const startDate = startStr
+                  ? markRaw(
+                      new DateObject({
+                        date: startStr.trim(),
+                        calendar: calendarOption.calender,
+                        locale: calendarOption.locale,
+                        format: calendarOption.format as string,
+                      }),
+                    )
+                  : null
+                const endDate = endStr
+                  ? markRaw(
+                      new DateObject({
+                        date: endStr.trim(),
+                        calendar: calendarOption.calender,
+                        locale: calendarOption.locale,
+                        format: calendarOption.format as string,
+                      }),
+                    )
+                  : null
 
-              return { start: startDate, end: endDate } as DateRange
-            })
+                return { start: startDate, end: endDate } as DateRange
+              })
+              .filter((x) => !!x.start && isValidDate(x.start))
           : []
 
         index.value = (storage.data as DateRange[]).length
