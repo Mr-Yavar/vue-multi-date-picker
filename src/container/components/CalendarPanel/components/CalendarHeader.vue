@@ -52,10 +52,10 @@ const {
       <div class="datepicker-header-control">
         <div class="mx-auto w-fit">
           <button @click="() => changeMode(MAP_ITEMS.MONTH)">
-            {{ currentDate.month }}
+            {{ currentDate.format("MM") }}
           </button>
           <button @click="() => changeMode(MAP_ITEMS.YEAR)">
-            {{ currentDate.year }}
+            {{ currentDate.format("YYYY") }}
           </button>
         </div>
       </div>
@@ -87,7 +87,7 @@ const {
           <!-- <button>{{ currentDate.month }}</button> -->
           <!-- <button>{{ currentDate.year }}</button> -->
           <button @click="() => changeMode('YEAR')">
-            {{ currentDate.year }}
+            {{ currentDate.format("YYYY") }}
           </button>
         </div>
       </div>

@@ -187,7 +187,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 </script>
 
 <template>
-  <div :id="datePickerInstanceId" ref="datePickerInstanceRef">
+  <div :id="datePickerInstanceId" ref="datePickerInstanceRef" >
     <slot
       name="entryPoint"
       :onInput="onInput"
@@ -206,7 +206,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
         @click="toggle"
       />
     </slot>
-    <div class="!relative w-full h-full">
+    <div class="!relative w-full h-full font-vazirMatn">
       <Teleport to="body" :disabled="!enableTeleport">
         <Transition>
           <div v-if="isOpen">
@@ -280,6 +280,8 @@ const AvailableMap: (string | number)[] = mapOfCalendar
   </div>
 </template>
 <style scoped>
+@import "../assets/style.css";
+
 .arrow {
   position: absolute;
   width: 0;

@@ -1,4 +1,5 @@
-import './style.css'
+import './tailwind.css'
+
 
 import PickerContainer from './container/PickerContainer.vue'
 import DateObject from 'react-date-object'
