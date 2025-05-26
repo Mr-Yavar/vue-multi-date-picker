@@ -5,9 +5,9 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import { resolve } from 'path'
 import utwm from 'unplugin-tailwindcss-mangle/vite'
-const projectRoot = new URL('./src', import.meta.url).pathname
 import dts from 'vite-plugin-dts'
 import { fileURLToPath } from 'url'
+const projectRoot = new URL('./src', import.meta.url).pathname
 
 console.log('-------projectRoot-------', projectRoot)
 
@@ -18,6 +18,7 @@ export default defineConfig({
     utwm(),
     vueDevTools(),
     dts({ tsconfigPath: './tsconfig.app.json', copyDtsFiles: true }),
+
   ],
   build: {
     lib: {
@@ -40,10 +41,10 @@ export default defineConfig({
         },
       },
     },
-    //Generates sourcemaps for the built files,
-    //aiding in debugging.
+    // Generates sourcemaps for the built files,
+    // aiding in debugging.
     sourcemap: true,
-    //Clears the output directory before building.
+    // Clears the output directory before building.
     emptyOutDir: true,
   },
 

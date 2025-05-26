@@ -1,20 +1,16 @@
 <script setup lang="ts">
 import DateObject, { type Calendar, type Locale } from 'react-date-object'
 import {
-  computed,
   type ComputedRef,
   type DeepReadonly,
-  type ModelRef,
-  onMounted,
+  type Events,
   type Ref,
   ref,
   type StyleValue,
-  useCssModule,
-  type VNodeRef,
   watch,
   watchEffect,
 } from 'vue'
-import { configure } from '@/utils/configure'
+import { configure } from '../utils/configure'
 import { useCalendar } from '../composables/useCalendar'
 import { useEntryPoint } from '../composables/useEntryPoint'
 import { useTimePicker } from '../composables/useTimePicker'
@@ -25,18 +21,17 @@ import type {
   MapItemValues,
   PlainDateStorage,
   SubTypeKeys,
-} from '@/types'
+} from '../types'
 import type { ICalendarOption } from '@/types/ICalendarOption'
 import CalendarPanel from './components/CalendarPanel/CalendarPanel.vue'
 import gregorian from 'react-date-object/calendars/gregorian'
 import gregorian_en from 'react-date-object/locales/gregorian_en'
 import { useStore } from '@/composables/useStore'
-import useDetectOutsideClick from '@/composables/useDetectOutsideClick'
 
 import { useFloatingUI } from '../composables/useFloatingUI'
 
-//====================== Props Area
-//#region [Props Area]
+//= ===================== Props Area
+// #region [Props Area]
 export interface Props {
   plainJsDate: boolean
   calendar: Calendar
@@ -79,14 +74,14 @@ const calendar = userCalendar ?? gregorian
 const locale = userLocale ?? gregorian_en
 const calendarOption = {
   calender: calendar,
-  format: format,
-  locale: locale,
+  format,
+  locale,
 } as ICalendarOption
 
 const mapOfCalendar = configure(type, subType)
 
-//#endregion
-//=======================================================
+// #endregion
+//= ======================================================
 
 const store = useStore(handleChange, defaultValue, type, calendarOption, plainJsDate)
 watchEffect(() => {
@@ -98,7 +93,7 @@ const {
   daysOfPeriod,
   prevMonth,
   nextMonth,
-  onSeparatedInput: onCalenderSeparatedInput,
+  // onSeparatedInput: onCalenderSeparatedInput,
   prevYears,
   nextYears,
   yearsOfPeriod,
@@ -121,35 +116,30 @@ const {
   onSeparatedInput: onTimePickerSeparatedInput,
 } = useTimePicker(calendarOption)
 
-const { rawDateTime, onRawInput, onOutput, isTyping } = useEntryPoint(calendarOption)
+const { rawDateTime, onRawInput, onOutput, isTyping } = useEntryPoint()
 
-//================ Floating UI Area
-//#region [Floating UI Area]
+// ================ Floating UI Area
+// #region [Floating UI Area]
 const {
   reference,
   floating,
   floatingArrow,
   isOpen,
   setReference,
-  open,
   toggle,
   dismiss,
-  manualUpdate,
   floatingStyles,
   arrowStyles,
   arrowClassType,
-  actualPlacement,
-  teleportTarget,
-  animationClasses,
 } = useFloatingUI()
 const datePickerInstanceId = ref('dp-' + btoa(`${Math.random()}`))
 const datePickerInstanceRef = ref<HTMLElement | null>(null)
-//#endregion
-//======================================
+// #endregion
+// ======================================
 
-//#region [View of Panel Area]
+// #region [View of Panel Area]
 
-//should start from first step
+// should start from first step
 const mode = ref<Ref<MapItemValues>>(mapOfCalendar[0])
 
 function changeMode(value: MapItemValues) {
@@ -164,28 +154,36 @@ function handleSelect(obj: DateObject) {
   store.addToStorage(obj, selectedTime.value, dismiss)
 }
 
-//#endregion
-//======================================================
+// #endregion
+//= =====================================================
 
-////////================= EntryPoint Mid
-//#region [EntryPoint Control Area]
+/// /////================= EntryPoint Mid
+// #region [EntryPoint Control Area]
+
 // بروزرسانی محتوای
-watchEffect(() => {
-  //TODO: bug in typing
-  onOutput(store.toString(rangeSeparator, dateSeparator))
-})
+watch(
+  () => store.dataSource.value,
+  () => {
+    if (!isTyping.value) {
+      onOutput(store.toString(rangeSeparator, dateSeparator))
+    }
+  },
+  {
+    deep: true,
+  },
+)
 
-function onInput(event: any) {
-  const updatedRawValue: string = event.target.value
+function onInput(event: Events['onInput']) {
+  const updatedRawValue: string = (event.target as HTMLInputElement).value
   onRawInput(updatedRawValue)
   onRawTimePickerInput(updatedRawValue)
 
   store.fromString(updatedRawValue, rangeSeparator, dateSeparator)
 }
 const AvailableMap: (string | number)[] = mapOfCalendar
-///////================== EntryPoint Mid End
+/// ////================== EntryPoint Mid End
 
-//#endregion
+// #endregion
 </script>
 
 <template>

@@ -29,7 +29,7 @@ export function useCalendar(
   ) // تاریخ انتخاب شده
 
   function isBanned(date: Date | DateObject) {
-    //TODO: implment option to disable or enable dates that are not in month
+    // TODO: implment option to disable or enable dates that are not in month
     if (date instanceof Date)
       return isActiveDate(
         new DateObject({
@@ -46,7 +46,7 @@ export function useCalendar(
   }
 
   /// ======================================== YEAR PANEL
-  //#region [Year Panel]
+  // #region [Year Panel]
 
   /**
    * This is for storing point view of year panel
@@ -83,7 +83,7 @@ export function useCalendar(
           calendar: calendarOption.calender,
           locale: calendarOption.locale,
           format: calendarOption.format,
-          date: date,
+          date,
         }),
       ),
     )
@@ -102,7 +102,7 @@ export function useCalendar(
           calendar: calendarOption.calender,
           locale: calendarOption.locale,
           format: calendarOption.format,
-          date: date,
+          date,
         }),
       ),
     )
@@ -115,10 +115,10 @@ export function useCalendar(
   function setMonthCurrentYear(month: number) {
     currentYear.value.setMonth(month)
   }
-  //#endregion
+  // #endregion
 
   /// ======================================== WEEKDAY PANEL
-  //#region [WeekDay Panel]
+  // #region [WeekDay Panel]
   const currentDate = ref<DateObject>(
     markRaw(
       ucurrentDate ??
@@ -230,7 +230,7 @@ export function useCalendar(
           calendar: calendarOption.calender,
           locale: calendarOption.locale,
           format: calendarOption.format,
-          date: date,
+          date,
         }),
       ),
     )
@@ -246,16 +246,16 @@ export function useCalendar(
           calendar: calendarOption.calender,
           locale: calendarOption.locale,
           format: calendarOption.format,
-          date: date,
+          date,
         }),
       ),
     )
   }
 
-  //#endregion
+  // #endregion
 
-  //========================================== MONTH PANEL
-  //#region [MONTH PANEL]
+  //= ========================================= MONTH PANEL
+  // #region [MONTH PANEL]
   const prevYear = () => {
     const date = currentDate.value.toDate()
 
@@ -267,7 +267,7 @@ export function useCalendar(
           calendar: calendarOption.calender,
           locale: calendarOption.locale,
           format: calendarOption.format,
-          date: date,
+          date,
         }),
       ),
     )
@@ -283,7 +283,7 @@ export function useCalendar(
           calendar: calendarOption.calender,
           locale: calendarOption.locale,
           format: calendarOption.format,
-          date: date,
+          date,
         }),
       ),
     )
@@ -315,13 +315,13 @@ export function useCalendar(
       }),
     )
   }
-  //#endregion
+  // #endregion
   function updateCurrentDate(dateObject: DateObject) {
     if (dateObject instanceof DateObject && dateObject.isValid) currentDate.value = dateObject
     updateCurrentYear(markRaw(generatePivotDateFromYear(dateObject, calendarOption)))
   }
 
-  //======================================================
+  //= =====================================================
 
   function updateSelectedDate(dateObject: DateObject) {
     if (dateObject instanceof DateObject && dateObject.isValid) {
@@ -334,9 +334,9 @@ export function useCalendar(
   const onSeparatedInput = (year: number, month: number, day: number) => {
     const temp = markRaw(
       new DateObject({
-        year: year,
-        month: month,
-        day: day,
+        year,
+        month,
+        day,
         calendar: calendarOption.calender,
         locale: calendarOption.locale,
         format: calendarOption.format,
@@ -357,7 +357,7 @@ export function useCalendar(
     nextMonth,
     ChangeCurrentDate,
     updateCurrentDate,
-    //===========================
+    //= ==========================
     setYearCurrentYear,
     setMonthCurrentYear,
     yearsOfPeriod,
@@ -366,7 +366,7 @@ export function useCalendar(
     nextYears,
     nextYear,
     prevYear,
-    //====================================
+    //= ===================================
     selectedDate,
 
     onSeparatedInput,

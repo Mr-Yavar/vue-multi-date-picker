@@ -38,14 +38,14 @@ interface Props {
   nextYear: () => void
   prevYear: () => void
   AvailableMap: (string | number)[]
-  //////=====================
+  /// ///=====================
   currentYear: DateObject
   ChangeCurrentDate: (change: number, type: string) => void
   setMonthCurrentDate: (date: DateObject) => void
   setMonthCurrentYear: (month: number) => void
   setYearCurrentDate: (date: DateObject) => void
   setYearCurrentYear: (year: number) => void
-  //==============
+  //= =============
   selectedTime: DateObject
   hour: number
   minute: number
@@ -61,11 +61,11 @@ const {
   existsInStorage,
   selectedDate,
   calendarOption,
-  //----------------
+  // ----------------
   currentDate,
   prevMonth,
   nextMonth,
-  //---------------
+  // ---------------
   yearsOfPeriod,
   nextYears,
   prevYears,
@@ -73,10 +73,10 @@ const {
   prevYear,
   AvailableMap,
 
-  //==============
+  //= =============
   setMonthCurrentDate,
   setYearCurrentDate,
-  ///==========
+  /// ==========
   changeMode,
 } = toRefs(props)
 // for (const item of daysOfPeriod.value) {
@@ -92,9 +92,9 @@ const {
   <div class="flex flex-row-reverse justify-center">
     <div
       v-if="
-        type == MAP_KEYS.MULTI_DATE ||
-        type == MAP_KEYS.MULTI_TIME ||
-        type == MAP_KEYS.MULTI_RANGE_DATE
+        type === MAP_KEYS.MULTI_DATE ||
+        type === MAP_KEYS.MULTI_TIME ||
+        type === MAP_KEYS.MULTI_RANGE_DATE
       "
     >
       <SideBarPanel
@@ -109,16 +109,23 @@ const {
     <div
       :class="
         'grid grid-cols-' +
-        (mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME ? daysOfPeriod.length : 1)
+        (mode === MAP_ITEMS.DAY || mode === MAP_ITEMS.DAY_AND_TIME
+          ? daysOfPeriod.length
+          : 1)
       "
     >
-      <template v-if="mode == MAP_ITEMS.DAY || mode == MAP_ITEMS.DAY_AND_TIME">
+      <template v-if="mode === MAP_ITEMS.DAY || mode === MAP_ITEMS.DAY_AND_TIME">
         <CalendarHeader
           v-for="(days, i) in daysOfPeriod"
-          :isFirst="i == 0"
-          :isLast="i == daysOfPeriod.length - 1"
+          :isFirst="i === 0"
+          :isLast="i === daysOfPeriod.length - 1"
           :step="1"
-          :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
+          :key="
+            'header' +
+            days[9].dateObject.year +
+            days[9].dateObject.monthIndex +
+            days[9].month
+          "
           :currentDate="days[9].dateObject"
           :nextMonth="nextMonth"
           :prevMonth="prevMonth"
@@ -149,12 +156,17 @@ const {
         />
       </template>
 
-      <template v-if="mode == MAP_ITEMS.DAY">
+      <template v-if="mode === MAP_ITEMS.DAY">
         <WeekDaysPanel
           v-for="days in daysOfPeriod"
           :existsInStorage="existsInStorage"
           :removeFromStorage="removeFromStorage"
-          :key="'header' + days[9].dateObject.year + days[9].dateObject.monthIndex + days[9].month"
+          :key="
+            'header' +
+            days[9].dateObject.year +
+            days[9].dateObject.monthIndex +
+            days[9].month
+          "
           :daysOfPeriod="days"
           :weekDays="calendarOption.locale.weekDays"
           :handleSelect="handleSelect"
@@ -165,9 +177,9 @@ const {
       </template>
       <template
         v-if="
-          mode == MAP_ITEMS.DAY_AND_TIME &&
+          mode === MAP_ITEMS.DAY_AND_TIME &&
           (selectedDate instanceof DateObject ||
-            (Array.isArray(selectedDate) && selectedDate.length == 2))
+            (Array.isArray(selectedDate) && selectedDate.length === 2))
         "
       >
         <WeekDaysPanel
@@ -192,7 +204,7 @@ const {
         />
       </template>
 
-      <template v-if="mode == MAP_ITEMS.MONTH">
+      <template v-if="mode === MAP_ITEMS.MONTH">
         <MonthPanel
           :AvailableMap="AvailableMap"
           :currentDate="currentDate"
@@ -207,7 +219,7 @@ const {
         />
       </template>
 
-      <template v-if="mode == MAP_ITEMS.YEAR">
+      <template v-if="mode === MAP_ITEMS.YEAR">
         <YearsPanel
           :currentDate="currentDate"
           :yearsOfPeriod="yearsOfPeriod"
@@ -223,7 +235,7 @@ const {
         />
       </template>
 
-      <template v-if="mode == MAP_ITEMS.TIME">
+      <template v-if="mode === MAP_ITEMS.TIME">
         <TimePicker
           :hour="hour"
           :minute="minute"
@@ -242,12 +254,15 @@ const {
                   calendar: calendarOption.calender,
                   locale: calendarOption.locale,
                   date: new Date(),
-                }),
-              )
+                })
+              );
             }
           "
         >
-          <button type="button" class="px-2 py-1 text-white bg-blue-500 rounded-md shadow-xl">
+          <button
+            type="button"
+            class="px-2 py-1 text-white bg-blue-500 rounded-md shadow-xl"
+          >
             Apply
           </button>
         </div>

@@ -7,9 +7,10 @@ export function useEntryPoint() {
 
   // بروز کردن محتوای اینپوت اصلی
   const onOutput = (rawToShow: string) => {
-    if (isTyping.value) return
 
-    rawDateTime.value = rawToShow //convertToEnglishNumbers(rawToShow)
+    if (isTyping.value) return;
+
+    rawDateTime.value = rawToShow // convertToEnglishNumbers(rawToShow)
   }
 
   function onRawInput(rawValue: string) {

@@ -64,7 +64,7 @@ export function useStore<T extends ComponentMapKeys>(
 
         const rangeStorage = storage.data as DateRange
 
-        if (rangeStorage?.start == null || rangeStorage?.end == null) return -1
+        if (rangeStorage?.start === null || rangeStorage?.end === null) return -1
 
         const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
 
@@ -80,7 +80,7 @@ export function useStore<T extends ComponentMapKeys>(
           multiRangeStorage?.findLastIndex((range) => {
             const rangeStorage = range
 
-            if (rangeStorage?.start == null || rangeStorage?.end == null) return false
+            if (rangeStorage?.start === null || rangeStorage?.end === null) return false
 
             const startMatch = compareDate(rangeStorage.start?.toDate(), '<=', value.toDate())
 
@@ -118,7 +118,7 @@ export function useStore<T extends ComponentMapKeys>(
       case MAP_KEYS.ONE_DATE:
       case MAP_KEYS.TIME:
         ;(storage.data as DateObject) = value // Store a single DateObject
-        if (typeof callBack == 'function') callBack()
+        if (typeof callBack === 'function') callBack()
 
         break
 
@@ -142,7 +142,7 @@ export function useStore<T extends ComponentMapKeys>(
         } else {
           if (dateRange.start != null && dateRange.start?.toDate() <= value.toDate()) {
             dateRange.end = value
-            if (typeof callBack == 'function') callBack()
+            if (typeof callBack === 'function') callBack()
           } else {
             dateRange.start = value
             dateRange.end = null
@@ -218,7 +218,7 @@ export function useStore<T extends ComponentMapKeys>(
 
   function fromString(input: string, rangeSeparator: string, dateSeparator: string): void {
     let empty = false
-    if (input.replaceAll(rangeSeparator, '').replaceAll(dateSeparator, '').trim().length == 0)
+    if (input.replaceAll(rangeSeparator, '').replaceAll(dateSeparator, '').trim().length === 0)
       empty = true
 
     switch (Map) {
@@ -248,7 +248,7 @@ export function useStore<T extends ComponentMapKeys>(
             date: input,
           })
 
-          if (dateObject.toDate().toString() == 'Invalid Date') {
+          if (dateObject.toDate().toString() === 'Invalid Date') {
             dateObject.setYear(fixedDate.year)
             dateObject.setMonth(fixedDate.month.number)
             dateObject.setDay(fixedDate.day)
@@ -350,7 +350,7 @@ export function useStore<T extends ComponentMapKeys>(
 
       default:
         // Return null or throw an error for unknown types
-        return
+
     }
   }
 

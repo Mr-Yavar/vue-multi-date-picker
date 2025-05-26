@@ -4,7 +4,7 @@ export default function useDetectOutsideClick(component: Ref<HTMLElement | null>
   if (!component) return
 
   const listener = (event: Event) => {
-    if (event.composedPath().some((item) => component.some((rf) => rf.value == item))) {
+    if (event.composedPath().some((item) => component.some((rf) => rf.value === item))) {
       return
     }
 

@@ -27,7 +27,7 @@ const processed_daysOfPeriod = computed(() => {
   })
 })
 
-//TODO: deselect date
+// TODO: deselect date
 </script>
 
 <template>

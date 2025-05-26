@@ -1,6 +1,6 @@
 export function convertToEnglishNumbers(input: string) {
   // A mapping of Unicode ranges for various digit characters
-  const digitMap: any = {
+  const digitMap = {
     // Arabic-Indic digits
     '\u0660': '0',
     '\u0661': '1',

@@ -5,20 +5,16 @@
     "vitest.config.*",
     "cypress.config.*",
     "nightwatch.conf.*",
-    "playwright.config.*"
+    "playwright.config.*",
+    "eslint.config.*"
   ],
   "compilerOptions": {
     "noEmit": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitAny": false,
-    "rootDir": ".", // Set this to your source directory
-    "outDir": "./dist",
-    "declaration": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node","./src/types"],
-
+    "types": [
+      "node"
+    ]
   }
 }

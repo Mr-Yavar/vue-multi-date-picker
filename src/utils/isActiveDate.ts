@@ -19,9 +19,9 @@ export function isActiveDate(
   }
 
   if (Array.isArray(bannedDates) && bannedDates.every((item) => item instanceof DateObject)) {
-    return bannedDates.every((ban) => ban.toDate() != dateForChecking.toDate())
+    return bannedDates.every((ban) => ban.toDate() !== dateForChecking.toDate())
   } else if (Array.isArray(bannedDates) && bannedDates.every((item) => item instanceof Date)) {
-    return bannedDates.every((ban) => ban != dateForChecking.toDate())
+    return bannedDates.every((ban) => ban !== dateForChecking.toDate())
   } else if (bannedDates instanceof Function) {
     return bannedDates(dateForChecking)
   }

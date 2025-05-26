@@ -12,10 +12,10 @@ interface Props {
   calendarOption: ICalendarOption
   existsInStorage: (date: DateObject) => number
   removeFromStorage: (index: number) => void
-  //==================
+  //= =================
   setMonthCurrentDate: (date: DateObject) => void
   AvailableMap: (string | number)[]
-  //=====================
+  //= ====================
   changeMode: (mode: MapItemValues) => void
   handleSelect: (date: DateObject) => void
   isFinalStep: boolean
@@ -61,7 +61,7 @@ const months = computed(() => {
       <div
         :class="{
           active:
-            (isFinalStep && month.isSelected) || (!isFinalStep && currentDate.month.index == index),
+            (isFinalStep && month.isSelected) || (!isFinalStep && currentDate.month.index === index),
         }"
       >
         {{ month.name }}

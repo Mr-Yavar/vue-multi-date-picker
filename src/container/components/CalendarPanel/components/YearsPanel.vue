@@ -14,9 +14,9 @@ interface Props {
   existsInStorage: (date: DateObject) => number
   removeFromStorage: (index: number) => void
 
-  //==================
+  //= =================
   setYearCurrentDate: (date: DateObject) => void
-  //=====================
+  //= ====================
   changeMode: (mode: string | number) => void
   handleSelect: (date: DateObject) => void
   isFinalStep: boolean
@@ -44,7 +44,7 @@ const processed_yearsOfPeriod = computed(() => {
         :class="{
           active:
             (isFinalStep && year.isSelected) ||
-            (!isFinalStep && year.dateobject.year == currentDate.year),
+            (!isFinalStep && year.dateobject.year === currentDate.year),
         }"
         @click.prevent="
           () => {

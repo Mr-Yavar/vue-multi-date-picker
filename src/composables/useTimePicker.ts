@@ -53,7 +53,7 @@ export function useTimePicker(
       format: calendarOption.format,
       date: txtTime,
     })
-    if (dateObject.toDate().toString() == 'Invalid Date') {
+    if (dateObject.toDate().toString() === 'Invalid Date') {
       dateObject.setYear(selectedTime.value.year)
       dateObject.setMonth(selectedTime.value.month.number)
       dateObject.setDay(selectedTime.value.day)

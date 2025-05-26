@@ -11,13 +11,13 @@ interface Props {
   second: number
   onTimePickerSeparatedInput: (hour: number, minute: number, second: number) => void
   /* selectedDate: DateObject | DateObject[]
-    handleSelect: (dateObject: DateObject) => void*/
+    handleSelect: (dateObject: DateObject) => void */
 }
 
 const props = defineProps<Props>()
 const {
   onTimePickerSeparatedInput,
-  /* handleSelect: handleSelectDate*/
+  /* handleSelect: handleSelectDate */
 } = props
 const {
   selectedTime,
