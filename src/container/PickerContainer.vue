@@ -279,8 +279,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
     </div>
   </div>
 </template>
-<style scoped>
-@import "../assets/style.css";
+<style lang="postcss" scoped>
 
 .arrow {
   position: absolute;
@@ -288,6 +287,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
   height: 0;
   z-index: 0; /* Place behind the popup */
 }
+
 </style>
 <style module="arrowType">
 .arrow-top {
