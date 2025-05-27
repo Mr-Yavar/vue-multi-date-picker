@@ -186,7 +186,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 // #endregion
 </script>
 
-<template>
+<template >
   <div :id="datePickerInstanceId" ref="datePickerInstanceRef" >
     <slot
       name="entryPoint"
@@ -209,7 +209,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
     <div class="!relative w-full h-full font-vazirMatn">
       <Teleport to="body" :disabled="!enableTeleport">
         <Transition>
-          <div v-if="isOpen">
+          <div v-if="isOpen" class="vue-multi-date-picker">
             <div ref="floating" :style="floatingStyles">
               <div class="relative top-0 z-1 datepicker-container popup">
                 <div
@@ -279,7 +279,7 @@ const AvailableMap: (string | number)[] = mapOfCalendar
     </div>
   </div>
 </template>
-<style lang="postcss" scoped>
+<style scoped>
 
 .arrow {
   position: absolute;
