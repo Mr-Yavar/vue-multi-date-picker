@@ -8,6 +8,7 @@ export function weekDayTemplate(
   date: Date,
   calendarOption: ICalendarOption,
   isActive: boolean = false,
+  isBanned: boolean = false,
 ): WeekDayObject {
   return {
     weekday: date.toLocaleDateString('en-us', {
@@ -31,5 +32,6 @@ export function weekDayTemplate(
       }),
     ),
     isActive,
+    isBanned,
   }
 }

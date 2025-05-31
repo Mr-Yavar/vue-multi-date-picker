@@ -9,4 +9,5 @@ export interface WeekDayObject {
   month: LongMonthName
   dateObject: DateObject
   isActive: boolean
+  isBanned:boolean
 }

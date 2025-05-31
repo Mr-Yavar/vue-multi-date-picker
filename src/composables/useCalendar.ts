@@ -185,12 +185,12 @@ export function useCalendar(
         forWardStep < firstDay;
         forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-        days[index].push(weekDayTemplate(forWardStep, calendarOption, isBanned(forWardStep)))
+        days[index].push(weekDayTemplate(forWardStep, calendarOption, false,isBanned(forWardStep)))
       }
 
       for (let i = firstDay; i <= lastDay; i.setDate(i.getDate() + 1)) {
         const temp = new Date(i)
-        days[index].push(weekDayTemplate(temp, calendarOption, isBanned(temp)))
+        days[index].push(weekDayTemplate(temp, calendarOption, true,isBanned(temp)))
       }
 
       const lastDay_Of_lastWeekOfPeriod = new DateObject({
@@ -209,7 +209,7 @@ export function useCalendar(
         forWardStep <= new Date(lastDay_Of_lastWeekOfPeriod);
         forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-        days[index].push(weekDayTemplate(forWardStep, calendarOption, isBanned(forWardStep)))
+        days[index].push(weekDayTemplate(forWardStep, calendarOption, false,isBanned(forWardStep)))
       }
     }
 

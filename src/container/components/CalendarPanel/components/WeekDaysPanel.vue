@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import type { ICalendarOption } from '@/types/ICalendarOption'
-import type { WeekDayObject } from '@/types/WeekDayObject'
-import { getWeekOrders } from '@/utils/getWeekOrders'
-import DateObject from 'react-date-object'
-import { computed } from 'vue'
+import type { ICalendarOption } from "@/types/ICalendarOption";
+import type { WeekDayObject } from "@/types/WeekDayObject";
+import { getWeekOrders } from "@/utils/getWeekOrders";
+import DateObject from "react-date-object";
+import { computed } from "vue";
 
 interface Props {
-  daysOfPeriod: WeekDayObject[]
-  weekDays: string[][]
-  handleSelect: (date: DateObject) => void
-  selectedDate: DateObject | any
-  calendarOption: ICalendarOption
-  isFinalStep: boolean
-  removeFromStorage: (index: number) => void
-  existsInStorage: (date: DateObject) => number
+  daysOfPeriod: WeekDayObject[];
+  weekDays: string[][];
+  handleSelect: (date: DateObject) => void;
+  selectedDate: DateObject | any;
+  calendarOption: ICalendarOption;
+  isFinalStep: boolean;
+  removeFromStorage: (index: number) => void;
+  existsInStorage: (date: DateObject) => number;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const { daysOfPeriod, handleSelect, calendarOption } = props
+const { daysOfPeriod, handleSelect, calendarOption } = props;
 
 const processed_daysOfPeriod = computed(() => {
   return daysOfPeriod.map((day) => {
-    const inStorage = props.existsInStorage(day.dateObject)
-    return { ...day, isSelected: inStorage > -1, inStorage }
-  })
-})
+    const inStorage = props.existsInStorage(day.dateObject);
+    return { ...day, isSelected: inStorage > -1, inStorage };
+  });
+});
 
 // TODO: deselect date
 </script>
@@ -47,7 +47,7 @@ const processed_daysOfPeriod = computed(() => {
             (day.isActive &&
               !day.isSelected &&
               handleSelect(
-                day.dateObject.convert(calendarOption.calender, calendarOption.locale),
+                day.dateObject.convert(calendarOption.calender, calendarOption.locale)
               )) ||
             (day.isSelected && removeFromStorage(day.inStorage))
         "
@@ -56,10 +56,14 @@ const processed_daysOfPeriod = computed(() => {
           :class="{
             semiActive: !day.isActive && day.isSelected,
             active: day.isActive && day.isSelected,
-            disabled: !day.isActive && !day.isSelected,
+            disabled: (!day.isActive && !day.isSelected) || day.isBanned,
           }"
         >
-          {{ day.dateObject.convert(calendarOption.calender, calendarOption.locale).format('D') }}
+          {{
+            day.dateObject
+              .convert(calendarOption.calender, calendarOption.locale)
+              .format("D")
+          }}
         </span>
       </div>
     </div>
