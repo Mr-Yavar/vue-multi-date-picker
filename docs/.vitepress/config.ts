@@ -30,10 +30,21 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: 'documentation/overview' },
           { text: 'Installation', link: 'documentation/installation' },
-
           { text: 'Quick Start', link: 'documentation/quick-start' },
           { text: 'Date Object', link: 'documentation/date-object' },
           { text: 'Options(props)', link: 'documentation/datepicker-options' },
+          { text: 'Customization(slot)', link: 'documentation/customization' },
+        ],
+      },
+      {
+        text: 'Getting Started',
+        items: [
+          { text: 'Overview', link: 'documentation/overview' },
+          { text: 'Installation', link: 'documentation/installation' },
+          { text: 'Quick Start', link: 'documentation/quick-start' },
+          { text: 'Date Object', link: 'documentation/date-object' },
+          { text: 'Options(props)', link: 'documentation/datepicker-options' },
+          { text: 'Customization(slot)', link: 'documentation/customization' },
         ],
       },
     ],
