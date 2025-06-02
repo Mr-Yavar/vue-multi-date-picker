@@ -16,6 +16,7 @@ export function useCalendar(
   minDate: DateObject | Date | null,
   maxDate: DateObject | Date | null,
   bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date | Date[] | null,
+  showOtherDays:boolean
 ) {
   const showMultipleMonth = numberOfMonth > 1
   const selectedDate = ref<DateObject>(
@@ -185,12 +186,14 @@ export function useCalendar(
         forWardStep < firstDay;
         forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-        days[index].push(weekDayTemplate(forWardStep, calendarOption, false,isBanned(forWardStep)))
+        days[index].push(
+          weekDayTemplate(forWardStep, calendarOption, showOtherDays, isBanned(forWardStep)),
+        )
       }
 
       for (let i = firstDay; i <= lastDay; i.setDate(i.getDate() + 1)) {
         const temp = new Date(i)
-        days[index].push(weekDayTemplate(temp, calendarOption, true,isBanned(temp)))
+        days[index].push(weekDayTemplate(temp, calendarOption, true, isBanned(temp)))
       }
 
       const lastDay_Of_lastWeekOfPeriod = new DateObject({
@@ -209,7 +212,9 @@ export function useCalendar(
         forWardStep <= new Date(lastDay_Of_lastWeekOfPeriod);
         forWardStep.setDate(forWardStep.getDate() + 1)
       ) {
-        days[index].push(weekDayTemplate(forWardStep, calendarOption, false,isBanned(forWardStep)))
+        days[index].push(
+          weekDayTemplate(forWardStep, calendarOption, showOtherDays, isBanned(forWardStep)),
+        )
       }
     }
 

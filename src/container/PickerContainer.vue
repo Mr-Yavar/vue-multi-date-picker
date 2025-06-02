@@ -48,7 +48,8 @@ export interface Props {
   value: DateStorage<Props['type']> | PlainDateStorage<Props['type']>
   minDate: DateObject | Date | null
   maxDate: DateObject | Date | null
-  bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date | Date[] | null
+  bannedDates: DateObject[] | ((date: DateObject) => boolean) | Date[] | null
+  showOtherDays:boolean
 }
 
 const {
@@ -68,6 +69,7 @@ const {
   minDate = null,
   maxDate = null,
   bannedDates = null,
+  showOtherDays = false
 } = defineProps<Props>()
 
 const calendar = userCalendar ?? gregorian
@@ -105,7 +107,7 @@ const {
   setMonthCurrentYear,
   setYearCurrentDate,
   setYearCurrentYear,
-} = useCalendar(calendarOption, userCurrentDate, 1, minDate, maxDate, bannedDates)
+} = useCalendar(calendarOption, userCurrentDate, 1, minDate, maxDate, bannedDates,showOtherDays)
 
 const {
   hour,
@@ -186,8 +188,8 @@ const AvailableMap: (string | number)[] = mapOfCalendar
 // #endregion
 </script>
 
-<template >
-  <div :id="datePickerInstanceId" ref="datePickerInstanceRef" >
+<template>
+  <div :id="datePickerInstanceId" ref="datePickerInstanceRef">
     <slot
       name="entryPoint"
       :onInput="onInput"
@@ -280,14 +282,12 @@ const AvailableMap: (string | number)[] = mapOfCalendar
   </div>
 </template>
 <style scoped>
-
 .arrow {
   position: absolute;
   width: 0;
   height: 0;
   z-index: 0; /* Place behind the popup */
 }
-
 </style>
 <style module="arrowType">
 .arrow-top {
