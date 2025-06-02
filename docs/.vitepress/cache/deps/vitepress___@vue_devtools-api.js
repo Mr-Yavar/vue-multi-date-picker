@@ -1,25 +1,25 @@
 // node_modules/.pnpm/@vue+devtools-shared@7.7.6/node_modules/@vue/devtools-shared/dist/index.js
-const __create = Object.create;
-const __defProp = Object.defineProperty;
-const __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-const __getOwnPropNames = Object.getOwnPropertyNames;
-const __getProtoOf = Object.getPrototypeOf;
-const __hasOwnProp = Object.prototype.hasOwnProperty;
-const __esm = (fn, res) => function __init() {
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
-const __commonJS = (cb, mod) => function __require() {
+var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-const __copyProps = (to, from, except, desc) => {
+var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
-    for (const key of __getOwnPropNames(from))
+    for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
         __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
   return to;
 };
-const __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
   // If the importer is in node compatibility mode or this is not an ESM
   // file that has been converted to a CommonJS file using a Babel-
   // compatible transform (i.e. "__esModule" has not been set), then set
@@ -27,12 +27,12 @@ const __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(
   isNodeMode || !mod || !mod.__esModule ? __defProp(target2, "default", { value: mod, enumerable: true }) : target2,
   mod
 ));
-const init_esm_shims = __esm({
+var init_esm_shims = __esm({
   "../../node_modules/.pnpm/tsup@8.4.0_@microsoft+api-extractor@7.51.1_@types+node@22.13.14__jiti@2.4.2_postcss@8.5_96eb05a9d65343021e53791dd83f3773/node_modules/tsup/assets/esm_shims.js"() {
     "use strict";
   }
 });
-const require_rfdc = __commonJS({
+var require_rfdc = __commonJS({
   "../../node_modules/.pnpm/rfdc@1.4.1/node_modules/rfdc/index.js"(exports, module) {
     "use strict";
     init_esm_shims();
@@ -223,16 +223,16 @@ const require_rfdc = __commonJS({
 init_esm_shims();
 init_esm_shims();
 init_esm_shims();
-const isBrowser = typeof navigator !== "undefined";
-const target = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : typeof global !== "undefined" ? global : {};
-const isInChromePanel = typeof target.chrome !== "undefined" && !!target.chrome.devtools;
-const isInIframe = isBrowser && target.self !== target.top;
-let _a;
-const isInElectron = typeof navigator !== "undefined" && ((_a = navigator.userAgent) == null ? void 0 : _a.toLowerCase().includes("electron"));
-const isNuxtApp = typeof window !== "undefined" && !!window.__NUXT__;
+var isBrowser = typeof navigator !== "undefined";
+var target = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : typeof global !== "undefined" ? global : {};
+var isInChromePanel = typeof target.chrome !== "undefined" && !!target.chrome.devtools;
+var isInIframe = isBrowser && target.self !== target.top;
+var _a;
+var isInElectron = typeof navigator !== "undefined" && ((_a = navigator.userAgent) == null ? void 0 : _a.toLowerCase().includes("electron"));
+var isNuxtApp = typeof window !== "undefined" && !!window.__NUXT__;
 init_esm_shims();
-const import_rfdc = __toESM(require_rfdc(), 1);
-const classifyRE = /(?:^|[-_/])(\w)/g;
+var import_rfdc = __toESM(require_rfdc(), 1);
+var classifyRE = /(?:^|[-_/])(\w)/g;
 function toUpper(_, c) {
   return c ? c.toUpperCase() : "";
 }
@@ -252,14 +252,14 @@ function basename(filename, ext) {
   }
   return "";
 }
-const HTTP_URL_RE = /^https?:\/\//;
+var HTTP_URL_RE = /^https?:\/\//;
 function isUrlString(str) {
   return str.startsWith("/") || HTTP_URL_RE.test(str);
 }
-const deepClone = (0, import_rfdc.default)({ circles: true });
+var deepClone = (0, import_rfdc.default)({ circles: true });
 
 // node_modules/.pnpm/perfect-debounce@1.0.0/node_modules/perfect-debounce/dist/index.mjs
-const DEBOUNCE_DEFAULTS = {
+var DEBOUNCE_DEFAULTS = {
   trailing: true
 };
 function debounce(fn, wait = 25, options = {}) {
@@ -328,9 +328,9 @@ function flatHooks(configHooks, hooks2 = {}, parentName) {
   }
   return hooks2;
 }
-const defaultTask = { run: (function_) => function_() };
-const _createTask = () => defaultTask;
-const createTask = typeof console.createTask !== "undefined" ? console.createTask : _createTask;
+var defaultTask = { run: (function_) => function_() };
+var _createTask = () => defaultTask;
+var createTask = typeof console.createTask !== "undefined" ? console.createTask : _createTask;
 function serialTaskCaller(hooks2, args) {
   const name = args.shift();
   const task = createTask(name);
@@ -349,7 +349,7 @@ function callEachWith(callbacks, arg0) {
     callback(arg0);
   }
 }
-const Hookable = class {
+var Hookable = class {
   constructor() {
     this._hooks = {};
     this._before = void 0;
@@ -360,7 +360,6 @@ const Hookable = class {
     this.callHook = this.callHook.bind(this);
     this.callHookWith = this.callHookWith.bind(this);
   }
-
   hook(name, function_, options = {}) {
     if (!name || typeof function_ !== "function") {
       return () => {
@@ -403,7 +402,6 @@ const Hookable = class {
       }
     };
   }
-
   hookOnce(name, function_) {
     let _unreg;
     let _function = (...arguments_) => {
@@ -417,7 +415,6 @@ const Hookable = class {
     _unreg = this.hook(name, _function);
     return _unreg;
   }
-
   removeHook(name, function_) {
     if (this._hooks[name]) {
       const index = this._hooks[name].indexOf(function_);
@@ -429,7 +426,6 @@ const Hookable = class {
       }
     }
   }
-
   deprecateHook(name, deprecated) {
     this._deprecatedHooks[name] = typeof deprecated === "string" ? { to: deprecated } : deprecated;
     const _hooks = this._hooks[name] || [];
@@ -438,14 +434,12 @@ const Hookable = class {
       this.hook(name, hook2);
     }
   }
-
   deprecateHooks(deprecatedHooks) {
     Object.assign(this._deprecatedHooks, deprecatedHooks);
     for (const name in deprecatedHooks) {
       this.deprecateHook(name, deprecatedHooks[name]);
     }
   }
-
   addHooks(configHooks) {
     const hooks2 = flatHooks(configHooks);
     const removeFns = Object.keys(hooks2).map(
@@ -457,30 +451,25 @@ const Hookable = class {
       }
     };
   }
-
   removeHooks(configHooks) {
     const hooks2 = flatHooks(configHooks);
     for (const key in hooks2) {
       this.removeHook(key, hooks2[key]);
     }
   }
-
   removeAllHooks() {
     for (const key in this._hooks) {
       delete this._hooks[key];
     }
   }
-
   callHook(name, ...arguments_) {
     arguments_.unshift(name);
     return this.callHookWith(serialTaskCaller, name, ...arguments_);
   }
-
   callHookParallel(name, ...arguments_) {
     arguments_.unshift(name);
     return this.callHookWith(parallelTaskCaller, name, ...arguments_);
   }
-
   callHookWith(caller, name, ...arguments_) {
     const event = this._before || this._after ? { name, args: arguments_, context: {} } : void 0;
     if (this._before) {
@@ -502,7 +491,6 @@ const Hookable = class {
     }
     return result;
   }
-
   beforeEach(function_) {
     this._before = this._before || [];
     this._before.push(function_);
@@ -515,7 +503,6 @@ const Hookable = class {
       }
     };
   }
-
   afterEach(function_) {
     this._after = this._after || [];
     this._after.push(function_);
@@ -534,31 +521,31 @@ function createHooks() {
 }
 
 // node_modules/.pnpm/birpc@2.3.0/node_modules/birpc/dist/index.mjs
-const { clearTimeout: clearTimeout2, setTimeout: setTimeout2 } = globalThis;
-const random = Math.random.bind(Math);
+var { clearTimeout: clearTimeout2, setTimeout: setTimeout2 } = globalThis;
+var random = Math.random.bind(Math);
 
 // node_modules/.pnpm/@vue+devtools-kit@7.7.6/node_modules/@vue/devtools-kit/dist/index.js
-const __create2 = Object.create;
-const __defProp2 = Object.defineProperty;
-const __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
-const __getOwnPropNames2 = Object.getOwnPropertyNames;
-const __getProtoOf2 = Object.getPrototypeOf;
-const __hasOwnProp2 = Object.prototype.hasOwnProperty;
-const __esm2 = (fn, res) => function __init() {
+var __create2 = Object.create;
+var __defProp2 = Object.defineProperty;
+var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames2 = Object.getOwnPropertyNames;
+var __getProtoOf2 = Object.getPrototypeOf;
+var __hasOwnProp2 = Object.prototype.hasOwnProperty;
+var __esm2 = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames2(fn)[0]])(fn = 0)), res;
 };
-const __commonJS2 = (cb, mod) => function __require() {
+var __commonJS2 = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-const __copyProps2 = (to, from, except, desc) => {
+var __copyProps2 = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
-    for (const key of __getOwnPropNames2(from))
+    for (let key of __getOwnPropNames2(from))
       if (!__hasOwnProp2.call(to, key) && key !== except)
         __defProp2(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc2(from, key)) || desc.enumerable });
   }
   return to;
 };
-const __toESM2 = (mod, isNodeMode, target22) => (target22 = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(
+var __toESM2 = (mod, isNodeMode, target22) => (target22 = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(
   // If the importer is in node compatibility mode or this is not an ESM
   // file that has been converted to a CommonJS file using a Babel-
   // compatible transform (i.e. "__esModule" has not been set), then set
@@ -566,18 +553,18 @@ const __toESM2 = (mod, isNodeMode, target22) => (target22 = mod != null ? __crea
   isNodeMode || !mod || !mod.__esModule ? __defProp2(target22, "default", { value: mod, enumerable: true }) : target22,
   mod
 ));
-const init_esm_shims2 = __esm2({
+var init_esm_shims2 = __esm2({
   "../../node_modules/.pnpm/tsup@8.4.0_@microsoft+api-extractor@7.51.1_@types+node@22.13.14__jiti@2.4.2_postcss@8.5_96eb05a9d65343021e53791dd83f3773/node_modules/tsup/assets/esm_shims.js"() {
     "use strict";
   }
 });
-const require_speakingurl = __commonJS2({
+var require_speakingurl = __commonJS2({
   "../../node_modules/.pnpm/speakingurl@14.0.1/node_modules/speakingurl/lib/speakingurl.js"(exports, module) {
     "use strict";
     init_esm_shims2();
     (function(root) {
       "use strict";
-      const charMap = {
+      var charMap = {
         // latin
         "À": "A",
         "Á": "A",
@@ -1395,13 +1382,13 @@ const require_speakingurl = __commonJS2({
         "₽": "RUB",
         "₾": "GEL"
       };
-      const lookAheadCharArray = [
+      var lookAheadCharArray = [
         // burmese
         "်",
         // Dhivehi
         "ް"
       ];
-      const diatricMap = {
+      var diatricMap = {
         // Burmese
         // dependent vowels
         "ာ": "a",
@@ -1460,7 +1447,7 @@ const require_speakingurl = __commonJS2({
         "ައް": "ah",
         "ަށް": "ah"
       };
-      const langCharMap = {
+      var langCharMap = {
         "en": {},
         // default language
         "az": {
@@ -1634,7 +1621,7 @@ const require_speakingurl = __commonJS2({
           "ö": "o"
         }
       };
-      const symbolMap = {
+      var symbolMap = {
         "ar": {
           "∆": "delta",
           "∞": "la-nihaya",
@@ -1915,30 +1902,30 @@ const require_speakingurl = __commonJS2({
           "¤": "tien te"
         }
       };
-      const uricChars = [";", "?", ":", "@", "&", "=", "+", "$", ",", "/"].join("");
-      const uricNoSlashChars = [";", "?", ":", "@", "&", "=", "+", "$", ","].join("");
-      const markChars = [".", "!", "~", "*", "'", "(", ")"].join("");
-      const getSlug = function getSlug2(input, opts) {
-        let separator = "-";
-        let result = "";
-        let diatricString = "";
-        let convertSymbols = true;
-        let customReplacements = {};
-        let maintainCase;
-        let titleCase;
-        let truncate;
-        let uricFlag;
-        let uricNoSlashFlag;
-        let markFlag;
-        let symbol;
-        let langChar;
-        let lucky;
-        let i;
-        let ch;
-        let l;
-        let lastCharWasSymbol;
-        let lastCharWasDiatric;
-        let allowedChars = "";
+      var uricChars = [";", "?", ":", "@", "&", "=", "+", "$", ",", "/"].join("");
+      var uricNoSlashChars = [";", "?", ":", "@", "&", "=", "+", "$", ","].join("");
+      var markChars = [".", "!", "~", "*", "'", "(", ")"].join("");
+      var getSlug = function getSlug2(input, opts) {
+        var separator = "-";
+        var result = "";
+        var diatricString = "";
+        var convertSymbols = true;
+        var customReplacements = {};
+        var maintainCase;
+        var titleCase;
+        var truncate;
+        var uricFlag;
+        var uricNoSlashFlag;
+        var markFlag;
+        var symbol;
+        var langChar;
+        var lucky;
+        var i;
+        var ch;
+        var l;
+        var lastCharWasSymbol;
+        var lastCharWasDiatric;
+        var allowedChars = "";
         if (typeof input !== "string") {
           return "";
         }
@@ -1954,7 +1941,7 @@ const require_speakingurl = __commonJS2({
           uricFlag = opts.uric || false;
           uricNoSlashFlag = opts.uricNoSlash || false;
           markFlag = opts.mark || false;
-          convertSymbols = !(opts.symbols === false || opts.lang === false);
+          convertSymbols = opts.symbols === false || opts.lang === false ? false : true;
           separator = opts.separator || separator;
           if (uricFlag) {
             allowedChars += uricChars;
@@ -1981,7 +1968,7 @@ const require_speakingurl = __commonJS2({
             });
           }
           Object.keys(customReplacements).forEach(function(v) {
-            let r;
+            var r;
             if (v.length > 1) {
               r = new RegExp("\\b" + escapeChars(v) + "\\b", "gi");
             } else {
@@ -2045,7 +2032,7 @@ const require_speakingurl = __commonJS2({
         }
         if (titleCase) {
           result = result.replace(/(\w)(\S*)/g, function(_, i2, r) {
-            const j = i2.toUpperCase() + (r !== null ? r : "");
+            var j = i2.toUpperCase() + (r !== null ? r : "");
             return Object.keys(customReplacements).indexOf(j.toLowerCase()) < 0 ? j : j.toLowerCase();
           });
         }
@@ -2062,7 +2049,7 @@ const require_speakingurl = __commonJS2({
         }
         return result;
       };
-      const createSlug = function createSlug2(opts) {
+      var createSlug = function createSlug2(opts) {
         return function getSlugWithConfig(input) {
           return getSlug(input, opts);
         };
@@ -2071,7 +2058,7 @@ const require_speakingurl = __commonJS2({
         return input.replace(/[-\\^$*+?.()|[\]{}\/]/g, "\\$&");
       };
       var isReplacedCustomChar = function(ch, customReplacements) {
-        for (const c in customReplacements) {
+        for (var c in customReplacements) {
           if (customReplacements[c] === ch) {
             return true;
           }
@@ -2098,7 +2085,7 @@ const require_speakingurl = __commonJS2({
     })(exports);
   }
 });
-const require_speakingurl2 = __commonJS2({
+var require_speakingurl2 = __commonJS2({
   "../../node_modules/.pnpm/speakingurl@14.0.1/node_modules/speakingurl/index.js"(exports, module) {
     "use strict";
     init_esm_shims2();
@@ -2114,7 +2101,7 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 function getComponentTypeName(options) {
-  let _a25;
+  var _a25;
   const name = options.name || options._componentTag || options.__VUE_DEVTOOLS_COMPONENT_GUSSED_NAME__ || options.__name;
   if (name === "index" && ((_a25 = options.__file) == null ? void 0 : _a25.endsWith("index.vue"))) {
     return "";
@@ -2137,7 +2124,7 @@ function getAppRecord(instance) {
     return instance.appContext.app.__VUE_DEVTOOLS_NEXT_APP_RECORD__;
 }
 function isFragment(instance) {
-  let _a25, _b25;
+  var _a25, _b25;
   const subTreeType = (_a25 = instance.subTree) == null ? void 0 : _a25.type;
   const appRecord = getAppRecord(instance);
   if (appRecord) {
@@ -2146,7 +2133,7 @@ function isFragment(instance) {
   return false;
 }
 function getInstanceName(instance) {
-  let _a25, _b25, _c;
+  var _a25, _b25, _c;
   const name = getComponentTypeName((instance == null ? void 0 : instance.type) || {});
   if (name)
     return name;
@@ -2166,7 +2153,7 @@ function getInstanceName(instance) {
   return "Anonymous Component";
 }
 function getUniqueComponentId(instance) {
-  let _a25, _b25, _c;
+  var _a25, _b25, _c;
   const appId = (_c = (_b25 = (_a25 = instance == null ? void 0 : instance.appContext) == null ? void 0 : _a25.app) == null ? void 0 : _b25.__VUE_DEVTOOLS_NEXT_APP_RECORD_ID__) != null ? _c : 0;
   const instanceId = instance === (instance == null ? void 0 : instance.root) ? "root" : instance.uid;
   return `${appId}:${instanceId}`;
@@ -2191,7 +2178,7 @@ function createRect() {
   };
   return rect;
 }
-let range;
+var range;
 function getTextRect(node) {
   if (!range)
     range = document.createRange();
@@ -2230,7 +2217,7 @@ function mergeRects(a, b) {
     a.right = b.right;
   return a;
 }
-const DEFAULT_RECT = {
+var DEFAULT_RECT = {
   top: 0,
   left: 0,
   right: 0,
@@ -2272,11 +2259,11 @@ function getFragmentRootElements(vnode) {
   });
   return list;
 }
-const CONTAINER_ELEMENT_ID = "__vue-devtools-component-inspector__";
-const CARD_ELEMENT_ID = "__vue-devtools-component-inspector__card__";
-const COMPONENT_NAME_ELEMENT_ID = "__vue-devtools-component-inspector__name__";
-const INDICATOR_ELEMENT_ID = "__vue-devtools-component-inspector__indicator__";
-const containerStyles = {
+var CONTAINER_ELEMENT_ID = "__vue-devtools-component-inspector__";
+var CARD_ELEMENT_ID = "__vue-devtools-component-inspector__card__";
+var COMPONENT_NAME_ELEMENT_ID = "__vue-devtools-component-inspector__name__";
+var INDICATOR_ELEMENT_ID = "__vue-devtools-component-inspector__indicator__";
+var containerStyles = {
   display: "block",
   zIndex: 2147483640,
   position: "fixed",
@@ -2286,7 +2273,7 @@ const containerStyles = {
   transition: "all 0.1s ease-in",
   pointerEvents: "none"
 };
-const cardStyles = {
+var cardStyles = {
   fontFamily: "Arial, Helvetica, sans-serif",
   padding: "5px 8px",
   borderRadius: "4px",
@@ -2300,7 +2287,7 @@ const cardStyles = {
   backgroundColor: "#42b883",
   boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)"
 };
-const indicatorStyles = {
+var indicatorStyles = {
   display: "inline-block",
   fontWeight: 400,
   fontStyle: "normal",
@@ -2328,7 +2315,7 @@ function getStyles(bounds) {
   };
 }
 function create(options) {
-  let _a25;
+  var _a25;
   const containerEl = document.createElement("div");
   containerEl.id = (_a25 = options.elementId) != null ? _a25 : CONTAINER_ELEMENT_ID;
   Object.assign(containerEl.style, {
@@ -2385,7 +2372,7 @@ function unhighlight() {
   if (el)
     el.style.display = "none";
 }
-let inspectInstance = null;
+var inspectInstance = null;
 function inspectFn(e) {
   const target22 = e.target;
   if (target22) {
@@ -2410,7 +2397,7 @@ function selectComponentFn(e, cb) {
     cb(uniqueComponentId);
   }
 }
-let inspectComponentHighLighterSelectFn = null;
+var inspectComponentHighLighterSelectFn = null;
 function cancelInspectComponentHighLighter() {
   unhighlight();
   window.removeEventListener("mouseover", inspectFn);
@@ -2476,8 +2463,8 @@ function scrollToComponent(options) {
   }
 }
 init_esm_shims2();
-let _a2;
-let _b;
+var _a2;
+var _b;
 (_b = (_a2 = target).__VUE_DEVTOOLS_COMPONENT_INSPECTOR_ENABLED__) != null ? _b : _a2.__VUE_DEVTOOLS_COMPONENT_INSPECTOR_ENABLED__ = true;
 function waitForInspectorInit(cb) {
   let total = 0;
@@ -2545,12 +2532,11 @@ function toRaw(observed) {
   ];
   return raw ? toRaw(raw) : observed;
 }
-const Fragment = Symbol.for("v-fgt");
-const StateEditor = class {
+var Fragment = Symbol.for("v-fgt");
+var StateEditor = class {
   constructor() {
     this.refEditor = new RefStateEditor();
   }
-
   set(object, path, value, cb) {
     const sections = Array.isArray(path) ? path : path.split(".");
     const markRef = false;
@@ -2577,7 +2563,6 @@ const StateEditor = class {
         object[field] = value;
     }
   }
-
   get(object, path) {
     const sections = Array.isArray(path) ? path : path.split(".");
     for (let i = 0; i < sections.length; i++) {
@@ -2592,7 +2577,6 @@ const StateEditor = class {
     }
     return object;
   }
-
   has(object, path, parent = false) {
     if (typeof object === "undefined")
       return false;
@@ -2606,7 +2590,6 @@ const StateEditor = class {
     }
     return object != null && Object.prototype.hasOwnProperty.call(object, sections[0]);
   }
-
   createDefaultSetCallback(state) {
     return (object, field, value) => {
       if (state.remove || state.newKey) {
@@ -2660,20 +2643,18 @@ var RefStateEditor = class {
       previousKeysSet.forEach((key) => Reflect.deleteProperty(ref, key));
     }
   }
-
   get(ref) {
     return isRef(ref) ? ref.value : ref;
   }
-
   isRef(ref) {
     return isRef(ref) || isReactive(ref);
   }
 };
-const stateEditor = new StateEditor();
+var stateEditor = new StateEditor();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-const TIMELINE_LAYERS_STATE_STORAGE_ID = "__VUE_DEVTOOLS_KIT_TIMELINE_LAYERS_STATE__";
+var TIMELINE_LAYERS_STATE_STORAGE_ID = "__VUE_DEVTOOLS_KIT_TIMELINE_LAYERS_STATE__";
 function getTimelineLayersStateFromStorage() {
   if (!isBrowser || typeof localStorage === "undefined" || localStorage === null) {
     return {
@@ -2698,10 +2679,10 @@ function getTimelineLayersStateFromStorage() {
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-let _a22;
-let _b2;
+var _a22;
+var _b2;
 (_b2 = (_a22 = target).__VUE_DEVTOOLS_KIT_TIMELINE_LAYERS) != null ? _b2 : _a22.__VUE_DEVTOOLS_KIT_TIMELINE_LAYERS = [];
-const devtoolsTimelineLayers = new Proxy(target.__VUE_DEVTOOLS_KIT_TIMELINE_LAYERS, {
+var devtoolsTimelineLayers = new Proxy(target.__VUE_DEVTOOLS_KIT_TIMELINE_LAYERS, {
   get(target22, prop, receiver) {
     return Reflect.get(target22, prop, receiver);
   }
@@ -2714,19 +2695,19 @@ function addTimelineLayer(options, descriptor) {
     appRecord: getAppRecord(descriptor.app)
   });
 }
-let _a3;
-let _b3;
+var _a3;
+var _b3;
 (_b3 = (_a3 = target).__VUE_DEVTOOLS_KIT_INSPECTOR__) != null ? _b3 : _a3.__VUE_DEVTOOLS_KIT_INSPECTOR__ = [];
-const devtoolsInspector = new Proxy(target.__VUE_DEVTOOLS_KIT_INSPECTOR__, {
+var devtoolsInspector = new Proxy(target.__VUE_DEVTOOLS_KIT_INSPECTOR__, {
   get(target22, prop, receiver) {
     return Reflect.get(target22, prop, receiver);
   }
 });
-const callInspectorUpdatedHook = debounce(() => {
+var callInspectorUpdatedHook = debounce(() => {
   devtoolsContext.hooks.callHook("sendInspectorToClient", getActiveInspectors());
 });
 function addInspector(inspector, descriptor) {
-  let _a25, _b25;
+  var _a25, _b25;
   devtoolsInspector.push({
     options: inspector,
     descriptor,
@@ -2740,7 +2721,7 @@ function addInspector(inspector, descriptor) {
 }
 function getActiveInspectors() {
   return devtoolsInspector.filter((inspector) => inspector.descriptor.app === activeAppRecord.value.app).filter((inspector) => inspector.descriptor.id !== "components").map((inspector) => {
-    let _a25;
+    var _a25;
     const descriptor = inspector.descriptor;
     const options = inspector.options;
     return {
@@ -2758,40 +2739,40 @@ function getInspector(id, app) {
   return devtoolsInspector.find((inspector) => inspector.options.id === id && (app ? inspector.descriptor.app === app : true));
 }
 var DevToolsV6PluginAPIHookKeys = ((DevToolsV6PluginAPIHookKeys2) => {
-  DevToolsV6PluginAPIHookKeys2.VISIT_COMPONENT_TREE = "visitComponentTree";
-  DevToolsV6PluginAPIHookKeys2.INSPECT_COMPONENT = "inspectComponent";
-  DevToolsV6PluginAPIHookKeys2.EDIT_COMPONENT_STATE = "editComponentState";
-  DevToolsV6PluginAPIHookKeys2.GET_INSPECTOR_TREE = "getInspectorTree";
-  DevToolsV6PluginAPIHookKeys2.GET_INSPECTOR_STATE = "getInspectorState";
-  DevToolsV6PluginAPIHookKeys2.EDIT_INSPECTOR_STATE = "editInspectorState";
-  DevToolsV6PluginAPIHookKeys2.INSPECT_TIMELINE_EVENT = "inspectTimelineEvent";
-  DevToolsV6PluginAPIHookKeys2.TIMELINE_CLEARED = "timelineCleared";
-  DevToolsV6PluginAPIHookKeys2.SET_PLUGIN_SETTINGS = "setPluginSettings";
+  DevToolsV6PluginAPIHookKeys2["VISIT_COMPONENT_TREE"] = "visitComponentTree";
+  DevToolsV6PluginAPIHookKeys2["INSPECT_COMPONENT"] = "inspectComponent";
+  DevToolsV6PluginAPIHookKeys2["EDIT_COMPONENT_STATE"] = "editComponentState";
+  DevToolsV6PluginAPIHookKeys2["GET_INSPECTOR_TREE"] = "getInspectorTree";
+  DevToolsV6PluginAPIHookKeys2["GET_INSPECTOR_STATE"] = "getInspectorState";
+  DevToolsV6PluginAPIHookKeys2["EDIT_INSPECTOR_STATE"] = "editInspectorState";
+  DevToolsV6PluginAPIHookKeys2["INSPECT_TIMELINE_EVENT"] = "inspectTimelineEvent";
+  DevToolsV6PluginAPIHookKeys2["TIMELINE_CLEARED"] = "timelineCleared";
+  DevToolsV6PluginAPIHookKeys2["SET_PLUGIN_SETTINGS"] = "setPluginSettings";
   return DevToolsV6PluginAPIHookKeys2;
 })(DevToolsV6PluginAPIHookKeys || {});
 var DevToolsContextHookKeys = ((DevToolsContextHookKeys2) => {
-  DevToolsContextHookKeys2.ADD_INSPECTOR = "addInspector";
-  DevToolsContextHookKeys2.SEND_INSPECTOR_TREE = "sendInspectorTree";
-  DevToolsContextHookKeys2.SEND_INSPECTOR_STATE = "sendInspectorState";
-  DevToolsContextHookKeys2.CUSTOM_INSPECTOR_SELECT_NODE = "customInspectorSelectNode";
-  DevToolsContextHookKeys2.TIMELINE_LAYER_ADDED = "timelineLayerAdded";
-  DevToolsContextHookKeys2.TIMELINE_EVENT_ADDED = "timelineEventAdded";
-  DevToolsContextHookKeys2.GET_COMPONENT_INSTANCES = "getComponentInstances";
-  DevToolsContextHookKeys2.GET_COMPONENT_BOUNDS = "getComponentBounds";
-  DevToolsContextHookKeys2.GET_COMPONENT_NAME = "getComponentName";
-  DevToolsContextHookKeys2.COMPONENT_HIGHLIGHT = "componentHighlight";
-  DevToolsContextHookKeys2.COMPONENT_UNHIGHLIGHT = "componentUnhighlight";
+  DevToolsContextHookKeys2["ADD_INSPECTOR"] = "addInspector";
+  DevToolsContextHookKeys2["SEND_INSPECTOR_TREE"] = "sendInspectorTree";
+  DevToolsContextHookKeys2["SEND_INSPECTOR_STATE"] = "sendInspectorState";
+  DevToolsContextHookKeys2["CUSTOM_INSPECTOR_SELECT_NODE"] = "customInspectorSelectNode";
+  DevToolsContextHookKeys2["TIMELINE_LAYER_ADDED"] = "timelineLayerAdded";
+  DevToolsContextHookKeys2["TIMELINE_EVENT_ADDED"] = "timelineEventAdded";
+  DevToolsContextHookKeys2["GET_COMPONENT_INSTANCES"] = "getComponentInstances";
+  DevToolsContextHookKeys2["GET_COMPONENT_BOUNDS"] = "getComponentBounds";
+  DevToolsContextHookKeys2["GET_COMPONENT_NAME"] = "getComponentName";
+  DevToolsContextHookKeys2["COMPONENT_HIGHLIGHT"] = "componentHighlight";
+  DevToolsContextHookKeys2["COMPONENT_UNHIGHLIGHT"] = "componentUnhighlight";
   return DevToolsContextHookKeys2;
 })(DevToolsContextHookKeys || {});
 var DevToolsMessagingHookKeys = ((DevToolsMessagingHookKeys2) => {
-  DevToolsMessagingHookKeys2.SEND_INSPECTOR_TREE_TO_CLIENT = "sendInspectorTreeToClient";
-  DevToolsMessagingHookKeys2.SEND_INSPECTOR_STATE_TO_CLIENT = "sendInspectorStateToClient";
-  DevToolsMessagingHookKeys2.SEND_TIMELINE_EVENT_TO_CLIENT = "sendTimelineEventToClient";
-  DevToolsMessagingHookKeys2.SEND_INSPECTOR_TO_CLIENT = "sendInspectorToClient";
-  DevToolsMessagingHookKeys2.SEND_ACTIVE_APP_UNMOUNTED_TO_CLIENT = "sendActiveAppUpdatedToClient";
-  DevToolsMessagingHookKeys2.DEVTOOLS_STATE_UPDATED = "devtoolsStateUpdated";
-  DevToolsMessagingHookKeys2.DEVTOOLS_CONNECTED_UPDATED = "devtoolsConnectedUpdated";
-  DevToolsMessagingHookKeys2.ROUTER_INFO_UPDATED = "routerInfoUpdated";
+  DevToolsMessagingHookKeys2["SEND_INSPECTOR_TREE_TO_CLIENT"] = "sendInspectorTreeToClient";
+  DevToolsMessagingHookKeys2["SEND_INSPECTOR_STATE_TO_CLIENT"] = "sendInspectorStateToClient";
+  DevToolsMessagingHookKeys2["SEND_TIMELINE_EVENT_TO_CLIENT"] = "sendTimelineEventToClient";
+  DevToolsMessagingHookKeys2["SEND_INSPECTOR_TO_CLIENT"] = "sendInspectorToClient";
+  DevToolsMessagingHookKeys2["SEND_ACTIVE_APP_UNMOUNTED_TO_CLIENT"] = "sendActiveAppUpdatedToClient";
+  DevToolsMessagingHookKeys2["DEVTOOLS_STATE_UPDATED"] = "devtoolsStateUpdated";
+  DevToolsMessagingHookKeys2["DEVTOOLS_CONNECTED_UPDATED"] = "devtoolsConnectedUpdated";
+  DevToolsMessagingHookKeys2["ROUTER_INFO_UPDATED"] = "routerInfoUpdated";
   return DevToolsMessagingHookKeys2;
 })(DevToolsMessagingHookKeys || {});
 function createDevToolsCtxHooks() {
@@ -2800,7 +2781,7 @@ function createDevToolsCtxHooks() {
     addInspector(inspector, plugin.descriptor);
   });
   const debounceSendInspectorTree = debounce(async ({ inspectorId, plugin }) => {
-    let _a25;
+    var _a25;
     if (!inspectorId || !((_a25 = plugin == null ? void 0 : plugin.descriptor) == null ? void 0 : _a25.app) || devtoolsState.highPerfModeEnabled)
       return;
     const inspector = getInspector(inspectorId, plugin.descriptor.app);
@@ -2833,7 +2814,7 @@ function createDevToolsCtxHooks() {
   }, 120);
   hooks2.hook("sendInspectorTree", debounceSendInspectorTree);
   const debounceSendInspectorState = debounce(async ({ inspectorId, plugin }) => {
-    let _a25;
+    var _a25;
     if (!inspectorId || !((_a25 = plugin == null ? void 0 : plugin.descriptor) == null ? void 0 : _a25.app) || devtoolsState.highPerfModeEnabled)
       return;
     const inspector = getInspector(inspectorId, plugin.descriptor.app);
@@ -2881,7 +2862,7 @@ function createDevToolsCtxHooks() {
     addTimelineLayer(options, plugin.descriptor);
   });
   hooks2.hook("timelineEventAdded", ({ options, plugin }) => {
-    let _a25;
+    var _a25;
     const internalLayerIds = ["performance", "component-event", "keyboard", "mouse"];
     if (devtoolsState.highPerfModeEnabled || !((_a25 = devtoolsState.timelineLayersState) == null ? void 0 : _a25[plugin.descriptor.id]) && !internalLayerIds.includes(options.layerId))
       return;
@@ -2920,22 +2901,22 @@ function createDevToolsCtxHooks() {
   });
   return hooks2;
 }
-let _a4;
-let _b4;
+var _a4;
+var _b4;
 (_b4 = (_a4 = target).__VUE_DEVTOOLS_KIT_APP_RECORDS__) != null ? _b4 : _a4.__VUE_DEVTOOLS_KIT_APP_RECORDS__ = [];
-let _a5;
-let _b5;
+var _a5;
+var _b5;
 (_b5 = (_a5 = target).__VUE_DEVTOOLS_KIT_ACTIVE_APP_RECORD__) != null ? _b5 : _a5.__VUE_DEVTOOLS_KIT_ACTIVE_APP_RECORD__ = {};
-let _a6;
-let _b6;
+var _a6;
+var _b6;
 (_b6 = (_a6 = target).__VUE_DEVTOOLS_KIT_ACTIVE_APP_RECORD_ID__) != null ? _b6 : _a6.__VUE_DEVTOOLS_KIT_ACTIVE_APP_RECORD_ID__ = "";
-let _a7;
-let _b7;
+var _a7;
+var _b7;
 (_b7 = (_a7 = target).__VUE_DEVTOOLS_KIT_CUSTOM_TABS__) != null ? _b7 : _a7.__VUE_DEVTOOLS_KIT_CUSTOM_TABS__ = [];
-let _a8;
-let _b8;
+var _a8;
+var _b8;
 (_b8 = (_a8 = target).__VUE_DEVTOOLS_KIT_CUSTOM_COMMANDS__) != null ? _b8 : _a8.__VUE_DEVTOOLS_KIT_CUSTOM_COMMANDS__ = [];
-const STATE_KEY = "__VUE_DEVTOOLS_KIT_GLOBAL_STATE__";
+var STATE_KEY = "__VUE_DEVTOOLS_KIT_GLOBAL_STATE__";
 function initStateFactory() {
   return {
     connected: false,
@@ -2951,16 +2932,16 @@ function initStateFactory() {
     timelineLayersState: getTimelineLayersStateFromStorage()
   };
 }
-let _a9;
-let _b9;
+var _a9;
+var _b9;
 (_b9 = (_a9 = target)[STATE_KEY]) != null ? _b9 : _a9[STATE_KEY] = initStateFactory();
-const callStateUpdatedHook = debounce((state) => {
+var callStateUpdatedHook = debounce((state) => {
   devtoolsContext.hooks.callHook("devtoolsStateUpdated", { state });
 });
-const callConnectedUpdatedHook = debounce((state, oldState) => {
+var callConnectedUpdatedHook = debounce((state, oldState) => {
   devtoolsContext.hooks.callHook("devtoolsConnectedUpdated", { state, oldState });
 });
-const devtoolsAppRecords = new Proxy(target.__VUE_DEVTOOLS_KIT_APP_RECORDS__, {
+var devtoolsAppRecords = new Proxy(target.__VUE_DEVTOOLS_KIT_APP_RECORDS__, {
   get(_target, prop, receiver) {
     if (prop === "value")
       return target.__VUE_DEVTOOLS_KIT_APP_RECORDS__;
@@ -3031,7 +3012,7 @@ function onDevToolsConnected(fn) {
     });
   });
 }
-const resolveIcon = (icon) => {
+var resolveIcon = (icon) => {
   if (!icon)
     return;
   if (icon.startsWith("baseline-")) {
@@ -3074,7 +3055,7 @@ function removeCustomCommand(actionId) {
   updateAllStates();
 }
 function openInEditor(options = {}) {
-  let _a25, _b25, _c;
+  var _a25, _b25, _c;
   const { file, host, baseUrl = window.location.origin, line = 0, column = 0 } = options;
   if (file) {
     if (host === "chrome-extension") {
@@ -3097,10 +3078,10 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-let _a10;
-let _b10;
+var _a10;
+var _b10;
 (_b10 = (_a10 = target).__VUE_DEVTOOLS_KIT_PLUGIN_BUFFER__) != null ? _b10 : _a10.__VUE_DEVTOOLS_KIT_PLUGIN_BUFFER__ = [];
-const devtoolsPluginBuffer = new Proxy(target.__VUE_DEVTOOLS_KIT_PLUGIN_BUFFER__, {
+var devtoolsPluginBuffer = new Proxy(target.__VUE_DEVTOOLS_KIT_PLUGIN_BUFFER__, {
   get(target22, prop, receiver) {
     return Reflect.get(target22, prop, receiver);
   }
@@ -3116,15 +3097,15 @@ function getPluginLocalKey(pluginId) {
   return `__VUE_DEVTOOLS_NEXT_PLUGIN_SETTINGS__${pluginId}__`;
 }
 function getPluginSettingsOptions(pluginId) {
-  let _a25, _b25, _c;
+  var _a25, _b25, _c;
   const item = (_b25 = (_a25 = devtoolsPluginBuffer.find((item2) => {
-    let _a26;
+    var _a26;
     return item2[0].id === pluginId && !!((_a26 = item2[0]) == null ? void 0 : _a26.settings);
   })) == null ? void 0 : _a25[0]) != null ? _b25 : null;
   return (_c = item == null ? void 0 : item.settings) != null ? _c : null;
 }
 function getPluginSettings(pluginId, fallbackValue) {
-  let _a25, _b25, _c;
+  var _a25, _b25, _c;
   const localKey = getPluginLocalKey(pluginId);
   if (localKey) {
     const localSettings = localStorage.getItem(localKey);
@@ -3179,10 +3160,10 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-let _a11;
-let _b11;
-const devtoolsHooks = (_b11 = (_a11 = target).__VUE_DEVTOOLS_HOOK) != null ? _b11 : _a11.__VUE_DEVTOOLS_HOOK = createHooks();
-const on = {
+var _a11;
+var _b11;
+var devtoolsHooks = (_b11 = (_a11 = target).__VUE_DEVTOOLS_HOOK) != null ? _b11 : _a11.__VUE_DEVTOOLS_HOOK = createHooks();
+var on = {
   vueAppInit(fn) {
     devtoolsHooks.hook("app:init", fn);
   },
@@ -3214,18 +3195,17 @@ const on = {
     return devtoolsHooks.hook("perf:end", fn);
   }
 };
-const hook = {
+var hook = {
   on,
   setupDevToolsPlugin(pluginDescriptor, setupFn) {
     return devtoolsHooks.callHook("devtools-plugin:setup", pluginDescriptor, setupFn);
   }
 };
-const DevToolsV6PluginAPI = class {
+var DevToolsV6PluginAPI = class {
   constructor({ plugin, ctx }) {
     this.hooks = ctx.hooks;
     this.plugin = plugin;
   }
-
   get on() {
     return {
       // component inspector
@@ -3261,10 +3241,9 @@ const DevToolsV6PluginAPI = class {
       }
     };
   }
-
   // component inspector
   notifyComponentUpdate(instance) {
-    let _a25;
+    var _a25;
     if (devtoolsState.highPerfModeEnabled) {
       return;
     }
@@ -3287,7 +3266,6 @@ const DevToolsV6PluginAPI = class {
       this.hooks.callHook("sendInspectorState", { inspectorId: inspector.id, plugin: this.plugin });
     }
   }
-
   // custom inspector
   addInspector(options) {
     this.hooks.callHook("addInspector", { inspector: options, plugin: this.plugin });
@@ -3295,29 +3273,24 @@ const DevToolsV6PluginAPI = class {
       initPluginSettings(options.id, this.plugin.descriptor.settings);
     }
   }
-
   sendInspectorTree(inspectorId) {
     if (devtoolsState.highPerfModeEnabled) {
       return;
     }
     this.hooks.callHook("sendInspectorTree", { inspectorId, plugin: this.plugin });
   }
-
   sendInspectorState(inspectorId) {
     if (devtoolsState.highPerfModeEnabled) {
       return;
     }
     this.hooks.callHook("sendInspectorState", { inspectorId, plugin: this.plugin });
   }
-
   selectInspectorNode(inspectorId, nodeId) {
     this.hooks.callHook("customInspectorSelectNode", { inspectorId, nodeId, plugin: this.plugin });
   }
-
   visitComponentTree(payload) {
     return this.hooks.callHook("visitComponentTree", payload);
   }
-
   // timeline
   now() {
     if (devtoolsState.highPerfModeEnabled) {
@@ -3325,41 +3298,33 @@ const DevToolsV6PluginAPI = class {
     }
     return Date.now();
   }
-
   addTimelineLayer(options) {
     this.hooks.callHook("timelineLayerAdded", { options, plugin: this.plugin });
   }
-
   addTimelineEvent(options) {
     if (devtoolsState.highPerfModeEnabled) {
       return;
     }
     this.hooks.callHook("timelineEventAdded", { options, plugin: this.plugin });
   }
-
   // settings
   getSettings(pluginId) {
     return getPluginSettings(pluginId != null ? pluginId : this.plugin.descriptor.id, this.plugin.descriptor.settings);
   }
-
   // utilities
   getComponentInstances(app) {
     return this.hooks.callHook("getComponentInstances", { app });
   }
-
   getComponentBounds(instance) {
     return this.hooks.callHook("getComponentBounds", { instance });
   }
-
   getComponentName(instance) {
     return this.hooks.callHook("getComponentName", { instance });
   }
-
   highlightElement(instance) {
     const uid = instance.__VUE_DEVTOOLS_NEXT_UID__;
     return this.hooks.callHook("componentHighlight", { uid });
   }
-
   unhighlightElement() {
     return this.hooks.callHook(
       "componentUnhighlight"
@@ -3367,24 +3332,24 @@ const DevToolsV6PluginAPI = class {
     );
   }
 };
-const DevToolsPluginAPI = DevToolsV6PluginAPI;
+var DevToolsPluginAPI = DevToolsV6PluginAPI;
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-const UNDEFINED = "__vue_devtool_undefined__";
-const INFINITY = "__vue_devtool_infinity__";
-const NEGATIVE_INFINITY = "__vue_devtool_negative_infinity__";
-const NAN = "__vue_devtool_nan__";
+var UNDEFINED = "__vue_devtool_undefined__";
+var INFINITY = "__vue_devtool_infinity__";
+var NEGATIVE_INFINITY = "__vue_devtool_negative_infinity__";
+var NAN = "__vue_devtool_nan__";
 init_esm_shims2();
 init_esm_shims2();
-const tokenMap = {
+var tokenMap = {
   [UNDEFINED]: "undefined",
   [NAN]: "NaN",
   [INFINITY]: "Infinity",
   [NEGATIVE_INFINITY]: "-Infinity"
 };
-const reversedTokenMap = Object.entries(tokenMap).reduce((acc, [key, value]) => {
+var reversedTokenMap = Object.entries(tokenMap).reduce((acc, [key, value]) => {
   acc[value] = key;
   return acc;
 }, {});
@@ -3393,8 +3358,8 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-let _a12;
-let _b12;
+var _a12;
+var _b12;
 (_b12 = (_a12 = target).__VUE_DEVTOOLS_KIT__REGISTERED_PLUGIN_APPS__) != null ? _b12 : _a12.__VUE_DEVTOOLS_KIT__REGISTERED_PLUGIN_APPS__ = /* @__PURE__ */ new Set();
 function setupDevToolsPlugin(pluginDescriptor, setupFn) {
   return hook.setupDevToolsPlugin(pluginDescriptor, setupFn);
@@ -3431,23 +3396,23 @@ function registerDevToolsPlugin(app, options) {
 }
 init_esm_shims2();
 init_esm_shims2();
-const ROUTER_KEY = "__VUE_DEVTOOLS_ROUTER__";
-const ROUTER_INFO_KEY = "__VUE_DEVTOOLS_ROUTER_INFO__";
-let _a13;
-let _b13;
+var ROUTER_KEY = "__VUE_DEVTOOLS_ROUTER__";
+var ROUTER_INFO_KEY = "__VUE_DEVTOOLS_ROUTER_INFO__";
+var _a13;
+var _b13;
 (_b13 = (_a13 = target)[ROUTER_INFO_KEY]) != null ? _b13 : _a13[ROUTER_INFO_KEY] = {
   currentRoute: null,
   routes: []
 };
-let _a14;
-let _b14;
+var _a14;
+var _b14;
 (_b14 = (_a14 = target)[ROUTER_KEY]) != null ? _b14 : _a14[ROUTER_KEY] = {};
-const devtoolsRouterInfo = new Proxy(target[ROUTER_INFO_KEY], {
+var devtoolsRouterInfo = new Proxy(target[ROUTER_INFO_KEY], {
   get(target22, property) {
     return target[ROUTER_INFO_KEY][property];
   }
 });
-const devtoolsRouter = new Proxy(target[ROUTER_KEY], {
+var devtoolsRouter = new Proxy(target[ROUTER_KEY], {
   get(target22, property) {
     if (property === "value") {
       return target[ROUTER_KEY];
@@ -3489,7 +3454,7 @@ function filterCurrentRoute(route) {
 }
 function normalizeRouterInfo(appRecord, activeAppRecord2) {
   function init() {
-    let _a25;
+    var _a25;
     const router = (_a25 = appRecord.app) == null ? void 0 : _a25.config.globalProperties.$router;
     const currentRoute = filterCurrentRoute(router == null ? void 0 : router.currentRoute.value);
     const routes = filterRoutes(getRoutes(router));
@@ -3505,7 +3470,7 @@ function normalizeRouterInfo(appRecord, activeAppRecord2) {
   }
   init();
   hook.on.componentUpdated(debounce(() => {
-    let _a25;
+    var _a25;
     if (((_a25 = activeAppRecord2.value) == null ? void 0 : _a25.app) !== appRecord.app)
       return;
     init();
@@ -3638,14 +3603,14 @@ function createDevToolsApi(hooks2) {
   };
 }
 init_esm_shims2();
-let _a15;
-let _b15;
+var _a15;
+var _b15;
 (_b15 = (_a15 = target).__VUE_DEVTOOLS_ENV__) != null ? _b15 : _a15.__VUE_DEVTOOLS_ENV__ = {
   vitePluginDetected: false
 };
-const hooks = createDevToolsCtxHooks();
-let _a16;
-let _b16;
+var hooks = createDevToolsCtxHooks();
+var _a16;
+var _b16;
 (_b16 = (_a16 = target).__VUE_DEVTOOLS_KIT_CONTEXT__) != null ? _b16 : _a16.__VUE_DEVTOOLS_KIT_CONTEXT__ = {
   hooks,
   get state() {
@@ -3660,10 +3625,10 @@ let _b16;
 };
 var devtoolsContext = target.__VUE_DEVTOOLS_KIT_CONTEXT__;
 init_esm_shims2();
-const import_speakingurl = __toESM2(require_speakingurl2(), 1);
-let _a17;
-let _b17;
-const appRecordInfo = (_b17 = (_a17 = target).__VUE_DEVTOOLS_NEXT_APP_RECORD_INFO__) != null ? _b17 : _a17.__VUE_DEVTOOLS_NEXT_APP_RECORD_INFO__ = {
+var import_speakingurl = __toESM2(require_speakingurl2(), 1);
+var _a17;
+var _b17;
+var appRecordInfo = (_b17 = (_a17 = target).__VUE_DEVTOOLS_NEXT_APP_RECORD_INFO__) != null ? _b17 : _a17.__VUE_DEVTOOLS_NEXT_APP_RECORD_INFO__ = {
   id: 0,
   appIds: /* @__PURE__ */ new Set()
 };
@@ -3700,8 +3665,8 @@ function updateDevToolsClientDetected(params) {
   const devtoolsClientVisible = Object.values(devtoolsState.devtoolsClientDetected).some(Boolean);
   toggleHighPerfMode(!devtoolsClientVisible);
 }
-let _a18;
-let _b18;
+var _a18;
+var _b18;
 (_b18 = (_a18 = target).__VUE_DEVTOOLS_UPDATE_CLIENT_DETECTED__) != null ? _b18 : _a18.__VUE_DEVTOOLS_UPDATE_CLIENT_DETECTED__ = updateDevToolsClientDetected;
 init_esm_shims2();
 init_esm_shims2();
@@ -3710,36 +3675,31 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-const DoubleIndexedKV = class {
+var DoubleIndexedKV = class {
   constructor() {
     this.keyToValue = /* @__PURE__ */ new Map();
     this.valueToKey = /* @__PURE__ */ new Map();
   }
-
   set(key, value) {
     this.keyToValue.set(key, value);
     this.valueToKey.set(value, key);
   }
-
   getByKey(key) {
     return this.keyToValue.get(key);
   }
-
   getByValue(value) {
     return this.valueToKey.get(value);
   }
-
   clear() {
     this.keyToValue.clear();
     this.valueToKey.clear();
   }
 };
-const Registry = class {
+var Registry = class {
   constructor(generateIdentifier) {
     this.generateIdentifier = generateIdentifier;
     this.kv = new DoubleIndexedKV();
   }
-
   register(value, identifier) {
     if (this.kv.getByValue(value)) {
       return;
@@ -3749,25 +3709,21 @@ const Registry = class {
     }
     this.kv.set(identifier, value);
   }
-
   clear() {
     this.kv.clear();
   }
-
   getIdentifier(value) {
     return this.kv.getByValue(value);
   }
-
   getValue(identifier) {
     return this.kv.getByKey(identifier);
   }
 };
-const ClassRegistry = class extends Registry {
+var ClassRegistry = class extends Registry {
   constructor() {
     super((c) => c.name);
     this.classToAllowedProps = /* @__PURE__ */ new Map();
   }
-
   register(value, options) {
     if (typeof options === "object") {
       if (options.allowProps) {
@@ -3778,7 +3734,6 @@ const ClassRegistry = class extends Registry {
       super.register(value, options);
     }
   }
-
   getAllowedProps(value) {
     return this.classToAllowedProps.get(value);
   }
@@ -3826,29 +3781,26 @@ function findArr(record, predicate) {
   }
   return void 0;
 }
-const CustomTransformerRegistry = class {
+var CustomTransformerRegistry = class {
   constructor() {
     this.transfomers = {};
   }
-
   register(transformer) {
     this.transfomers[transformer.name] = transformer;
   }
-
   findApplicable(v) {
     return find(this.transfomers, (transformer) => transformer.isApplicable(v));
   }
-
   findByName(name) {
     return this.transfomers[name];
   }
 };
 init_esm_shims2();
 init_esm_shims2();
-const getType = (payload) => Object.prototype.toString.call(payload).slice(8, -1);
-const isUndefined = (payload) => typeof payload === "undefined";
-const isNull = (payload) => payload === null;
-const isPlainObject2 = (payload) => {
+var getType = (payload) => Object.prototype.toString.call(payload).slice(8, -1);
+var isUndefined = (payload) => typeof payload === "undefined";
+var isNull = (payload) => payload === null;
+var isPlainObject2 = (payload) => {
   if (typeof payload !== "object" || payload === null)
     return false;
   if (payload === Object.prototype)
@@ -3857,31 +3809,31 @@ const isPlainObject2 = (payload) => {
     return true;
   return Object.getPrototypeOf(payload) === Object.prototype;
 };
-const isEmptyObject = (payload) => isPlainObject2(payload) && Object.keys(payload).length === 0;
-const isArray = (payload) => Array.isArray(payload);
-const isString = (payload) => typeof payload === "string";
-const isNumber = (payload) => typeof payload === "number" && !isNaN(payload);
-const isBoolean = (payload) => typeof payload === "boolean";
-const isRegExp = (payload) => payload instanceof RegExp;
-const isMap = (payload) => payload instanceof Map;
-const isSet = (payload) => payload instanceof Set;
-const isSymbol = (payload) => getType(payload) === "Symbol";
-const isDate = (payload) => payload instanceof Date && !isNaN(payload.valueOf());
-const isError = (payload) => payload instanceof Error;
-const isNaNValue = (payload) => typeof payload === "number" && isNaN(payload);
-const isPrimitive2 = (payload) => isBoolean(payload) || isNull(payload) || isUndefined(payload) || isNumber(payload) || isString(payload) || isSymbol(payload);
-const isBigint = (payload) => typeof payload === "bigint";
-const isInfinite = (payload) => payload === Infinity || payload === -Infinity;
-const isTypedArray = (payload) => ArrayBuffer.isView(payload) && !(payload instanceof DataView);
-const isURL = (payload) => payload instanceof URL;
+var isEmptyObject = (payload) => isPlainObject2(payload) && Object.keys(payload).length === 0;
+var isArray = (payload) => Array.isArray(payload);
+var isString = (payload) => typeof payload === "string";
+var isNumber = (payload) => typeof payload === "number" && !isNaN(payload);
+var isBoolean = (payload) => typeof payload === "boolean";
+var isRegExp = (payload) => payload instanceof RegExp;
+var isMap = (payload) => payload instanceof Map;
+var isSet = (payload) => payload instanceof Set;
+var isSymbol = (payload) => getType(payload) === "Symbol";
+var isDate = (payload) => payload instanceof Date && !isNaN(payload.valueOf());
+var isError = (payload) => payload instanceof Error;
+var isNaNValue = (payload) => typeof payload === "number" && isNaN(payload);
+var isPrimitive2 = (payload) => isBoolean(payload) || isNull(payload) || isUndefined(payload) || isNumber(payload) || isString(payload) || isSymbol(payload);
+var isBigint = (payload) => typeof payload === "bigint";
+var isInfinite = (payload) => payload === Infinity || payload === -Infinity;
+var isTypedArray = (payload) => ArrayBuffer.isView(payload) && !(payload instanceof DataView);
+var isURL = (payload) => payload instanceof URL;
 init_esm_shims2();
-const escapeKey = (key) => key.replace(/\./g, "\\.");
-const stringifyPath = (path) => path.map(String).map(escapeKey).join(".");
-const parsePath = (string) => {
+var escapeKey = (key) => key.replace(/\./g, "\\.");
+var stringifyPath = (path) => path.map(String).map(escapeKey).join(".");
+var parsePath = (string) => {
   const result = [];
   let segment = "";
   for (let i = 0; i < string.length; i++) {
-    const char = string.charAt(i);
+    let char = string.charAt(i);
     const isEscapedDot = char === "\\" && string.charAt(i + 1) === ".";
     if (isEscapedDot) {
       segment += ".";
@@ -3909,7 +3861,7 @@ function simpleTransformation(isApplicable, annotation, transform, untransform) 
     untransform
   };
 }
-const simpleRules = [
+var simpleRules = [
   simpleTransformation(isUndefined, "undefined", () => null, () => void 0),
   simpleTransformation(isBigint, "bigint", (v) => v.toString(), (v) => {
     if (typeof BigInt !== "undefined") {
@@ -3974,7 +3926,7 @@ function compositeTransformation(isApplicable, annotation, transform, untransfor
     untransform
   };
 }
-const symbolRule = compositeTransformation((s, superJson) => {
+var symbolRule = compositeTransformation((s, superJson) => {
   if (isSymbol(s)) {
     const isRegistered = !!superJson.symbolRegistry.getIdentifier(s);
     return isRegistered;
@@ -3990,7 +3942,7 @@ const symbolRule = compositeTransformation((s, superJson) => {
   }
   return value;
 });
-const constructorToName = [
+var constructorToName = [
   Int8Array,
   Uint8Array,
   Int16Array,
@@ -4004,7 +3956,7 @@ const constructorToName = [
   obj[ctor.name] = ctor;
   return obj;
 }, {});
-const typedArrayRule = compositeTransformation(isTypedArray, (v) => ["typed-array", v.constructor.name], (v) => [...v], (v, a) => {
+var typedArrayRule = compositeTransformation(isTypedArray, (v) => ["typed-array", v.constructor.name], (v) => [...v], (v, a) => {
   const ctor = constructorToName[a[1]];
   if (!ctor) {
     throw new Error("Trying to deserialize unknown typed array");
@@ -4018,7 +3970,7 @@ function isInstanceOfRegisteredClass(potentialClass, superJson) {
   }
   return false;
 }
-const classRule = compositeTransformation(isInstanceOfRegisteredClass, (clazz, superJson) => {
+var classRule = compositeTransformation(isInstanceOfRegisteredClass, (clazz, superJson) => {
   const identifier = superJson.classRegistry.getIdentifier(clazz.constructor);
   return ["class", identifier];
 }, (clazz, superJson) => {
@@ -4038,7 +3990,7 @@ const classRule = compositeTransformation(isInstanceOfRegisteredClass, (clazz, s
   }
   return Object.assign(Object.create(clazz.prototype), v);
 });
-const customRule = compositeTransformation((value, superJson) => {
+var customRule = compositeTransformation((value, superJson) => {
   return !!superJson.customTransformerRegistry.findApplicable(value);
 }, (value, superJson) => {
   const transformer = superJson.customTransformerRegistry.findApplicable(value);
@@ -4053,8 +4005,8 @@ const customRule = compositeTransformation((value, superJson) => {
   }
   return transformer.deserialize(v);
 });
-const compositeRules = [classRule, symbolRule, customRule, typedArrayRule];
-const transformValue = (value, superJson) => {
+var compositeRules = [classRule, symbolRule, customRule, typedArrayRule];
+var transformValue = (value, superJson) => {
   const applicableCompositeRule = findArr(compositeRules, (rule) => rule.isApplicable(value, superJson));
   if (applicableCompositeRule) {
     return {
@@ -4071,11 +4023,11 @@ const transformValue = (value, superJson) => {
   }
   return void 0;
 };
-const simpleRulesByAnnotation = {};
+var simpleRulesByAnnotation = {};
 simpleRules.forEach((rule) => {
   simpleRulesByAnnotation[rule.annotation] = rule;
 });
-const untransformValue = (json, type, superJson) => {
+var untransformValue = (json, type, superJson) => {
   if (isArray(type)) {
     switch (type[0]) {
       case "symbol":
@@ -4098,7 +4050,7 @@ const untransformValue = (json, type, superJson) => {
   }
 };
 init_esm_shims2();
-const getNthKey = (value, n) => {
+var getNthKey = (value, n) => {
   if (n > value.size)
     throw new Error("index out of bounds");
   const keys = value.keys();
@@ -4119,7 +4071,7 @@ function validatePath(path) {
     throw new Error("constructor is not allowed as a property");
   }
 }
-const getDeep = (object, path) => {
+var getDeep = (object, path) => {
   validatePath(path);
   for (let i = 0; i < path.length; i++) {
     const key = path[i];
@@ -4143,7 +4095,7 @@ const getDeep = (object, path) => {
   }
   return object;
 };
-const setDeep = (object, path, mapper) => {
+var setDeep = (object, path, mapper) => {
   validatePath(path);
   if (path.length === 0) {
     return mapper(object);
@@ -4254,7 +4206,7 @@ function applyReferentialEqualityAnnotations(plain, annotations) {
   }
   return plain;
 }
-const isDeep = (object, superJson) => isPlainObject2(object) || isArray(object) || isMap(object) || isSet(object) || isInstanceOfRegisteredClass(object, superJson);
+var isDeep = (object, superJson) => isPlainObject2(object) || isArray(object) || isMap(object) || isSet(object) || isInstanceOfRegisteredClass(object, superJson);
 function addIdentity(object, path, identities) {
   const existingSet = identities.get(object);
   if (existingSet) {
@@ -4290,8 +4242,8 @@ function generateReferentialEqualityAnnotations(identitites, dedupe) {
     return isEmptyObject(result) ? void 0 : result;
   }
 }
-const walker = (object, identities, superJson, dedupe, path = [], objectsInThisPath = [], seenObjects = /* @__PURE__ */ new Map()) => {
-  let _a25;
+var walker = (object, identities, superJson, dedupe, path = [], objectsInThisPath = [], seenObjects = /* @__PURE__ */ new Map()) => {
+  var _a25;
   const primitive = isPrimitive2(object);
   if (!primitive) {
     addIdentity(object, path, identities);
@@ -4340,10 +4292,10 @@ const walker = (object, identities, superJson, dedupe, path = [], objectsInThisP
   });
   const result = isEmptyObject(innerAnnotations) ? {
     transformedValue,
-    annotations: transformationResult ? [transformationResult.type] : void 0
+    annotations: !!transformationResult ? [transformationResult.type] : void 0
   } : {
     transformedValue,
-    annotations: transformationResult ? [transformationResult.type, innerAnnotations] : innerAnnotations
+    annotations: !!transformationResult ? [transformationResult.type, innerAnnotations] : innerAnnotations
   };
   if (!primitive) {
     seenObjects.set(object, result);
@@ -4373,7 +4325,7 @@ function isOneOf(a, b, c, d, e) {
 function isUndefined2(payload) {
   return getType2(payload) === "Undefined";
 }
-const isNullOrUndefined = isOneOf(isNull2, isUndefined2);
+var isNullOrUndefined = isOneOf(isNull2, isUndefined2);
 function assignProp(carry, key, newVal, originalObject, includeNonenumerable) {
   const propType = {}.propertyIsEnumerable.call(originalObject, key) ? "enumerable" : "nonenumerable";
   if (propType === "enumerable")
@@ -4406,21 +4358,20 @@ function copy(target22, options = {}) {
     return carry;
   }, {});
 }
-const SuperJSON = class {
+var SuperJSON = class {
   /**
    * @param dedupeReferentialEqualities  If true, SuperJSON will make sure only one instance of referentially equal objects are serialized and the rest are replaced with `null`.
    */
   constructor({ dedupe = false } = {}) {
     this.classRegistry = new ClassRegistry();
     this.symbolRegistry = new Registry((s) => {
-      let _a25;
+      var _a25;
       return (_a25 = s.description) != null ? _a25 : "";
     });
     this.customTransformerRegistry = new CustomTransformerRegistry();
     this.allowedErrorProps = [];
     this.dedupe = dedupe;
   }
-
   serialize(object) {
     const identities = /* @__PURE__ */ new Map();
     const output = walker(object, identities, this, this.dedupe);
@@ -4442,7 +4393,6 @@ const SuperJSON = class {
     }
     return res;
   }
-
   deserialize(payload) {
     const { json, meta } = payload;
     let result = copy(json);
@@ -4454,30 +4404,24 @@ const SuperJSON = class {
     }
     return result;
   }
-
   stringify(object) {
     return JSON.stringify(this.serialize(object));
   }
-
   parse(string) {
     return this.deserialize(JSON.parse(string));
   }
-
   registerClass(v, options) {
     this.classRegistry.register(v, options);
   }
-
   registerSymbol(v, identifier) {
     this.symbolRegistry.register(v, identifier);
   }
-
   registerCustom(transformer, name) {
     this.customTransformerRegistry.register({
       name,
       ...transformer
     });
   }
-
   allowErrorProps(...props) {
     this.allowedErrorProps.push(...props);
   }
@@ -4491,14 +4435,14 @@ SuperJSON.registerClass = SuperJSON.defaultInstance.registerClass.bind(SuperJSON
 SuperJSON.registerSymbol = SuperJSON.defaultInstance.registerSymbol.bind(SuperJSON.defaultInstance);
 SuperJSON.registerCustom = SuperJSON.defaultInstance.registerCustom.bind(SuperJSON.defaultInstance);
 SuperJSON.allowErrorProps = SuperJSON.defaultInstance.allowErrorProps.bind(SuperJSON.defaultInstance);
-const serialize = SuperJSON.serialize;
-const deserialize = SuperJSON.deserialize;
-const stringify = SuperJSON.stringify;
-const parse = SuperJSON.parse;
-const registerClass = SuperJSON.registerClass;
-const registerCustom = SuperJSON.registerCustom;
-const registerSymbol = SuperJSON.registerSymbol;
-const allowErrorProps = SuperJSON.allowErrorProps;
+var serialize = SuperJSON.serialize;
+var deserialize = SuperJSON.deserialize;
+var stringify = SuperJSON.stringify;
+var parse = SuperJSON.parse;
+var registerClass = SuperJSON.registerClass;
+var registerCustom = SuperJSON.registerCustom;
+var registerSymbol = SuperJSON.registerSymbol;
+var allowErrorProps = SuperJSON.allowErrorProps;
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
@@ -4522,23 +4466,23 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-let _a19;
-let _b19;
+var _a19;
+var _b19;
 (_b19 = (_a19 = target).__VUE_DEVTOOLS_KIT_MESSAGE_CHANNELS__) != null ? _b19 : _a19.__VUE_DEVTOOLS_KIT_MESSAGE_CHANNELS__ = [];
-let _a20;
-let _b20;
+var _a20;
+var _b20;
 (_b20 = (_a20 = target).__VUE_DEVTOOLS_KIT_RPC_CLIENT__) != null ? _b20 : _a20.__VUE_DEVTOOLS_KIT_RPC_CLIENT__ = null;
-let _a21;
-let _b21;
+var _a21;
+var _b21;
 (_b21 = (_a21 = target).__VUE_DEVTOOLS_KIT_RPC_SERVER__) != null ? _b21 : _a21.__VUE_DEVTOOLS_KIT_RPC_SERVER__ = null;
-let _a222;
-let _b22;
+var _a222;
+var _b22;
 (_b22 = (_a222 = target).__VUE_DEVTOOLS_KIT_VITE_RPC_CLIENT__) != null ? _b22 : _a222.__VUE_DEVTOOLS_KIT_VITE_RPC_CLIENT__ = null;
-let _a23;
-let _b23;
+var _a23;
+var _b23;
 (_b23 = (_a23 = target).__VUE_DEVTOOLS_KIT_VITE_RPC_SERVER__) != null ? _b23 : _a23.__VUE_DEVTOOLS_KIT_VITE_RPC_SERVER__ = null;
-let _a24;
-let _b24;
+var _a24;
+var _b24;
 (_b24 = (_a24 = target).__VUE_DEVTOOLS_KIT_BROADCAST_RPC_SERVER__) != null ? _b24 : _a24.__VUE_DEVTOOLS_KIT_BROADCAST_RPC_SERVER__ = null;
 init_esm_shims2();
 init_esm_shims2();
@@ -4547,7 +4491,7 @@ init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
 init_esm_shims2();
-const MAX_SERIALIZED_SIZE = 2 * 1024 * 1024;
+var MAX_SERIALIZED_SIZE = 2 * 1024 * 1024;
 export {
   addCustomCommand,
   addCustomTab,
@@ -4557,4 +4501,4 @@ export {
   setupDevToolsPlugin,
   setupDevToolsPlugin as setupDevtoolsPlugin
 };
-// # sourceMappingURL=vitepress___@vue_devtools-api.js.map
+//# sourceMappingURL=vitepress___@vue_devtools-api.js.map
